@@ -164,7 +164,7 @@ type Character struct {
 	WIS int `json:"wis"`
 }
 
-func serveTLS() error {
+func serveTLS(handler http.Handler) error {
 	const cacheDir = "/var/cache/autocert"
 	if err := os.MkdirAll(cacheDir, 0700); err != nil {
 		return err
@@ -177,6 +177,7 @@ func serveTLS() error {
 	}
 
 	srv := &http.Server{
+		Handler: handler,
 		TLSConfig: &tls.Config{
 			GetCertificate: m.GetCertificate,
 		},
@@ -213,7 +214,7 @@ func (ln tcpKeepAliveListener) Accept() (c net.Conn, err error) {
 
 func serveRedirect() {
 	log.Fatal(http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "https://drzaius.io", http.StatusMovedPermanently)
+		http.Redirect(w, r, "https://d20.drzaius.io", http.StatusMovedPermanently)
 	})))
 }
 
@@ -253,6 +254,6 @@ func main() {
 		log.Fatal(http.ListenAndServe(":8080", handler))
 	} else {
 		go serveRedirect()
-		log.Fatal(serveTLS())
+		log.Fatal(serveTLS(handler))
 	}
 }
