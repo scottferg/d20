@@ -30,7 +30,7 @@ push: d20.drzaius.io
 	gcloud docker -- push $(CONTAINER)
 
 deploy: clean build push
-	kubectl set image deployment/d20_viewer-deployment d20_viewer=$(CONTAINER)
+	kubectl set image deployment/d20_viewer d20_viewer=$(CONTAINER)
 
 run: d20.drzaius.io 
 	docker run -p 443:443 $(CONTAINER)
