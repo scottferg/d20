@@ -1,0 +1,15 @@
+{
+  "short_name": "d20",
+  "name": "d20 Character Sheet Viewer",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#415A6E",
+  "background_color": "#ffffff"
+}

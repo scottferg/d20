@@ -1,0 +1,190 @@
+@font-face {
+    font-family: accentFont;
+    src: url(BooterFiveZero.ttf);
+}
+
+/* 
+ * Light #E3E0D9
+ * Dark #DAD7D0
+*/
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #737373;
+  margin: 20px;
+  background-color: #415A6E;
+}
+
+div.character-sheet {
+    text-align: left;
+    background-color: #ECE9E4;
+    padding: 16px;
+    display: inline-block;
+    -webkit-box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
+    box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
+    min-width: 708px;
+}
+
+.narrow-module {
+    width: 350px;
+}
+
+.full-module {
+    max-width: 708px;
+}
+
+.lower-sheet {
+    margin-top: 32px;
+}
+
+div#root {
+    text-align: center;
+}
+
+div#left-container {
+    float: left;
+}
+
+div#portrait-container {
+    font-family: accentFont;
+    position: relative;
+}
+
+div#combat {
+}
+
+div#ability-scores {
+    margin-left: 358px;
+}
+
+div#skills {
+    margin-left: 358px;
+    margin-top: 4px;
+}
+
+div#equipment {
+    overflow-y: hidden;
+    margin-top: 4px;
+}
+
+div.section-header {
+    margin-top: 8px;
+}
+
+div.background-header {
+    font-weight: bolder;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
+div.background-row {
+    margin-top: 4px;
+}
+
+div#background {
+    font-size: 10pt;
+}
+
+img.portrait {
+    width: 350px;
+}
+
+div#portrait-text {
+    width: 100%;
+    position: absolute;
+    padding: 8px 0px 8px 0px;
+    bottom: 4px;
+    left: 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+div#portrait-text > #character-name {
+    font-size: 20pt;
+}
+
+div#portrait-text p {
+    margin: 0px 0px 0px 8px;;
+    font-size: 12pt;
+}
+
+.header {
+    font-family: accentFont;
+    font-size: 20pt;
+    color: #005453;
+}
+
+.header .hr {
+    border-top: 1px solid #556772;
+}
+
+table {
+    width: 100%;
+    border-spacing: 4px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table td, table th {
+  border: 4px solid #ECE9E4;
+}
+
+table tr:first-child th {
+  border-top: 0;
+}
+
+table tr:last-child td {
+  border-bottom: 0;
+}
+
+table tr td:first-child,
+table tr th:first-child {
+  border-left: 0;
+}
+
+table tr td:last-child,
+table tr th:last-child {
+  border-right: 0;
+}
+
+tr {
+    font-size: 10pt;
+    padding: 4px 0px 4px 0px;
+}
+
+td {
+    padding: 4px;
+}
+
+td.table-header {
+    font-family: accentFont;
+    font-size: 12pt;
+}
+
+td.narrow {
+    width: 12%;
+    text-align: center;
+}
+
+td.centered {
+    text-align: center;
+}
+
+td.white-block {
+    width: 12%;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.light-block {
+    background-color: #E3E0D9;
+    font-family: accentFont;
+    font-size: 14pt;
+}
+
+.dark-block {
+    background-color: #DAD7D0;
+    font-family: accentFont;
+    font-size: 14pt;
+}
