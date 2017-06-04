@@ -73,7 +73,7 @@ div.section-header {
 }
 
 div.background-header {
-    font-weight: bolder;
+    font-weight: 900;
     margin-top: 12px;
     margin-bottom: 8px;
 }
@@ -153,6 +153,11 @@ tr {
     padding: 4px 0px 4px 0px;
 }
 
+tr.spell-row,
+tr.gear-row {
+    cursor: pointer;
+}
+
 td {
     padding: 4px;
 }
@@ -187,4 +192,21 @@ td.white-block {
     background-color: #DAD7D0;
     font-family: accentFont;
     font-size: 14pt;
+}
+
+div.modal-dialog {
+    padding: 16px;
+    background-color: #ECE9E4;
+}
+
+p.item-description {
+    font-size: 10pt;
+}
+
+p.highlight {
+    font-style: italic;
+}
+
+.description-header: {
+    font-weight: 900;
 }

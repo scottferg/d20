@@ -214,7 +214,9 @@ func (ln tcpKeepAliveListener) Accept() (c net.Conn, err error) {
 
 func serveRedirect() {
 	log.Fatal(http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "https://d20.drzaius.io", http.StatusMovedPermanently)
+		url := r.URL
+		url.Scheme = "https"
+		http.Redirect(w, r, url.String(), http.StatusMovedPermanently)
 	})))
 }
 
