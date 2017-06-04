@@ -216,6 +216,7 @@ func serveRedirect() {
 	log.Fatal(http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		url := r.URL
 		url.Scheme = "https"
+		url.host = "d20.drzaius.io"
 		http.Redirect(w, r, url.String(), http.StatusMovedPermanently)
 	})))
 }

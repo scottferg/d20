@@ -8,8 +8,6 @@ import d20App from './components/app'
 
 import './index.css';
 
-// TODO: Modals
-// TODO: Spell class
 // TODO: Player class
 // TODO: SASS/LESS
 // TODO: Responsive
