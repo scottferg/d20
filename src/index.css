@@ -264,11 +264,24 @@ p.highlight {
         padding: 16px 0px 16px 0px;
     }
 
+    div#left-container {
+        margin-left: 2%;
+        margin-right: 1%;
+        width: 47%;
+    }
+
+    div#right-container {
+        margin-left: 1%;
+        margin-right: 2%;
+        width: 47%;
+    }
+
     .narrow-module {
         width: auto;
     }
 
     .full-module {
-        max-width: 100%;
+        margin-left: 2%;
+        width: 96%;
     }
 }
