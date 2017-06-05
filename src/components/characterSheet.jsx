@@ -20,6 +20,8 @@ class CharacterSheet extends React.Component {
 
         if (window.location.href.includes("localhost")) {
             url = "http://localhost:8080" + url
+        } else if (window.location.href.includes("192.")) {
+            url = "http://192.168.86.185:8080" + url
         }
 
         var req = new Request(url);
@@ -42,8 +44,10 @@ class CharacterSheet extends React.Component {
                             <Combat character={this.state.character} />
                             <Equipment character={this.state.character} />
                         </div>
-                        <AbilityScores character={this.state.character} />
-                        <Skills character={this.state.character} />
+                        <div id="right-container">
+                            <AbilityScores character={this.state.character} />
+                            <Skills character={this.state.character} />
+                        </div>
                     </div>
                     <div className="character-sheet lower-sheet">
                         <ClassSpells character={this.state.character} />

@@ -101,7 +101,7 @@ class SpellsComponent extends React.Component {
         return (
             <div id="spell-list" className="full-module">
                 {spellsList}
-                <Modal ref="modal" hide={false}>
+                <Modal className="modal-parent" ref="modal" hide={false}>
                     <div className="modal-dialog">
                         <Header name={(this.props.spell) ? this.props.spell.name : ""} />
                         <p className="item-description highlight">{(this.props.spell) ? this.props.spell.schoolLevel() : ""}</p>

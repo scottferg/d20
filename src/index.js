@@ -8,9 +8,9 @@ import d20App from './components/app'
 
 import './index.css';
 
+// TODO: Responsive
 // TODO: Player class
 // TODO: SASS/LESS
-// TODO: Responsive
 // TODO: Fullscreen on tablet/phone
 
 let store = createStore(d20App)

@@ -184,7 +184,7 @@ class EquipmentComponent extends React.Component {
                     <GearHeader />
                     {gearList}
                 </table>
-                <Modal ref="modal" hide={false}>
+                <Modal className="modal-parent" ref="modal" hide={false}>
                     <div className="modal-dialog">
                         <Header name={(this.props.item) ? this.props.item.name : ""} />
                         {(this.props.item) ? this.props.item.dmg1Display() : null}
