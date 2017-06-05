@@ -9,39 +9,18 @@
 */
 
 body {
-  font-family: 'Roboto', sans-serif;
-  color: #737373;
-  margin: 20px;
-  background-color: #415A6E;
+    font-family: 'Roboto', sans-serif;
+    color: #737373;
+    background-color: #415A6E;
 }
 
 div.character-sheet {
     text-align: left;
     background-color: #ECE9E4;
-    padding: 16px;
     display: inline-block;
     -webkit-box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
     -moz-box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
     box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
-    width: 75%;
-}
-
-.narrow-module {
-    width: auto;
-}
-
-.full-module {
-    max-width: 100%;
-}
-
-div#left-container {
-    float: left;
-    width: 49%;
-}
-
-div#right-container {
-    float: right;
-    width: 49%;
 }
 
 .lower-sheet {
@@ -239,7 +218,7 @@ p.highlight {
     }
 
     div#right-container {
-        margin-right: 2%;
+        margin-left: 2%;
         width: 96%;
     }
 
@@ -253,7 +232,7 @@ p.highlight {
 }
 
 /* Tablet */
-@media (max-device-width : 900px) {
+@media (min-device-width : 600px) {
     body {
         margin: 0 auto;
         padding: 0px;
@@ -265,12 +244,14 @@ p.highlight {
     }
 
     div#left-container {
+        float: left;
         margin-left: 2%;
         margin-right: 1%;
         width: 47%;
     }
 
     div#right-container {
+        float: right;
         margin-left: 1%;
         margin-right: 2%;
         width: 47%;
@@ -283,5 +264,35 @@ p.highlight {
     .full-module {
         margin-left: 2%;
         width: 96%;
+    }
+}
+
+/* desktop */
+@media (min-device-width : 1024px) {
+    body {
+        margin: 20px;
+    }
+
+    div.character-sheet {
+        width: 75%;
+        padding: 16px 0px 16px 0px;
+    }
+
+    .narrow-module {
+        width: auto;
+    }
+
+    .full-module {
+        max-width: 100%;
+    }
+
+    div#left-container {
+        float: left;
+        width: 47%;
+    }
+
+    div#right-container {
+        float: right;
+        width: 47%;
     }
 }
