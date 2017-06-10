@@ -578,7 +578,7 @@ class Player {
             }
         });
 
-        if (slots.isBlank() || level < 1) {
+        if (slots === "" || level < 1) {
             return 0;
         }
 

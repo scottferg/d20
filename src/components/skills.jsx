@@ -28,7 +28,6 @@ class Skills extends React.Component {
         var that = this;
         var light = false;
 
-        console.log(this.props.character);
         var skillsList = this.props.character.skills.map(function(skill, index) {
             var rowColor = function() {
                 light = !light;

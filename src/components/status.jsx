@@ -30,7 +30,6 @@ class StatusView extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         if (this.props.character === undefined) {
             return null;
         }
