@@ -1,5 +1,5 @@
-import React from 'react';
-import Header from './common'
+import React from "react";
+import Header from "./common";
 
 class SkillsHeader extends React.Component {
     render() {
@@ -24,39 +24,42 @@ class SkillRow extends React.Component {
 }
 
 class Skills extends React.Component {
-
     render() {
         var that = this;
         var light = false;
 
         console.log(this.props.character);
-        var skillsList = this.props.character.skills.map(function(skill) {
+        var skillsList = this.props.character.skills.map(function(skill, index) {
             var rowColor = function() {
                 light = !light;
-                return (light ? "light-block" : "dark-block");
-            }
+                return light ? "light-block" : "dark-block";
+            };
 
             var bonus = that.props.character.skillScore(skill.name);
-            var multiplier = (skill.expertise ? 2 : 1);
+            var multiplier = skill.expertise ? 2 : 1;
 
             if (skill.proficient) {
-                bonus = bonus + (that.props.character.proficiencyBonus() * multiplier);
+                bonus =
+                    bonus +
+                    that.props.character.proficiencyBonus() * multiplier;
             }
 
             var props = {
                 bonus: bonus + (skill.proficient ? "*" : ""),
                 name: skill.name,
-            }
+            };
 
-            return <SkillRow skill={props} rowColor={rowColor()} />
-        })
+            return <SkillRow key={index} skill={props} rowColor={rowColor()} />;
+        });
 
         return (
             <div id="skills" className="narrow-module">
                 <Header name="Skills" />
                 <table className="skills-table">
-                    <SkillsHeader />
-                    {skillsList}
+                    <tbody>
+                        <SkillsHeader />
+                        {skillsList}
+                    </tbody>
                 </table>
             </div>
         );

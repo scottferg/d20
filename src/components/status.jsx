@@ -44,9 +44,9 @@ class StatusView extends React.Component {
                     <div className="status-hp">
                         {this.props.character.hp}/{this.props.character.max_hp}
                     </div>
-                    <FlatButton label="Heal" onTouchTap={this.onHeal} labelStyle={{"font-size": "8pt"}} />
-                    <FlatButton label="Take Damage" onTouchTap={this.onTakeDamage} labelStyle={{"font-size": "8pt"}} />
-                    <FlatButton label="Heal Temp HP" labelStyle={{"font-size": "8pt"}} />
+                    <FlatButton label="Heal" onTouchTap={this.onHeal} labelStyle={{"fontSize": "8pt"}} />
+                    <FlatButton label="Take Damage" onTouchTap={this.onTakeDamage} labelStyle={{"fontSize": "8pt"}} />
+                    <FlatButton label="Heal Temp HP" labelStyle={{"fontSize": "8pt"}} />
                 </div>
             </div>
         );

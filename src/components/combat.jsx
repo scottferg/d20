@@ -1,5 +1,5 @@
-import React from 'react';
-import Header from './common'
+import React from "react";
+import Header from "./common";
 
 class CombatTopHeader extends React.Component {
     render() {
@@ -27,10 +27,8 @@ class CombatBottomHeader extends React.Component {
 
 class CombatRow extends React.Component {
     render() {
-        var cells = this.props.values.map(function(value) {
-            return (
-                <td className="white-block">{value}</td>
-            );
+        var cells = this.props.values.map(function(value, index) {
+            return <td key={index} className="white-block">{value}</td>;
         });
 
         return (
@@ -43,7 +41,7 @@ class CombatRow extends React.Component {
 
 class Combat extends React.Component {
     abilityBonus(ability) {
-        return Math.ceil((ability - 9.5) / 2.0) - 1
+        return Math.ceil((ability - 9.5) / 2.0) - 1;
     }
 
     render() {
@@ -53,25 +51,29 @@ class Combat extends React.Component {
             var initiative = that.props.character.initiative();
             // TODO
             var ac = 10 + that.props.character.ac_mod;
-            var speed = that.props.character.race.speed + that.props.character.speed_mod;
+            var speed =
+                that.props.character.race.speed +
+                that.props.character.speed_mod;
             return [initiative, ac, speed];
-        }
+        };
 
         var secondRow = function() {
-            var passivePerception = that.props.character.passivePerception(); 
+            var passivePerception = that.props.character.passivePerception();
             var proficiency = that.props.character.proficiencyBonus();
             var inspiration = that.props.character.inspiration;
             return [passivePerception, proficiency, inspiration];
-        }
+        };
 
         return (
             <div id="combat" className="narrow-module">
                 <Header name="Combat" />
                 <table className="combat-table">
-                    <CombatTopHeader />
-                    <CombatRow values={firstRow()} />
-                    <CombatBottomHeader />
-                    <CombatRow values={secondRow()} />
+                    <tbody>
+                        <CombatTopHeader />
+                        <CombatRow values={firstRow()} />
+                        <CombatBottomHeader />
+                        <CombatRow values={secondRow()} />
+                    </tbody>
                 </table>
             </div>
         );

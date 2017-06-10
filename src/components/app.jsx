@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from "redux";
 
 var spellInfoReducer = function(state = {}, action) {
     switch (action.type) {
@@ -6,40 +6,40 @@ var spellInfoReducer = function(state = {}, action) {
             return {
                 ...state,
                 spell: action.spell,
-            }
+            };
         default:
             return state;
     }
-}
+};
 
 var itemInfoReducer = function(state = {}, action) {
     switch (action.type) {
         case "SET_ITEM":
             return {
                 ...state,
-                item: action.item
-            }
+                item: action.item,
+            };
         default:
             return state;
     }
-}
+};
 
 var characterReducer = function(state = {}, action) {
     switch (action.type) {
         case "SET_CHARACTER":
             return {
                 ...state,
-                character: action.character
-            }
+                character: action.character,
+            };
         default:
             return state;
     }
-}
+};
 
 const d20App = combineReducers({
     spellInfoReducer,
     itemInfoReducer,
-    characterReducer
-})
+    characterReducer,
+});
 
-export default d20App
+export default d20App;

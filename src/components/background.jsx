@@ -25,20 +25,20 @@ class BackgroundRow extends React.Component {
 
 class Background extends React.Component {
     render() {
-        var notesList = this.props.character.notes.map(function(note) {
-            return <NoteRow note={note} />
+        var notesList = this.props.character.notes.map(function(note, index) {
+            return <NoteRow key={index} note={note} />
         })
 
-        var classFeaturesList = this.props.character.classFeatures.map(function(feature) {
-            return <BackgroundRow trait={feature} />
+        var classFeaturesList = this.props.character.classFeatures.map(function(feature, index) {
+            return <BackgroundRow key={index} trait={feature} />
         })
 
-        var raceFeaturesList = this.props.character.race.traits.map(function(feature) {
-            return <BackgroundRow trait={feature} />
+        var raceFeaturesList = this.props.character.race.traits.map(function(feature, index) {
+            return <BackgroundRow key={index} trait={feature} />
         })
 
-        var backgroundList = this.props.character.background.traits.map(function(trait) {
-            return <BackgroundRow trait={trait} />
+        var backgroundList = this.props.character.background.traits.map(function(trait, index) {
+            return <BackgroundRow key={index} trait={trait} />
         })
 
         return (

@@ -247,9 +247,7 @@ func main() {
 			log.Fatal(err)
 		}
 	})
-	// TODO: Remove hardcoded routing
-	mux.Handle("/varis/", http.StripPrefix("/varis/", http.FileServer(http.Dir("build"))))
-	mux.Handle("/static/", http.FileServer(http.Dir("build")))
+	mux.Handle("/", http.FileServer(http.Dir("build")))
 
 	handler := cors.Default().Handler(mux)
 
