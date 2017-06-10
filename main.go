@@ -14,6 +14,7 @@ import (
 
 	"github.com/nytimes/gziphandler"
 
+	"github.com/gorilla/mux"
 	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/net/http2"
 )
@@ -223,11 +224,11 @@ func serveRedirect() {
 	}))))
 }
 
-func init() {
-	flag.Parse()
-}
+func character(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 
-func main() {
+	log.Println(vars["character"])
+
 	f, err := os.Open("player_export.json")
 	if err != nil {
 		log.Fatal(err)
@@ -241,19 +242,23 @@ func main() {
 		log.Fatal(err)
 	}
 
-	character := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		err = json.NewEncoder(w).Encode(c[0])
-		if err != nil {
-			log.Fatal(err)
-		}
-	})
+	w.Header().Set("content-type", "application/json")
+	err = json.NewEncoder(w).Encode(c[0])
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
-	mux := http.NewServeMux()
-	mux.Handle("/character", gziphandler.GzipHandler(character))
-	mux.Handle("/", gziphandler.GzipHandler(http.FileServer(http.Dir("build"))))
+func init() {
+	flag.Parse()
+}
 
-	handler := cors.Default().Handler(mux)
+func main() {
+	r := mux.NewRouter()
+	r.Handle("/c/{character}", gziphandler.GzipHandler(http.HandlerFunc(character)))
+	r.Handle("/", gziphandler.GzipHandler(http.FileServer(http.Dir("build"))))
+
+	handler := cors.Default().Handler(r)
 
 	if *debug {
 		log.Fatal(http.ListenAndServe(":8080", handler))

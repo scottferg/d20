@@ -36,7 +36,7 @@ export function fetchCharacter(name) {
     return function(dispatch) {
         dispatch(characterRequested());
 
-        var url = "/character";
+        var url = "/c/" + name;
 
         if (window.location.href.includes("localhost")) {
             url = "http://localhost:8080" + url;
@@ -53,6 +53,7 @@ export function fetchCharacter(name) {
 const mapStateToProps = (state, props) => {
     return {
         character: state.characterReducer.character,
+        isLoading: state.characterReducer.isLoading,
     };
 };
 
@@ -96,7 +97,7 @@ class CharacterSheetView extends React.Component {
                 },
             };
 
-            this.props.dispatch(fetchCharacter("varis"));
+            this.props.dispatch(fetchCharacter(this.props.match.params.name));
             return (
                 <div id="loading-indicator">
                     <RefreshIndicator

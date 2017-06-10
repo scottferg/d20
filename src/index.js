@@ -1,9 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Provider} from "react-redux";
-import {createStore, applyMiddleware} from "redux";
+import { Provider } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
+import { 
+    createStore, 
+    applyMiddleware 
+} from "redux";
+
 import thunkMiddleware from "redux-thunk";
-import {createLogger} from "redux-logger";
+import { createLogger } from "redux-logger";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
@@ -17,6 +27,7 @@ import "./index.css";
 
 const loggerMiddleware = createLogger();
 
+// TODO: Multiple characters from server
 // TODO: Responsive
 // TODO: Spell preparation for Wizard and Clerics
 // TODO: Spell slots
@@ -33,10 +44,20 @@ let store = createStore(
     applyMiddleware(thunkMiddleware, loggerMiddleware),
 );
 
+const Home = () => 
+    <div id="home">
+        <Link to="/varis">Varis</Link>
+    </div>
+
 const App = () =>
     <MuiThemeProvider>
         <Provider store={store}>
-            <CharacterSheet />
+            <Router>
+                <div>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/:name" component={CharacterSheet}/>
+                </div>
+            </Router>
         </Provider>
     </MuiThemeProvider>;
 

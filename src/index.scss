@@ -9,7 +9,10 @@ $font-color: #737373;
 
 @font-face {
     font-family: accentFont;
-    src: url(BooterFiveZero.ttf);
+    src:url('Booter-Five-Zero.ttf.woff') format('woff'),
+        url('Booter-Five-Zero.ttf.svg#Booter-Five-Zero') format('svg'),
+        url('Booter-Five-Zero.ttf.eot'),
+        url('Booter-Five-Zero.ttf.eot?#iefix') format('embedded-opentype');
 }
 
 body {
