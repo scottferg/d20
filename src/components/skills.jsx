@@ -24,46 +24,27 @@ class SkillRow extends React.Component {
 }
 
 class Skills extends React.Component {
-    abilityBonus(ability) {
-        return Math.ceil((ability - 9.5) / 2.0) - 1
-    }
-        
-    skillScore(skill) {
-        switch(skill) {
-            case "Acrobatics": return this.abilityBonus(this.props.character.dex)
-            case "Animal Handling": return this.abilityBonus(this.props.character.wis)
-            case "Arcana": return this.abilityBonus(this.props.character.int)
-            case "Athletics": return this.abilityBonus(this.props.character.str)
-            case "Deception": return this.abilityBonus(this.props.character.cha)
-            case "History": return this.abilityBonus(this.props.character.int)
-            case "Insight": return this.abilityBonus(this.props.character.wis)
-            case "Intimidation": return this.abilityBonus(this.props.character.cha)
-            case "Investigation": return this.abilityBonus(this.props.character.int)
-            case "Medicine": return this.abilityBonus(this.props.character.wis)
-            case "Nature": return this.abilityBonus(this.props.character.int)
-            case "Perception": return this.abilityBonus(this.props.character.wis)
-            case "Performance": return this.abilityBonus(this.props.character.cha)
-            case "Persuasion": return this.abilityBonus(this.props.character.cha)
-            case "Religion": return this.abilityBonus(this.props.character.int)
-            case "Sleight of Hand": return this.abilityBonus(this.props.character.dex)
-            case "Stealth": return this.abilityBonus(this.props.character.dex)
-            case "Survival": return this.abilityBonus(this.props.character.wis)
-            default: return;
-        }
-    }
 
     render() {
         var that = this;
         var light = false;
 
-        var skillsList = that.props.character.skills.map(function(skill) {
+        console.log(this.props.character);
+        var skillsList = this.props.character.skills.map(function(skill) {
             var rowColor = function() {
                 light = !light;
                 return (light ? "light-block" : "dark-block");
             }
 
+            var bonus = that.props.character.skillScore(skill.name);
+            var multiplier = (skill.expertise ? 2 : 1);
+
+            if (skill.proficient) {
+                bonus = bonus + (that.props.character.proficiencyBonus() * multiplier);
+            }
+
             var props = {
-                bonus: that.skillScore(skill.name) + (skill.proficient ? "*" : ""),
+                bonus: bonus + (skill.proficient ? "*" : ""),
                 name: skill.name,
             }
 

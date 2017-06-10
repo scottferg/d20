@@ -50,7 +50,7 @@ class Combat extends React.Component {
         var that = this;
 
         var firstRow = function() {
-            var initiative = that.abilityBonus(that.props.character.dex) + that.props.character.initiative_mod;
+            var initiative = that.props.character.initiative();
             // TODO
             var ac = 10 + that.props.character.ac_mod;
             var speed = that.props.character.race.speed + that.props.character.speed_mod;
@@ -58,19 +58,8 @@ class Combat extends React.Component {
         }
 
         var secondRow = function() {
-            var passivePerception = (function() {
-                var bonus = 10 + that.abilityBonus(that.props.character.wis)
-
-                /* TODO
-                if (that.props.character.skills[11].proficient) {
-                    bonus += this.proficiencyBonus()
-                }
-                */
-
-                return bonus
-            })()
-            // TODO
-            var proficiency = 0;
+            var passivePerception = that.props.character.passivePerception(); 
+            var proficiency = that.props.character.proficiencyBonus();
             var inspiration = that.props.character.inspiration;
             return [passivePerception, proficiency, inspiration];
         }

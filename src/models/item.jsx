@@ -92,4 +92,206 @@ export default class Item {
 
         return null;
     }
+
+    acMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("ac ")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    damageMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("damage ")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    attackMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("attacks")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    saveMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("saving throws")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    spellAttackMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("spell attack")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    spellDcMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("spell dc")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    proficiencyMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("proficiency bonus")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    hpMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("hp")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    speedMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("speed")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    initiativeMod() {
+        if (this.modifiers === undefined) {
+            return 0;
+        }
+
+        this.modifiers.forEach(function(mod) {
+            if (mod.name.contains("initiative")) {
+                return mod.value()
+            }
+        })
+
+        return 0
+    }
+
+    equippable() {
+        return (this.type !== "S" && this.type !== "LA" && this.type !== "MA" && this.type !== "HA" && this.type !== "M" && this.type !== "R" && this.type !== "A")
+    }
+
+    isWeapon() {
+        switch (this.type) {
+            case "M":
+                return true;
+            case "R": 
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    isRangedWeapon() {
+        return this.type === "R";
+    }
+
+    isMeleeWeapon() {
+        return this.type === "M";
+    }
+
+    isGear() {
+        switch (this.type) {
+            case "S":
+            case "LA": 
+            case "MA": 
+            case "HA":
+            case "M":
+            case "R": 
+            case "A":
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    isAmmo() {
+        return this.type === "A"
+    }
+
+    isFinesse() {
+        if (this.property) {
+            return this.property.includes("F")
+        }
+
+        return false;
+    }
+
+    isArmor() {
+        switch (this.type) {
+            case "HA": 
+            case "MA":
+            case "LA":
+            case "S":
+                return true;
+            default: 
+                return false;
+        }
+    }
 }

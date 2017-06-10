@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Header from './common'
 
 class AbilityScoreHeader extends React.Component {
@@ -49,8 +50,8 @@ class AbilityScores extends React.Component {
             var props = {
                 score: that.props.character[abbrev],
                 name: abilities[abbrev],
-                mod: "+1",
-                save: "+4*",
+                mod: that.props.character.formatAbilityBonus(abbrev, false, true),
+                save: that.props.character.formatAbilityBonus(abbrev, that.props.character.checkProficiency(abilities[abbrev])),
             }
 
             return <AbilityScoreRow ability={props} rowColor={rowColor()} />

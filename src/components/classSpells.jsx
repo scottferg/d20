@@ -30,6 +30,7 @@ class ClassSpellsRow extends React.Component {
 class ClassSpells extends React.Component {
     render() {
         var light = false;
+        var that = this;
 
         var rowColor = function() {
             light = !light;
@@ -47,19 +48,18 @@ class ClassSpells extends React.Component {
             switch (cls.cls.spellAbility) {
                 case "Wisdom":
                     props.ability = "WIS";
-                    // TODO
-                    props.attack = "+7"
-                    props.dc = "+7"
+                    props.attack = that.props.character.formatAbilityBonus("wis", true, true, true);
+                    props.dc = that.props.character.spellDC("wis");
                     break;
                 case "Intelligence":
                     props.ability = "INT";
-                    props.attack = "+7"
-                    props.dc = "+7"
+                    props.attack = that.props.character.formatAbilityBonus("int", true, true, true);
+                    props.dc = that.props.character.spellDC("int");
                     break;
                 case "Charisma":
                     props.ability = "CHA";
-                    props.attack = "+7"
-                    props.dc = "+7"
+                    props.attack = that.props.character.formatAbilityBonus("cha", true, true, true);
+                    props.dc = that.props.character.spellDC("cha");
                     break;
                 default:
                     break;

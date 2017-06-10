@@ -1,4 +1,7 @@
 import React from 'react';
+import ReactResizeDetector from 'react-resize-detector';
+
+import { connect } from 'react-redux'
 
 import AbilityScores from './abilityScores'
 import Background from './background'
@@ -8,8 +11,24 @@ import Equipment from './equipment'
 import Portrait from './portrait'
 import Skills from './skills'
 import Spells from './spells'
+import Status from './status'
 
-class CharacterSheet extends React.Component {
+import Player from '../models/player'
+
+const setCharacter = (character) => {
+    return {
+        type: 'SET_CHARACTER',
+        character: character,
+    } 
+}
+
+const mapStateToProps = (state, props) => {
+    return {
+        character: state.characterReducer.character
+    }
+}
+
+class CharacterSheetView extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -29,7 +48,10 @@ class CharacterSheet extends React.Component {
 
         fetch(req).then(function(resp) {
             return resp.json().then(function(json) {
-                that.setState({character: json});
+                var character = new Player(json);
+
+                that.setState({character: character});
+                that.props.dispatch(setCharacter(character));
             });
         });
     }
@@ -41,10 +63,12 @@ class CharacterSheet extends React.Component {
                     <div className="character-sheet">
                         <div id="left-container">
                             <Portrait character={this.state.character} />
+                            <Status cls="mobile-status" />
                             <Combat character={this.state.character} />
                             <Equipment character={this.state.character} />
                         </div>
                         <div id="right-container">
+                            <Status cls="desktop-status" />
                             <AbilityScores character={this.state.character} />
                             <Skills character={this.state.character} />
                         </div>
@@ -56,6 +80,7 @@ class CharacterSheet extends React.Component {
                     <div className="character-sheet lower-sheet">
                         <Background character={this.state.character} />
                     </div>
+                    <ReactResizeDetector handleWidth handleHeight onResize={this._onResize.bind(this)} />
                 </div>
             );
         } else {
@@ -64,6 +89,10 @@ class CharacterSheet extends React.Component {
             );
         }
     }
+
+    _onResize() {}
 }
+
+const CharacterSheet = connect(mapStateToProps)(CharacterSheetView)
 
 export default CharacterSheet;

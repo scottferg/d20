@@ -44,7 +44,6 @@ class SpellRow extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <tr className="spell-row" onClick={this.onSpellClick}>
                 <td className={this.props.rowColor}>{this.props.spell.name}</td>
@@ -56,7 +55,6 @@ class SpellRow extends React.Component {
 class SpellsComponent extends React.Component {
 
     render() {
-        console.log(this.props);
         var that = this;
         var light = false;
 
