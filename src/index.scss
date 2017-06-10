@@ -21,6 +21,13 @@ body {
     background-color: $primary-color;
 }
 
+div#home a {
+    font-size: 24pt;
+    font-family: accentFont;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+}
+
 div.character-sheet {
     text-align: left;
     background-color: $background-color;

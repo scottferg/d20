@@ -19,11 +19,12 @@ bootstrap:
 	docker pull golang
 
 compile:
-	docker run -v $(CURDIR):/go/src/d20_viewer golang /bin/bash -c "$(BUILD_CMD)" &
-	docker run -v $(CURDIR):/workspace kkarczmarczyk/node-yarn /bin/sh -c "$(NPM_CMD)" &
-	wait(2)
+	docker run -v $(CURDIR):/go/src/d20_viewer golang /bin/bash -c "$(BUILD_CMD)"
 
-d20.drzaius.io: compile
+yarn:
+	docker run -v $(CURDIR):/workspace kkarczmarczyk/node-yarn /bin/sh -c "$(NPM_CMD)"
+
+d20.drzaius.io: compile yarn
 	docker build -t $(CONTAINER) .
 
 push: d20.drzaius.io 
