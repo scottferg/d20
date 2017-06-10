@@ -31,6 +31,25 @@ var characterReducer = function(state = {}, action) {
                 ...state,
                 character: action.character,
             };
+        case "CHARACTER_REQUESTED":
+            return {
+                ...state,
+                isLoading: action.isLoading,
+            };
+        case "GET_CHARACTER_REQUEST":
+            return {
+                ...state,
+            };
+        case "GET_CHARACTER_FAILURE":
+            return {
+                ...state,
+            };
+        case "GET_CHARACTER_SUCCESS":
+            return {
+                ...state,
+                isLoading: action.isLoading,
+                character: action.character,
+            };
         default:
             return state;
     }
