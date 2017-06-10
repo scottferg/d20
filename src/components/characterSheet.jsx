@@ -113,7 +113,7 @@ class CharacterSheetView extends React.Component {
         }
     }
 
-    _onResize() {}
+    _onResize(args) { console.log(args); }
 }
 
 const CharacterSheet = connect(mapStateToProps)(CharacterSheetView);

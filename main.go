@@ -256,7 +256,7 @@ func init() {
 func main() {
 	r := mux.NewRouter()
 	r.Handle("/c/{character}", gziphandler.GzipHandler(http.HandlerFunc(character)))
-	r.Handle("/", gziphandler.GzipHandler(http.FileServer(http.Dir("build"))))
+	r.PathPrefix("/").Handler(gziphandler.GzipHandler(http.FileServer(http.Dir("build"))))
 
 	handler := cors.Default().Handler(r)
 
