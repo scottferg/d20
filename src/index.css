@@ -159,6 +159,9 @@ div.status-hp {
   margin-top: 8px;
   font-size: 32pt; }
 
+div.loading-indicator {
+  position: relative; }
+
 /* Smartphone */
 @media (max-device-width: 599px) {
   body {

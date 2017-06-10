@@ -1,6 +1,8 @@
 import React from "react";
 import ReactResizeDetector from "react-resize-detector";
 
+import RefreshIndicator from "material-ui/RefreshIndicator";
+
 import {connect} from "react-redux";
 
 import AbilityScores from "./abilityScores";
@@ -42,9 +44,9 @@ export function fetchCharacter(name) {
             url = "http://192.168.86.185:8080" + url;
         }
 
-        return fetch(url).then(response => response.json()).then(json =>
-            dispatch(receiveCharacter(name, json)),
-        );
+        return fetch(url)
+            .then(response => response.json())
+            .then(json => dispatch(receiveCharacter(name, json)));
     };
 }
 
@@ -87,8 +89,26 @@ class CharacterSheetView extends React.Component {
                 </div>
             );
         } else {
+            const style = {
+                container: {
+                    position: "relative",
+                    margin: "auto",
+                },
+            };
+
             this.props.dispatch(fetchCharacter("varis"));
-            return null;
+            return (
+                <div id="loading-indicator">
+                    <RefreshIndicator
+                        size={50}
+                        left={0}
+                        top={0}
+                        loadingColor="#005453"
+                        status="loading"
+                        style={style.container}
+                    />
+                </div>
+            );
         }
     }
 
