@@ -12,6 +12,8 @@ import (
 
 	"github.com/rs/cors"
 
+	"github.com/nytimes/gziphandler"
+
 	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/net/http2"
 )
@@ -213,12 +215,12 @@ func (ln tcpKeepAliveListener) Accept() (c net.Conn, err error) {
 }
 
 func serveRedirect() {
-	log.Fatal(http.ListenAndServe(":80", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	log.Fatal(http.ListenAndServe(":80", gziphandler.GzipHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		url := r.URL
 		url.Scheme = "https"
 		url.Host = "d20.drzaius.io"
 		http.Redirect(w, r, url.String(), http.StatusMovedPermanently)
-	})))
+	}))))
 }
 
 func init() {
@@ -239,15 +241,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/character", func(w http.ResponseWriter, r *http.Request) {
+	character := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 		err = json.NewEncoder(w).Encode(c[0])
 		if err != nil {
 			log.Fatal(err)
 		}
 	})
-	mux.Handle("/", http.FileServer(http.Dir("build")))
+
+	mux := http.NewServeMux()
+	mux.Handle("/character", gziphandler.GzipHandler(character))
+	mux.Handle("/", gziphandler.GzipHandler(http.FileServer(http.Dir("build"))))
 
 	handler := cors.Default().Handler(mux)
 

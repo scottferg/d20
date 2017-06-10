@@ -11,9 +11,8 @@
 export default function register() {
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
             navigator.serviceWorker
-                .register(swUrl)
+                .register("/service-worker.js")
                 .then(registration => {
                     registration.onupdatefound = () => {
                         const installingWorker = registration.installing;
