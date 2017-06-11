@@ -67,7 +67,7 @@ class AbilityScores extends React.Component {
         });
 
         return (
-            <div id="ability-scores" className="narrow-module">
+            <div id="ability-scores">
                 <Header name="Ability Scores" />
                 <table className="ability-score-table">
                     <tbody>

@@ -13,16 +13,35 @@ div#home a {
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none; }
 
-div.character-sheet {
+div.character-sheet-container {
+  display: flex;
+  flex-direction: column; }
+
+div.lower-sheet {
+  margin-top: 32px;
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-right: auto; }
+
+.character-sheet {
   text-align: left;
   background-color: #ECE9E4;
   display: inline-block;
   -webkit-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3); }
+  box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  margin: auto; }
 
-.lower-sheet {
-  margin-top: 32px; }
+div#left-container {
+  min-width: 300px;
+  flex-grow: 1; }
+
+div#right-container {
+  min-width: 300px;
+  flex-grow: 1; }
 
 div#root {
   text-align: center; }
@@ -110,20 +129,17 @@ table tr:first-child th {
 table tr:last-child td {
   border-bottom: 0; }
 
-table tr td:first-child,
-table tr th:first-child {
+table tr td:first-child, table tr th:first-child {
   border-left: 0; }
 
-table tr td:last-child,
-table tr th:last-child {
+table tr td:last-child, table tr th:last-child {
   border-right: 0; }
 
 tr {
   font-size: 10pt;
   padding: 4px 0px 4px 0px; }
 
-tr.spell-row,
-tr.gear-row {
+tr.spell-row, tr.gear-row {
   cursor: pointer; }
 
 td {
@@ -185,7 +201,7 @@ div.loading-indicator {
   position: relative; }
 
 /* Smartphone */
-@media (max-device-width: 599px) {
+@media all and (max-width: 599px) {
   body {
     margin: 0 auto;
     padding: 0px; }
@@ -201,9 +217,11 @@ div.loading-indicator {
     width: 96%; }
   div#left-container {
     margin-left: 2%;
+    margin-right: 2%;
     width: 96%; }
   div#right-container {
     margin-left: 2%;
+    margin-right: 2%;
     width: 96%; }
   div#ability-scores {
     margin-top: 4px; }
@@ -211,7 +229,7 @@ div.loading-indicator {
     width: 85% !important; } }
 
 /* Tablet */
-@media (min-device-width: 600px) {
+@media all and (min-width: 600px) {
   body {
     margin: 0 auto;
     padding: 0px; }
@@ -237,7 +255,7 @@ div.loading-indicator {
     width: 96%; } }
 
 /* desktop */
-@media (min-device-width: 1024px) {
+@media all and (min-width: 1024px) {
   body {
     margin: 20px; }
   .mobile-status {

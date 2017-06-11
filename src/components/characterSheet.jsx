@@ -3,7 +3,7 @@ import ReactResizeDetector from "react-resize-detector";
 
 import RefreshIndicator from "material-ui/RefreshIndicator";
 
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
 import AbilityScores from "./abilityScores";
 import Background from "./background";
@@ -57,11 +57,11 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-class CharacterSheetView extends React.Component {
+class CharacterSheetComponent extends React.Component {
     render() {
         if (this.props.character !== undefined) {
             return (
-                <div>
+                <div className="character-sheet-container">
                     <div className="character-sheet">
                         <div id="left-container">
                             <Portrait character={this.props.character} />
@@ -75,11 +75,11 @@ class CharacterSheetView extends React.Component {
                             <Skills character={this.props.character} />
                         </div>
                     </div>
-                    <div className="character-sheet lower-sheet">
+                    <div className="lower-sheet character-sheet">
                         <ClassSpells character={this.props.character} />
                         <Spells character={this.props.character} />
                     </div>
-                    <div className="character-sheet lower-sheet">
+                    <div className="lower-sheet character-sheet">
                         <Background character={this.props.character} />
                     </div>
                     <ReactResizeDetector
@@ -88,7 +88,7 @@ class CharacterSheetView extends React.Component {
                         onResize={this._onResize.bind(this)}
                     />
                 </div>
-            )
+            );
         } else {
             const style = {
                 container: {
@@ -114,9 +114,11 @@ class CharacterSheetView extends React.Component {
         }
     }
 
-    _onResize(args) { console.log(args); }
+    _onResize(args) {
+        console.log(args);
+    }
 }
 
-const CharacterSheet = connect(mapStateToProps)(CharacterSheetView);
+const CharacterSheet = connect(mapStateToProps)(CharacterSheetComponent);
 
 export default CharacterSheet;

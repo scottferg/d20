@@ -65,7 +65,7 @@ class Combat extends React.Component {
         };
 
         return (
-            <div id="combat" className="narrow-module">
+            <div id="combat">
                 <Header name="Combat" />
                 <table className="combat-table">
                     <tbody>

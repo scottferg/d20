@@ -24,6 +24,8 @@ import "./index.css";
 const loggerMiddleware = createLogger();
 
 // TODO: Multiple characters from server
+//      - Need to toggle "characterSelected" state to indicate whether or not
+//        CharacterSheet should refresh
 // TODO: Responsive
 // TODO: Spell preparation for Wizard and Clerics
 // TODO: Spell slots
@@ -76,7 +78,7 @@ export function fetchCharacterList() {
 const Title = () =>
     <div id="title">
         d20
-    </div>
+    </div>;
 
 class HomeComponent extends React.Component {
     render() {
@@ -86,7 +88,10 @@ class HomeComponent extends React.Component {
 
                 return (
                     <div className="loader-container">
-                        <Link className="loader-portrait" key={index} to={route}>
+                        <Link
+                            className="loader-portrait"
+                            key={index}
+                            to={route}>
                             <Portrait character={c} />
                         </Link>
                     </div>
