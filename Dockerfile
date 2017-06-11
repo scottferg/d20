@@ -4,7 +4,7 @@ RUN apk --no-cache add ca-certificates && \
     update-ca-certificates
 
 COPY ./build /build
-COPY ./player_export.json /player_export.json
+COPY ./cloud-storage.json /cloud-storage.json
 COPY ./autocert /var/cache/autocert
 COPY ./d20_viewer /d20_viewer
 

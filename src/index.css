@@ -79,6 +79,14 @@ div#portrait-text p {
 .header .hr {
   border-top: 1px solid #556772; }
 
+.loader-portrait > #portrait-container {
+  display: inline-block;
+  max-width: 250px;
+  text-align: left;
+  -webkit-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3); }
+
 table {
   width: 100%;
   border-spacing: 4px;

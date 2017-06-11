@@ -3,7 +3,7 @@ import ReactResizeDetector from "react-resize-detector";
 
 import RefreshIndicator from "material-ui/RefreshIndicator";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import AbilityScores from "./abilityScores";
 import Background from "./background";
@@ -88,7 +88,7 @@ class CharacterSheetView extends React.Component {
                         onResize={this._onResize.bind(this)}
                     />
                 </div>
-            );
+            )
         } else {
             const style = {
                 container: {
@@ -97,6 +97,7 @@ class CharacterSheetView extends React.Component {
                 },
             };
 
+            console.log(this.props.match.params.name);
             this.props.dispatch(fetchCharacter(this.props.match.params.name));
             return (
                 <div id="loading-indicator">
