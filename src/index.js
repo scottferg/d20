@@ -73,6 +73,11 @@ export function fetchCharacterList() {
     };
 }
 
+const Title = () =>
+    <div id="title">
+        d20
+    </div>
+
 class HomeComponent extends React.Component {
     render() {
         if (this.props.list !== undefined) {
@@ -80,14 +85,17 @@ class HomeComponent extends React.Component {
                 var route = "/" + c.name.toLowerCase();
 
                 return (
-                    <Link className="loader-portrait" key={index} to={route}>
-                        <Portrait character={c} />
-                    </Link>
+                    <div className="loader-container">
+                        <Link className="loader-portrait" key={index} to={route}>
+                            <Portrait character={c} />
+                        </Link>
+                    </div>
                 );
             });
 
             return (
                 <div id="home">
+                    <Title />
                     {characterList}
                 </div>
             );

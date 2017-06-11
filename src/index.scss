@@ -123,6 +123,16 @@ div#portrait-text p {
     box-shadow: 7px 7px 25px 0px rgba(0,0,0,0.3);
 }
 
+.loader-container {
+    margin-top: 80px;
+}
+
+div#title {
+    font-family: accentFont;
+    font-size: 64pt;
+    color: rgba(255,255,255,0.6);
+}
+
 table {
     width: 100%;
     border-spacing: 4px;
