@@ -56,7 +56,7 @@ class Player {
     }
 
     proficiencyBonus() {
-        var total = (this.level() - 1) / 4 + 2 + this.proficiency_mod;
+        var total = Math.ceil((this.level() - 1) / 4 + 2) + this.proficiency_mod;
 
         this.items.forEach(function(i) {
             var item = new Item(i);

@@ -9,12 +9,13 @@ const updateHP = (character, hp) => {
     character.hp = character.hp + hp;
 
     return {
-        type: "SET_CHARACTER",
+        type: "UPDATE_CHARACTER_HP",
         character: character,
     };
 };
 
 const mapStateToProps = (state, props) => {
+    console.log(state.characterReducer.character);
     return {
         character: state.characterReducer.character,
     };

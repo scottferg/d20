@@ -7,15 +7,14 @@ body {
   color: #737373;
   background-color: #415A6E; }
 
-div#home a {
-  font-size: 24pt;
-  font-family: accentFont;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none; }
+div#home {
+  display: flex;
+  flex-direction: column; }
 
 div.character-sheet-container {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  justify-content: space-around; }
 
 div.lower-sheet {
   margin-top: 32px;
@@ -26,12 +25,10 @@ div.lower-sheet {
 .character-sheet {
   text-align: left;
   background-color: #ECE9E4;
-  display: inline-block;
   -webkit-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
   display: flex;
-  flex-wrap: wrap;
   flex-flow: row wrap;
   margin: auto; }
 
@@ -98,18 +95,30 @@ div#portrait-text p {
 .header .hr {
   border-top: 1px solid #556772; }
 
-.loader-portrait > #portrait-container {
-  display: inline-block;
-  max-width: 250px;
-  text-align: left;
+ul#character-list {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin-top: 80px;
+  list-style: none; }
+
+.loader-container {
+  padding: 5px;
+  margin: 10px;
+  cursor: pointer;
+  width: 250px;
+  height: 250px;
+  text-align: left; }
+
+li.loader-container img.portrait {
   -webkit-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3); }
 
-.loader-container {
-  margin-top: 80px; }
-
 div#title {
+  margin: auto;
   font-family: accentFont;
   font-size: 64pt;
   color: rgba(255, 255, 255, 0.6); }

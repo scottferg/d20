@@ -24,9 +24,14 @@ var itemInfoReducer = function(state = {}, action) {
     }
 };
 
-var characterReducer = function(state = {}, action) {
+var characterReducer = function(state = { selected: false }, action) {
     switch (action.type) {
         case "SET_CHARACTER":
+            return {
+                ...state,
+                character: action.character,
+            };
+        case "UPDATE_CHARACTER_HP":
             return {
                 ...state,
                 character: action.character,
@@ -43,12 +48,14 @@ var characterReducer = function(state = {}, action) {
         case "GET_CHARACTER_FAILURE":
             return {
                 ...state,
+                selected: false,
             };
         case "GET_CHARACTER_SUCCESS":
             return {
                 ...state,
                 isLoading: action.isLoading,
                 character: action.character,
+                selected: false,
             };
         case "CHARACTER_LIST_REQUESTED":
             return {
