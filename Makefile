@@ -22,7 +22,8 @@ compile:
 	docker run -v $(CURDIR):/go/src/d20_viewer golang /bin/bash -c "$(BUILD_CMD)"
 
 yarn:
-	docker run -v $(CURDIR):/workspace kkarczmarczyk/node-yarn /bin/sh -c "$(NPM_CMD)"
+	#docker run -v $(CURDIR):/workspace kkarczmarczyk/node-yarn /bin/sh -c "$(NPM_CMD)"
+	yarn build
 
 d20.drzaius.io: compile yarn
 	docker build -t $(CONTAINER) .
@@ -37,6 +38,5 @@ run: d20.drzaius.io
 	docker run -p 443:443 $(CONTAINER)
 
 clean:
-	-rm -rf node_modules
 	-rm -rf build
 	-rm d20_viewer

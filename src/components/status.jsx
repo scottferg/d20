@@ -8,16 +8,23 @@ import Header from "./common";
 const updateHP = (character, hp) => {
     character.hp = character.hp + hp;
 
+    if (character.hp < 0) {
+        character.hp = 0;
+    } else if (character.hp > character.max_hp) {
+        character.hp = character.max_hp;
+    }
+
     return {
         type: "UPDATE_CHARACTER_HP",
         character: character,
+        current_hp: character.hp,
     };
 };
 
 const mapStateToProps = (state, props) => {
-    console.log(state.characterReducer.character);
     return {
         character: state.characterReducer.character,
+        hp: state.characterReducer.hp,
     };
 };
 
@@ -42,7 +49,7 @@ class StatusView extends React.Component {
                 <Header name="Status" />
                 <div className="status-info">
                     <div className="status-hp">
-                        {this.props.character.hp}/{this.props.character.max_hp}
+                        {this.props.hp}/{this.props.character.max_hp}
                     </div>
                     <FlatButton
                         label="Heal"

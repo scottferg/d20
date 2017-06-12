@@ -23,10 +23,10 @@ import "./index.css";
 
 const loggerMiddleware = createLogger();
 
-// TODO: Take damage
 // TODO: Spell preparation for Wizard and Clerics
 // TODO: Spell slots
 // TODO: AC for Combat module
+// TODO: Remove WebPack cache busting for resources
 // TODO: Character creation
 // TODO: Responsive
 //      - Ability Scores, Status, and Combat should display below portrait

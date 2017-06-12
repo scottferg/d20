@@ -30,11 +30,13 @@ var characterReducer = function(state = { selected: false }, action) {
             return {
                 ...state,
                 character: action.character,
+                hp: action.character.hp,
             };
         case "UPDATE_CHARACTER_HP":
             return {
                 ...state,
                 character: action.character,
+                hp: action.current_hp,
             };
         case "CHARACTER_REQUESTED":
             return {
@@ -56,6 +58,7 @@ var characterReducer = function(state = { selected: false }, action) {
                 isLoading: action.isLoading,
                 character: action.character,
                 selected: false,
+                hp: action.character.hp,
             };
         case "CHARACTER_LIST_REQUESTED":
             return {
