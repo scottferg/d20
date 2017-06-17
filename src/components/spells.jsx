@@ -1,7 +1,9 @@
 import React from "react";
-import Header from "./common";
+import {Header} from "./common";
 
 import {connect} from "react-redux";
+
+import Checkbox from "material-ui/Checkbox";
 
 import Modal from "boron/DropModal";
 
@@ -45,8 +47,8 @@ class SpellRow extends React.Component {
 
     render() {
         return (
-            <tr className="spell-row" onClick={this.onSpellClick}>
-                <td className={this.props.rowColor}>{this.props.spell.name}</td>
+            <tr className="spell-row">
+                <td className={this.props.rowColor} onClick={this.onSpellClick}>{this.props.spell.name}</td>
             </tr>
         );
     }
@@ -67,8 +69,12 @@ class SpellsComponent extends React.Component {
         // Group spells by level
         var levels = [...Array(9).keys()];
         levels.forEach(function(spell, index) {
+            if (that.props.character.spells === undefined) {
+                that.props.character.spells = [];
+            }
+
             var spells = that.props.character.spells.filter(function(spell) {
-                return spell.Level === index + 1;
+                return spell.level === index + 1;
             });
 
             if (spells.length > 0) {

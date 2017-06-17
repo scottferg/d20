@@ -13,6 +13,13 @@ export default class Item {
         });
     }
 
+    modValue(mod) {
+        var parts = mod.name.split(" ");
+        var modifier = parts[parts.length - 1];
+
+        return parseInt(modifier.split("+")[1], 10);
+    }
+
     dmg1Display() {
         if (this.dmg1) {
             return (
@@ -103,13 +110,15 @@ export default class Item {
     }
 
     acMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("ac ")) {
-                return mod.value();
+            if (mod.name.includes("ac ")) {
+                return that.modValue(mod);
             }
         });
 
@@ -117,13 +126,15 @@ export default class Item {
     }
 
     damageMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("damage ")) {
-                return mod.value();
+            if (mod.name.includes("damage ")) {
+                return that.modValue(mod);
             }
         });
 
@@ -131,13 +142,15 @@ export default class Item {
     }
 
     attackMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("attacks")) {
-                return mod.value();
+            if (mod.name.includes("attacks")) {
+                return that.modValue(mod);
             }
         });
 
@@ -145,13 +158,15 @@ export default class Item {
     }
 
     saveMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("saving throws")) {
-                return mod.value();
+            if (mod.name.includes("saving throws")) {
+                return that.modValue(mod);
             }
         });
 
@@ -159,13 +174,15 @@ export default class Item {
     }
 
     spellAttackMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("spell attack")) {
-                return mod.value();
+            if (mod.name.includes("spell attack")) {
+                return that.modValue(mod);
             }
         });
 
@@ -173,13 +190,15 @@ export default class Item {
     }
 
     spellDcMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("spell dc")) {
-                return mod.value();
+            if (mod.name.includes("spell dc")) {
+                return that.modValue(mod);
             }
         });
 
@@ -187,13 +206,15 @@ export default class Item {
     }
 
     proficiencyMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("proficiency bonus")) {
-                return mod.value();
+            if (mod.name.includes("proficiency bonus")) {
+                return that.modValue(mod);
             }
         });
 
@@ -201,13 +222,15 @@ export default class Item {
     }
 
     hpMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("hp")) {
-                return mod.value();
+            if (mod.name.includes("hp")) {
+                return that.modValue(mod);
             }
         });
 
@@ -215,13 +238,15 @@ export default class Item {
     }
 
     speedMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("speed")) {
-                return mod.value();
+            if (mod.name.includes("speed")) {
+                return that.modValue(mod);
             }
         });
 
@@ -229,13 +254,15 @@ export default class Item {
     }
 
     initiativeMod() {
+        var that = this;
+
         if (this.modifiers === undefined) {
             return 0;
         }
 
         this.modifiers.forEach(function(mod) {
-            if (mod.name.contains("initiative")) {
-                return mod.value();
+            if (mod.name.includes("initiative")) {
+                return that.modValue(mod);
             }
         });
 

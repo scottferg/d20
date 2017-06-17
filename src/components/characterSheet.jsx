@@ -14,40 +14,18 @@ import Portrait from "./portrait";
 import Skills from "./skills";
 import Spells from "./spells";
 import Status from "./status";
-
-import Player from "../models/player";
-
-const receiveCharacter = (name, json) => {
-    return {
-        type: "GET_CHARACTER_SUCCESS",
-        isLoading: false,
-        character: new Player(json),
-    };
-};
-
-const characterRequested = () => {
-    return {
-        type: "CHARACTER_REQUESTED",
-        isLoading: true,
-        selected: false,
-    };
-};
+import {auth, db} from "./app";
+import {receiveCharacter, characterRequested} from "../actions/character";
 
 export function fetchCharacter(name) {
     return function(dispatch) {
         dispatch(characterRequested());
 
-        var url = "/c/" + name;
-
-        if (window.location.href.includes("localhost")) {
-            url = "http://localhost:8080" + url;
-        } else if (window.location.href.includes("192.")) {
-            url = "http://192.168.86.185:8080" + url;
-        }
-
-        return fetch(url)
-            .then(response => response.json())
-            .then(json => dispatch(receiveCharacter(name, json)));
+        var userId = auth.currentUser.uid;
+        return db
+            .ref("/users/" + userId + "/characters/" + name)
+            .once("value")
+            .then(snapshot => dispatch(receiveCharacter(name, snapshot.val())));
     };
 }
 
@@ -75,8 +53,12 @@ class CharacterSheetComponent extends React.Component {
 
         // If a character has been selected before this will do a compare of
         // the route name and character name. Super fucking janky.
-        if (this.props.character !== undefined && this.props.character.name.toLowerCase() !== this.props.match.params.name) {
-            return true
+        if (
+            this.props.character !== undefined &&
+            this.props.character.name.toLowerCase() !==
+                this.props.match.params.name
+        ) {
+            return true;
         }
 
         return false;

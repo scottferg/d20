@@ -12,7 +12,7 @@ export default class Spell {
     }
 
     verboseLevel() {
-        switch (this.Level) {
+        switch (this.level) {
             case 0:
                 return "";
             case 1:
@@ -22,7 +22,7 @@ export default class Spell {
             case 3:
                 return "3rd-level ";
             default:
-                return this.Level + "th-level ";
+                return this.level + "th-level ";
         }
     }
 

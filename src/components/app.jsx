@@ -1,85 +1,37 @@
 import {combineReducers} from "redux";
+import {firebaseStateReducer} from "react-redux-firebase";
 
-var spellInfoReducer = function(state = {}, action) {
-    switch (action.type) {
-        case "SET_SPELL":
-            return {
-                ...state,
-                spell: action.spell,
-            };
-        default:
-            return state;
-    }
+import firebase from "firebase";
+
+import {spellInfoReducer} from "../reducers/spells.js";
+import {itemInfoReducer} from "../reducers/item.js";
+import {characterReducer} from "../reducers/character.js";
+
+let config = {
+    apiKey: "AIzaSyBT4qdrlbonYOk9tmO9kSOzS_sYpxgRxVU",
+    authDomain: "d20-drzaius-io.firebaseapp.com",
+    databaseURL: "https://d20-drzaius-io.firebaseio.com",
+    projectId: "d20-drzaius-io",
+    storageBucket: "d20-drzaius-io.appspot.com",
+    messagingSenderId: "1029083345244",
 };
 
-var itemInfoReducer = function(state = {}, action) {
-    switch (action.type) {
-        case "SET_ITEM":
-            return {
-                ...state,
-                item: action.item,
-            };
-        default:
-            return state;
-    }
+//the root app just in case we need it
+export const firebaseApp = firebase.initializeApp(config);
+
+export const db = firebaseApp.database(); //the real-time database
+export const auth = firebaseApp.auth(); //the firebase auth namespace
+export const provider = new firebase.auth.GoogleAuthProvider();
+
+export const storageKey = "D20_STORE_KEY";
+
+export const isAuthenticated = () => {
+    return !!auth.currentUser || !!localStorage.getItem(storageKey);
 };
 
-var characterReducer = function(state = { selected: false }, action) {
-    switch (action.type) {
-        case "SET_CHARACTER":
-            return {
-                ...state,
-                character: action.character,
-                hp: action.character.hp,
-            };
-        case "UPDATE_CHARACTER_HP":
-            return {
-                ...state,
-                character: action.character,
-                hp: action.current_hp,
-            };
-        case "CHARACTER_REQUESTED":
-            return {
-                ...state,
-                isLoading: action.isLoading,
-            };
-        case "GET_CHARACTER_REQUEST":
-            return {
-                ...state,
-            };
-        case "GET_CHARACTER_FAILURE":
-            return {
-                ...state,
-                selected: false,
-            };
-        case "GET_CHARACTER_SUCCESS":
-            return {
-                ...state,
-                isLoading: action.isLoading,
-                character: action.character,
-                selected: false,
-                hp: action.character.hp,
-            };
-        case "CHARACTER_LIST_REQUESTED":
-            return {
-                ...state,
-                isLoading: action.isLoading,
-            };
-        case "GET_CHARACTER_LIST_SUCCESS":
-            return {
-                ...state,
-                isLoading: action.isLoading,
-                list: action.list,
-            };
-        default:
-            return state;
-    }
-};
-
-const d20App = combineReducers({
-    spellInfoReducer,
-    itemInfoReducer,
-    characterReducer,
+export const d20App = combineReducers({
+    firebase: firebaseStateReducer,
+    spellInfoReducer: spellInfoReducer,
+    itemInfoReducer: itemInfoReducer,
+    characterReducer: characterReducer,
 });
-
-export default d20App;

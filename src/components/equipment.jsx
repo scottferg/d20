@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import Modal from "boron/DropModal";
 
-import Header from "./common";
+import {Header} from "./common";
 import Item from "../models/item";
 
 const displayItemDialog = item => {

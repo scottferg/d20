@@ -1,6 +1,6 @@
 import React from "react";
 
-import Header from "./common";
+import {Header} from "./common";
 
 class AbilityScoreHeader extends React.Component {
     render() {

@@ -1,0 +1,21 @@
+[ ] FAB for adding top level
+    - Items, Spells, Background/Notes/etc
+    - Context menu for specific selections when relevant
+[ ] Trim down on payloads for Firebase queries
+    - Refactor Character model into groupings. Top level
+      should be sufficient for the portrait only
+[ ] Add items
+[ ] Add spells
+[ ] Character creation
+[ ] Money
+[ ] Equip items
+[ ] Spell slots
+[ ] Spell preparation for Wizard and Clerics
+[ ] Empty equipment sections should ignore header
+[ ] Remove WebPack cache busting for resources
+[ ] Responsive
+    - Ability Scores, Status, and Combat should display below portrait
+      on phones. This will require re-laying out via JS
+[ ] Multiple characters from server
+    - Logic is currently janky. Should be cleaner updates of Redux state
+      between page transitions.

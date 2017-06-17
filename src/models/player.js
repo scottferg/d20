@@ -45,6 +45,50 @@ class Player {
         return level;
     }
 
+    acWithoutBonus() {
+        var ac = 0;
+        var dexMod = this.abilityBonus(this.dexScore());
+
+        var armorPieces = this.items.filter(function(item) {
+            return (
+                item.type === "S" ||
+                item.type === "LA" ||
+                item.type === "MA" ||
+                item.type === "HA"
+            );
+        });
+
+        var that = this;
+        armorPieces.forEach(function(i) {
+            var item = new Item(i);
+
+            if (item.equipped === "Unequipped") {
+                return;
+            }
+
+            ac += item.ac;
+
+            if (item.type == "MA") {
+                ac += dexMod <= 2 ? dexMod : 2;
+            } else if (item.type == "LA") {
+                ac += dexMod;
+            }
+
+            ac += item.acMod();
+        });
+
+        // If no armor is equipped base AC is 10
+        if (ac == 0) {
+            ac = 10 + dexMod;
+        }
+
+        return ac;
+    }
+
+    ac() {
+        return this.acWithoutBonus() + this.ac_mod;
+    }
+
     spellDC(ability) {
         var bonus = this.baseAbilityBonus(ability, true);
 
@@ -56,7 +100,12 @@ class Player {
     }
 
     proficiencyBonus() {
-        var total = Math.ceil((this.level() - 1) / 4 + 2) + this.proficiency_mod;
+        var total =
+            Math.ceil((this.level() - 1) / 4 + 2) + this.proficiency_mod;
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(i) {
             var item = new Item(i);
@@ -72,6 +121,10 @@ class Player {
     spellAttackBonus() {
         var total = 0;
 
+        if (this.items === undefined) {
+            this.items = [];
+        }
+
         this.items.forEach(function(i) {
             var item = new Item(i);
 
@@ -85,6 +138,10 @@ class Player {
 
     spellDcBonus() {
         var total = 0;
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(i) {
             var item = new Item(i);
@@ -100,6 +157,10 @@ class Player {
     acBonus() {
         var total = 0;
 
+        if (this.items === undefined) {
+            this.items = [];
+        }
+
         this.items.forEach(function(i) {
             var item = new Item(i);
 
@@ -113,6 +174,10 @@ class Player {
 
     speedBonus() {
         var total = 0;
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(i) {
             var item = new Item(i);
@@ -128,6 +193,10 @@ class Player {
     initiativeBonus() {
         var total = 0;
 
+        if (this.items === undefined) {
+            this.items = [];
+        }
+
         this.items.forEach(function(i) {
             var item = new Item(i);
 
@@ -142,6 +211,10 @@ class Player {
     saveBonus() {
         var total = 0;
 
+        if (this.items === undefined) {
+            this.items = [];
+        }
+
         this.items.forEach(function(i) {
             var item = new Item(i);
 
@@ -155,6 +228,10 @@ class Player {
 
     hpBonus() {
         var total = 0;
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(i) {
             var item = new Item(i);
@@ -200,7 +277,11 @@ class Player {
     }
 
     strScore() {
-        var varue = this.abilityWithRaceMod("str", this.str);
+        var value = this.abilityWithRaceMod("str", this.str);
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(item) {
             if (item.modifiers === undefined) {
@@ -209,16 +290,20 @@ class Player {
 
             item.modifiers.forEach(function(mod) {
                 if (mod.name.includes("strength")) {
-                    varue += mod.varue();
+                    value += mod.value();
                 }
             });
         });
 
-        return varue;
+        return value;
     }
 
     dexScore() {
-        var varue = this.abilityWithRaceMod("dex", this.dex);
+        var value = this.abilityWithRaceMod("dex", this.dex);
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(item) {
             if (item.modifiers === undefined) {
@@ -227,16 +312,20 @@ class Player {
 
             item.modifiers.forEach(function(mod) {
                 if (mod.name.includes("dexterity")) {
-                    varue += mod.varue();
+                    value += mod.value();
                 }
             });
         });
 
-        return varue;
+        return value;
     }
 
     conScore() {
-        var varue = this.abilityWithRaceMod("con", this.con);
+        var value = this.abilityWithRaceMod("con", this.con);
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(item) {
             if (item.modifiers === undefined) {
@@ -245,16 +334,20 @@ class Player {
 
             item.modifiers.forEach(function(mod) {
                 if (mod.name.includes("constitution")) {
-                    varue += mod.varue();
+                    value += mod.value();
                 }
             });
         });
 
-        return varue;
+        return value;
     }
 
     intScore() {
-        var varue = this.abilityWithRaceMod("int", this.int);
+        var value = this.abilityWithRaceMod("int", this.int);
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(item) {
             if (item.modifiers === undefined) {
@@ -263,16 +356,20 @@ class Player {
 
             item.modifiers.forEach(function(mod) {
                 if (mod.name.includes("intelligence")) {
-                    varue += mod.varue();
+                    value += mod.value();
                 }
             });
         });
 
-        return varue;
+        return value;
     }
 
     wisScore() {
-        var varue = this.abilityWithRaceMod("wis", this.wis);
+        var value = this.abilityWithRaceMod("wis", this.wis);
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(item) {
             if (item.modifiers === undefined) {
@@ -281,16 +378,20 @@ class Player {
 
             item.modifiers.forEach(function(mod) {
                 if (mod.name.includes("wisdom")) {
-                    varue += mod.varue();
+                    value += mod.value();
                 }
             });
         });
 
-        return varue;
+        return value;
     }
 
     chaScore() {
-        var varue = this.abilityWithRaceMod("cha", this.cha);
+        var value = this.abilityWithRaceMod("cha", this.cha);
+
+        if (this.items === undefined) {
+            this.items = [];
+        }
 
         this.items.forEach(function(item) {
             if (item.modifiers === undefined) {
@@ -299,12 +400,12 @@ class Player {
 
             item.modifiers.forEach(function(mod) {
                 if (mod.name.includes("charisma")) {
-                    varue += mod.varue();
+                    value += mod.value();
                 }
             });
         });
 
-        return varue;
+        return value;
     }
 
     baseAbilityBonus(ability, withRacialMod = true) {

@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./common";
+import {Header} from "./common";
 
 class CombatTopHeader extends React.Component {
     render() {
@@ -49,8 +49,7 @@ class Combat extends React.Component {
 
         var firstRow = function() {
             var initiative = that.props.character.initiative();
-            // TODO
-            var ac = 10 + that.props.character.ac_mod;
+            var ac = that.props.character.ac();
             var speed =
                 that.props.character.race.speed +
                 that.props.character.speed_mod;

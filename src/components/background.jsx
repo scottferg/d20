@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './common'
+import {Header} from './common'
 
 class NoteRow extends React.Component {
     render() {
@@ -25,6 +25,22 @@ class BackgroundRow extends React.Component {
 
 class Background extends React.Component {
     render() {
+        if (this.props.character.notes === undefined) {
+            this.props.character.notes = [];
+        }
+
+        if (this.props.character.classFeatures === undefined) {
+            this.props.character.classFeatures = [];
+        }
+
+        if (this.props.character.race.traits === undefined) {
+            this.props.character.race.traits = [];
+        }
+
+        if (this.props.character.background.traits === undefined) {
+            this.props.character.background.traits = [];
+        }
+
         var notesList = this.props.character.notes.map(function(note, index) {
             return <NoteRow key={index} note={note} />
         })
