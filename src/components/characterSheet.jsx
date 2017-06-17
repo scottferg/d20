@@ -3,6 +3,11 @@ import ReactResizeDetector from "react-resize-detector";
 
 import RefreshIndicator from "material-ui/RefreshIndicator";
 
+import {Menu, MainButton, ChildButton} from "react-mfb";
+
+import "react-mfb/mfb.css";
+import "mdi/css/materialdesignicons.min.css";
+
 import {connect} from "react-redux";
 
 import AbilityScores from "./abilityScores";
@@ -14,20 +19,9 @@ import Portrait from "./portrait";
 import Skills from "./skills";
 import Spells from "./spells";
 import Status from "./status";
-import {auth, db} from "./app";
-import {receiveCharacter, characterRequested} from "../actions/character";
-
-export function fetchCharacter(name) {
-    return function(dispatch) {
-        dispatch(characterRequested());
-
-        var userId = auth.currentUser.uid;
-        return db
-            .ref("/users/" + userId + "/characters/" + name)
-            .once("value")
-            .then(snapshot => dispatch(receiveCharacter(name, snapshot.val())));
-    };
-}
+import {fetchCharacter} from "../actions/character";
+import {toggleItemList} from "../actions/items";
+import {toggleSpellList} from "../actions/spells";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -65,9 +59,7 @@ class CharacterSheetComponent extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         if (this.shouldLoad()) {
-            console.log("loader");
             const style = {
                 container: {
                     position: "relative",
@@ -77,7 +69,6 @@ class CharacterSheetComponent extends React.Component {
 
             // If we're not currently requesting the character, request it
             if (!this.props.isLoading) {
-                console.log("requesting");
                 this.props.dispatch(
                     fetchCharacter(this.props.match.params.name),
                 );
@@ -123,6 +114,27 @@ class CharacterSheetComponent extends React.Component {
                         handleHeight
                         onResize={this._onResize.bind(this)}
                     />
+                    <Menu effect="slidein-spring" method="click" position="br">
+                        <MainButton
+                            iconResting="mdi mdi-plus mdi-24px icon"
+                            iconActive="mdi mdi-close mdi-24px icon"
+                        />
+                        <ChildButton
+                            icon="mdi mdi-sword mdi-24px icon"
+                            label="Add Equipment"
+                            onClick={() => {this.props.dispatch(toggleItemList(true))}}
+                        />
+                        <ChildButton
+                            icon="mdi mdi-script mdi-24px icon"
+                            label="Add Spell"
+                            onClick={() => {this.props.dispatch(toggleSpellList(true))}}
+                        />
+                        <ChildButton
+                            icon="mdi mdi-book-open-page-variant mdi-24px icon"
+                            label="Add Trait"
+                            //onClick={function(e){ console.log(e); e.preventDefault(); }}
+                        />
+                    </Menu>
                 </div>
             );
         }

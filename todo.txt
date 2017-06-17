@@ -1,12 +1,7 @@
-[ ] FAB for adding top level
-    - Items, Spells, Background/Notes/etc
-    - Context menu for specific selections when relevant
+[ ] Character creation
 [ ] Trim down on payloads for Firebase queries
     - Refactor Character model into groupings. Top level
       should be sufficient for the portrait only
-[ ] Add items
-[ ] Add spells
-[ ] Character creation
 [ ] Money
 [ ] Equip items
 [ ] Spell slots
@@ -19,3 +14,12 @@
 [ ] Multiple characters from server
     - Logic is currently janky. Should be cleaner updates of Redux state
       between page transitions.
+[x] FAB for adding top level
+    - Items, Spells, Background/Notes/etc
+    - Context menu for specific selections when relevant
+[x] Add items
+[x] Remove item
+    - Delete option in the detail modal
+[x] Add spells
+[x] Remove spell
+    - Delete option in the detail modal

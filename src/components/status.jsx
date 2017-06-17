@@ -3,43 +3,9 @@ import FlatButton from "material-ui/FlatButton";
 
 import {connect} from "react-redux";
 
-import {auth, db} from "./app";
 import {Header} from "./common";
 
-// TODO: Writing the entire character is slow
-export function setHP(character, hp) {
-    return function(dispatch) {
-        character.hp = character.hp + hp;
-
-        if (character.hp < 0) {
-            character.hp = 0;
-        } else if (character.hp > character.max_hp) {
-            character.hp = character.max_hp;
-        }
-
-        var userId = auth.currentUser.uid;
-        return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/characters/" +
-                    character.name.toLowerCase(),
-            )
-            .set({
-                ...character,
-                hp: character.hp,
-            })
-            .then(() => dispatch(updateHP(character, hp)));
-    };
-}
-
-const updateHP = (character, hp) => {
-    return {
-        type: "UPDATE_CHARACTER_HP",
-        character: character,
-        current_hp: character.hp,
-    };
-};
+import {setHP} from "../actions/character"
 
 const mapStateToProps = (state, props) => {
     return {

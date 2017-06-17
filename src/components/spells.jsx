@@ -3,22 +3,25 @@ import {Header} from "./common";
 
 import {connect} from "react-redux";
 
+import Divider from "material-ui/Divider";
 import Checkbox from "material-ui/Checkbox";
+import FlatButton from "material-ui/FlatButton";
 
 import Modal from "boron/DropModal";
 
 import Spell from "../models/spell";
-
-const displaySpellDialog = spell => {
-    return {
-        type: "SET_SPELL",
-        spell: spell,
-    };
-};
+import {
+    displaySpellDialog,
+    fetchSpells,
+    toggleSpellList,
+} from "../actions/spells";
+import {addSpell, removeSpell} from "../actions/character";
 
 const mapStateToProps = (state, props) => {
     return {
         spell: new Spell(state.spellInfoReducer.spell),
+        spellList: state.spellInfoReducer.spellList,
+        displaySpellList: state.spellInfoReducer.displaySpellList,
     };
 };
 
@@ -48,13 +51,53 @@ class SpellRow extends React.Component {
     render() {
         return (
             <tr className="spell-row">
-                <td className={this.props.rowColor} onClick={this.onSpellClick}>{this.props.spell.name}</td>
+                <td className={this.props.rowColor} onClick={this.onSpellClick}>
+                    {this.props.spell.name}
+                </td>
             </tr>
         );
     }
 }
 
+class SpellActions extends React.Component {
+    onRemove() {
+        this.props.dispatch(
+            removeSpell(this.props.character, this.props.spell),
+        );
+        this.props.refs.modal.hide();
+    }
+
+    render() {
+        console.log(this.props);
+        return (
+            <div className="action-button-row">
+                <div className="action-button-left">
+                    <FlatButton
+                        label="Remove"
+                        onTouchTap={() => {
+                            this.onRemove();
+                        }}
+                        labelStyle={{fontSize: "8pt"}}
+                    />
+                </div>
+                <div className="action-button-right">
+                    <Checkbox labelStyle={{fontSize: "8pt"}} label="Prepared" />
+                </div>
+            </div>
+        );
+    }
+}
+
 class SpellsComponent extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(fetchSpells());
+    }
+
+    onAddSpell(spell) {
+        this.props.dispatch(addSpell(this.props.character, spell));
+        this.refs.spell_list_modal.hide();
+    }
+
     render() {
         var that = this;
         var light = false;
@@ -111,9 +154,45 @@ class SpellsComponent extends React.Component {
             );
         });
 
+        var spellList = this.props.spellList.map(function(spell, index) {
+            return (
+                <div>
+                    <div
+                        className="list-item"
+                        key={index}
+                        onClick={() => {
+                            that.onAddSpell(spell);
+                        }}>
+                        {spell.name}
+                    </div>
+                    <Divider />
+                </div>
+            );
+        });
+
+        if (this.props.displaySpellList) {
+            setTimeout(function() {
+                that.refs.spell_list_modal.show();
+            }, 150);
+        }
+
         return (
             <div id="spell-list" className="full-module">
                 {spellsList}
+                <Modal
+                    className="modal-parent"
+                    ref="spell_list_modal"
+                    onHide={() => {
+                        this.props.dispatch(toggleSpellList(false));
+                    }}
+                    hide={false}>
+                    <div className="modal-dialog">
+                        <Header name="Add Spell" />
+                        <div className="modal-list">
+                            {spellList}
+                        </div>
+                    </div>
+                </Modal>
                 <Modal className="modal-parent" ref="modal" hide={false}>
                     <div className="modal-dialog">
                         <Header
@@ -152,6 +231,13 @@ class SpellsComponent extends React.Component {
                                             : ""),
                             }}
                         />
+                        <SpellActions
+                            spell={this.props.spell}
+                            character={this.props.character}
+                            dispatch={this.props.dispatch}
+                            refs={this.refs}
+                        />
+                        <div className="dialog-footer" />
                     </div>
                 </Modal>
             </div>

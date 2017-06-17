@@ -12,6 +12,16 @@ export const characterReducer = function(state = { selected: false }, action) {
                 character: action.character,
                 hp: action.current_hp,
             };
+        case "UPDATE_CHARACTER_EQUIPMENT":
+            return {
+                ...state,
+                character: action.character,
+            };
+        case "UPDATE_CHARACTER_SPELLS":
+            return {
+                ...state,
+                character: action.character,
+            };
         case "CHARACTER_REQUESTED":
             return {
                 ...state,

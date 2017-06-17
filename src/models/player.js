@@ -58,7 +58,6 @@ class Player {
             );
         });
 
-        var that = this;
         armorPieces.forEach(function(i) {
             var item = new Item(i);
 
@@ -68,9 +67,9 @@ class Player {
 
             ac += item.ac;
 
-            if (item.type == "MA") {
+            if (item.type === "MA") {
                 ac += dexMod <= 2 ? dexMod : 2;
-            } else if (item.type == "LA") {
+            } else if (item.type === "LA") {
                 ac += dexMod;
             }
 
@@ -78,7 +77,7 @@ class Player {
         });
 
         // If no armor is equipped base AC is 10
-        if (ac == 0) {
+        if (ac === 0) {
             ac = 10 + dexMod;
         }
 

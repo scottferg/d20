@@ -4,19 +4,20 @@ import {connect} from "react-redux";
 
 import Modal from "boron/DropModal";
 
+import Divider from "material-ui/Divider";
+import FlatButton from "material-ui/FlatButton";
+
 import {Header} from "./common";
 import Item from "../models/item";
-
-const displayItemDialog = item => {
-    return {
-        type: "SET_ITEM",
-        item: item,
-    };
-};
+import {addItem, removeItem} from "../actions/character";
+import {displayItemDialog, fetchItems, toggleItemList} from "../actions/items";
 
 const mapStateToProps = (state, props) => {
     return {
+        character: state.characterReducer.character,
         item: new Item(state.itemInfoReducer.item),
+        itemList: state.itemInfoReducer.itemList,
+        displayItemList: state.itemInfoReducer.displayItemList,
     };
 };
 
@@ -137,7 +138,39 @@ class GearRow extends React.Component {
     }
 }
 
+class EquipmentActions extends React.Component {
+    onRemove() {
+        this.props.dispatch(removeItem(this.props.character, this.props.item));
+        this.props.refs.modal.hide();
+    }
+
+    render() {
+        return (
+            <div className="action-button-row">
+                <div className="action-button-left">
+                    <FlatButton
+                        label="Remove"
+                        onTouchTap={() => {this.onRemove()}}
+                        labelStyle={{fontSize: "8pt"}}
+                    />
+                </div>
+                <div className="action-button-right">
+                </div>
+            </div>
+        );
+    }
+}
+
 class EquipmentComponent extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(fetchItems());
+    }
+
+    onAddItem(item) {
+        this.props.dispatch(addItem(this.props.character, item));
+        this.refs.item_list_modal.hide();
+    }
+
     render() {
         var that = this;
         var light = false;
@@ -245,6 +278,28 @@ class EquipmentComponent extends React.Component {
             );
         });
 
+        var itemList = this.props.itemList.map(function(item, index) {
+            return (
+                <div>
+                    <div
+                        className="list-item"
+                        key={index}
+                        onClick={() => {
+                            that.onAddItem(item);
+                        }}>
+                        {item.name}
+                    </div>
+                    <Divider />
+                </div>
+            );
+        });
+
+        if (this.props.displayItemList) {
+            setTimeout(function() {
+                that.refs.item_list_modal.show();
+            }, 150);
+        }
+
         return (
             <div id="equipment" className="narrow-module">
                 <Header name="Equipment" />
@@ -266,6 +321,20 @@ class EquipmentComponent extends React.Component {
                         {gearList}
                     </tbody>
                 </table>
+                <Modal
+                    className="modal-parent"
+                    ref="item_list_modal"
+                    onHide={() => {
+                        this.props.dispatch(toggleItemList(false));
+                    }}
+                    hide={false}>
+                    <div className="modal-dialog">
+                        <Header name="Add Equipment" />
+                        <div className="modal-list">
+                            {itemList}
+                        </div>
+                    </div>
+                </Modal>
                 <Modal className="modal-parent" ref="modal" hide={false}>
                     <div className="modal-dialog">
                         <Header
@@ -289,6 +358,14 @@ class EquipmentComponent extends React.Component {
                         {this.props.item
                             ? this.props.item.descriptionDisplay()
                             : null}
+                        <EquipmentActions
+                            item={this.props.item}
+                            character={this.props.character}
+                            dispatch={this.props.dispatch}
+                            refs={this.refs}
+                        />
+                        <div className="dialog-footer">
+                        </div>
                     </div>
                 </Modal>
             </div>

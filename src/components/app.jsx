@@ -1,5 +1,4 @@
 import {combineReducers} from "redux";
-import {firebaseStateReducer} from "react-redux-firebase";
 
 import firebase from "firebase";
 
@@ -30,7 +29,6 @@ export const isAuthenticated = () => {
 };
 
 export const d20App = combineReducers({
-    firebase: firebaseStateReducer,
     spellInfoReducer: spellInfoReducer,
     itemInfoReducer: itemInfoReducer,
     characterReducer: characterReducer,
