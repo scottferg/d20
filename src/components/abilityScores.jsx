@@ -1,6 +1,14 @@
 import React from "react";
 
+import {connect} from "react-redux";
+
 import {Header} from "./common";
+
+const mapStateToProps = (state, props) => {
+    return {
+        characterItems: state.itemInfoReducer.characterItems,
+    };
+};
 
 class AbilityScoreHeader extends React.Component {
     render() {
@@ -30,7 +38,7 @@ class AbilityScoreRow extends React.Component {
     }
 }
 
-class AbilityScores extends React.Component {
+class AbilityScoresComponent extends React.Component {
     render() {
         const abilities = {
             str: "Strength",
@@ -54,11 +62,13 @@ class AbilityScores extends React.Component {
                 name: abilities[abbrev],
                 mod: that.props.character.formatAbilityBonus(
                     abbrev,
+                    that.props.characterItems,
                     false,
                     true,
                 ),
                 save: that.props.character.formatAbilityBonus(
                     abbrev,
+                    that.props.characterItems,
                     that.props.character.checkProficiency(abilities[abbrev]),
                 ),
             };
@@ -79,5 +89,7 @@ class AbilityScores extends React.Component {
         );
     }
 }
+
+const AbilityScores = connect(mapStateToProps)(AbilityScoresComponent);
 
 export default AbilityScores;

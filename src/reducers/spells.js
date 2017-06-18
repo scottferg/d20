@@ -1,4 +1,7 @@
-export const spellInfoReducer = (state = { spellList: [], displaySpellList: false, }, action) => {
+export const spellInfoReducer = (
+    state = {spellList: [], displaySpellList: false, characterSpells: [], fetching: false},
+    action,
+) => {
     switch (action.type) {
         case "RECEIVE_SPELLS_LIST":
             return {
@@ -19,6 +22,22 @@ export const spellInfoReducer = (state = { spellList: [], displaySpellList: fals
             return {
                 ...state,
                 displaySpellList: action.displaySpellList,
+            };
+        case "CHARACTER_SPELLS_REQUESTED":
+            return {
+                ...state,
+                fetching: true,
+            };
+        case "RECEIVE_CHARACTER_SPELLS":
+            return {
+                ...state,
+                characterSpells: action.characterSpells,
+                fetching: false,
+            };
+        case "UPDATE_CHARACTER_SPELLS":
+            return {
+                ...state,
+                characterSpells: action.characterSpells,
             };
         default:
             return state;

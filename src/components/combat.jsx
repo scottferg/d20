@@ -1,5 +1,14 @@
 import React from "react";
+
+import {connect} from "react-redux";
+
 import {Header} from "./common";
+
+const mapStateToProps = (state, props) => {
+    return {
+        characterItems: state.itemInfoReducer.characterItems,
+    };
+};
 
 class CombatTopHeader extends React.Component {
     render() {
@@ -39,7 +48,7 @@ class CombatRow extends React.Component {
     }
 }
 
-class Combat extends React.Component {
+class CombatComponent extends React.Component {
     abilityBonus(ability) {
         return Math.ceil((ability - 9.5) / 2.0) - 1;
     }
@@ -48,8 +57,8 @@ class Combat extends React.Component {
         var that = this;
 
         var firstRow = function() {
-            var initiative = that.props.character.initiative();
-            var ac = that.props.character.ac();
+            var initiative = that.props.character.initiative(that.props.characterItems);
+            var ac = that.props.character.ac(that.props.characterItems);
             var speed =
                 that.props.character.race.speed +
                 that.props.character.speed_mod;
@@ -57,8 +66,8 @@ class Combat extends React.Component {
         };
 
         var secondRow = function() {
-            var passivePerception = that.props.character.passivePerception();
-            var proficiency = that.props.character.proficiencyBonus();
+            var passivePerception = that.props.character.passivePerception(that.props.characterItems);
+            var proficiency = that.props.character.proficiencyBonus(that.props.characterItems);
             var inspiration = that.props.character.inspiration;
             return [passivePerception, proficiency, inspiration];
         };
@@ -78,5 +87,7 @@ class Combat extends React.Component {
         );
     }
 }
+
+const Combat = connect(mapStateToProps)(CombatComponent);
 
 export default Combat;

@@ -22,6 +22,18 @@ export const receiveCharacterList = json => {
     };
 };
 
+export const fetchCharacterList = () => {
+    return function(dispatch) {
+        dispatch(characterListRequested());
+
+        var userId = auth.currentUser.uid;
+        return db 
+            .ref("/users/" + userId + "/characters")
+            .once("value")
+            .then(snapshot => dispatch(receiveCharacterList(snapshot.val())));
+    };
+}
+
 export const characterListRequested = () => {
     return {
         type: "CHARACTER_LIST_REQUESTED",
@@ -52,111 +64,44 @@ export const characterRequested = () => {
     };
 };
 
-export const addItem = (character, item) => {
+export const fetchCharacterStatus = (name) => {
     return function(dispatch) {
-        item.quantity = 1;
-        item.owned = true;
-        character.items.push(item);
+        dispatch(characterStatusRequested());
 
         var userId = auth.currentUser.uid;
         return db
             .ref(
                 "/users/" +
                     userId +
-                    "/characters/" +
-                    character.name.toLowerCase(),
+                    "/statuses/" +
+                    name.toLowerCase(),
             )
-            .set({
-                ...character,
-                items: character.items,
-            })
-            .then(() => dispatch(updateEquipment(character)));
+            .once("value")
+            .then(snapshot => dispatch(receiveCharacterStatus(snapshot.val())));
     };
 };
 
-export const removeItem = (character, item) => {
-    return function(dispatch) {
-        character.items.splice(character.items.indexOf(item), 1);
-
-        var userId = auth.currentUser.uid;
-        return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/characters/" +
-                    character.name.toLowerCase(),
-            )
-            .set({
-                ...character,
-                items: character.items,
-            })
-            .then(() => dispatch(updateEquipment(character)));
-    };
-};
-
-const updateEquipment = character => {
+export const receiveCharacterStatus = (stat) => {
     return {
-        type: "UPDATE_CHARACTER_EQUIPMENT",
-        character: character,
+        type: "RECEIVE_CHARACTER_STATUS",
+        characterStatus: stat,
     };
 };
 
-export const addSpell = (character, spell) => {
-    return function(dispatch) {
-        character.spells.push(spell);
-
-        var userId = auth.currentUser.uid;
-        return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/characters/" +
-                    character.name.toLowerCase(),
-            )
-            .set({
-                ...character,
-                spells: character.spells,
-            })
-            .then(() => dispatch(updateSpells(character)));
-    };
-};
-
-export const removeSpell = (character, spell) => {
-    return function(dispatch) {
-        character.spells.splice(character.spells.indexOf(spell), 1);
-
-        var userId = auth.currentUser.uid;
-        return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/characters/" +
-                    character.name.toLowerCase(),
-            )
-            .set({
-                ...character,
-                spells: character.spells,
-            })
-            .then(() => dispatch(updateSpells(character)));
-    };
-};
-
-const updateSpells = character => {
+export const characterStatusRequested = () => {
     return {
-        type: "UPDATE_CHARACTER_SPELLS",
-        character: character,
+        type: "CHARACTER_STATUS_REQUESTED",
     };
 };
 
-// TODO: Writing the entire character is slow
-export const setHP = (character, hp) => {
+export const setHP = (characterStatus, hp, name) => {
     return function(dispatch) {
-        character.hp = character.hp + hp;
+        characterStatus.hp = characterStatus.hp + hp;
 
-        if (character.hp < 0) {
-            character.hp = 0;
-        } else if (character.hp > character.max_hp) {
-            character.hp = character.max_hp;
+        if (characterStatus.hp < 0) {
+            characterStatus.hp = 0;
+        } else if (characterStatus.hp > characterStatus.max_hp) {
+            characterStatus.hp = characterStatus.max_hp;
         }
 
         var userId = auth.currentUser.uid;
@@ -164,21 +109,24 @@ export const setHP = (character, hp) => {
             .ref(
                 "/users/" +
                     userId +
-                    "/characters/" +
-                    character.name.toLowerCase(),
+                    "/statuses/" +
+                    name.toLowerCase(),
             )
-            .set({
-                ...character,
-                hp: character.hp,
-            })
-            .then(() => dispatch(updateHP(character, hp)));
+            .set(characterStatus)
+            .then(() => dispatch(updateHP(characterStatus)));
     };
 };
 
-const updateHP = (character, hp) => {
+const updateHP = (characterStatus) => {
     return {
         type: "UPDATE_CHARACTER_HP",
-        character: character,
-        current_hp: character.hp,
+        characterStatus: characterStatus,
+    };
+};
+
+export const toggleCreateCharacterDialog = (visible) => {
+    return {
+        type: "TOGGLE_CREATE_CHARACTER_DIALOG",
+        displayCreateDialog: visible,
     };
 };

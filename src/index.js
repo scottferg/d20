@@ -99,6 +99,12 @@ class App extends React.Component {
                                 path="/login"
                                 component={Login}
                             />
+                            <PublicRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/index.html"
+                                component={Login}
+                            />
                             <PrivateRoute
                                 authed={this.state.authed}
                                 path="/character/:name"

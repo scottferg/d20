@@ -3,39 +3,54 @@ import FlatButton from "material-ui/FlatButton";
 
 import {connect} from "react-redux";
 
+import CircularProgress from "material-ui/CircularProgress";
+
 import {Header} from "./common";
 
-import {setHP} from "../actions/character"
+import {setHP, fetchCharacterStatus} from "../actions/character"
 
 const mapStateToProps = (state, props) => {
+    // Redux uses a shallow comparison of state, so simply
+    // updating the HP field isn't sufficient to trigger a
+    // re-render, need to be specific down to the field
     return {
         character: state.characterReducer.character,
-        hp: state.characterReducer.hp,
+        characterStatus: {
+            hp: state.characterReducer.characterStatus.hp,
+            max_hp: state.characterReducer.characterStatus.max_hp,
+            temp_hp: state.characterReducer.characterStatus.temp_hp,
+        }
     };
 };
 
-class StatusView extends React.Component {
+class StatusComponent extends React.Component {
     onTakeDamage = () => {
-        this.props.dispatch(setHP(this.props.character, -1));
+        this.props.dispatch(setHP(this.props.characterStatus, -1, this.props.character.name));
     };
 
     onHeal = () => {
-        this.props.dispatch(setHP(this.props.character, 1));
+        this.props.dispatch(setHP(this.props.characterStatus, 1, this.props.character.name));
     };
 
+    componentDidMount() {
+        this.props.dispatch(fetchCharacterStatus(this.props.character.name));
+    }
+
     render() {
-        if (this.props.character === undefined) {
-            return null;
+        if (this.props.fetching) {
+            return (
+                <div className="loading-spinner narrow-module">
+                    <CircularProgress size={50} thickness={5} color="#005453" />
+                </div>
+            );
         }
 
-        var cls = this.props.cls;
-
         return (
-            <div id="status" className={cls}>
+            <div id="status" className={this.props.cls}>
                 <Header name="Status" />
                 <div className="status-info">
                     <div className="status-hp">
-                        {this.props.hp}/{this.props.character.max_hp}
+                        {this.props.characterStatus.hp}/{this.props.characterStatus.max_hp}
                     </div>
                     <FlatButton
                         label="Heal"
@@ -57,6 +72,6 @@ class StatusView extends React.Component {
     }
 }
 
-const Status = connect(mapStateToProps)(StatusView);
+const Status = connect(mapStateToProps)(StatusComponent);
 
 export default Status;

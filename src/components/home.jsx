@@ -2,28 +2,17 @@ import React from "react";
 
 import {connect} from "react-redux";
 
+import RefreshIndicator from "material-ui/RefreshIndicator";
+
 import {Title} from "./common";
 import Portrait from "./portrait";
-
-import {db, auth} from "./app"
+import CreateCharacter from "./createCharacter";
 
 import {
-    receiveCharacterList,
-    characterListRequested,
     characterSelected,
+    toggleCreateCharacterDialog,
+    fetchCharacterList,
 } from "../actions/character";
-
-const fetchCharacterList = () => {
-    return function(dispatch) {
-        dispatch(characterListRequested());
-
-        var userId = auth.currentUser.uid;
-        return db 
-            .ref("/users/" + userId + "/characters")
-            .once("value")
-            .then(snapshot => dispatch(receiveCharacterList(snapshot.val())));
-    };
-}
 
 class HomeComponent extends React.Component {
     onCharacterSelect(route) {
@@ -31,8 +20,35 @@ class HomeComponent extends React.Component {
         this.props.history.push(route);
     }
 
+    componentDidMount() {
+        this.props.dispatch(fetchCharacterList());
+    }
+
     render() {
-        if (this.props.list !== undefined) {
+        if (this.props.isLoading) {
+            const style = {
+                container: {
+                    position: "relative",
+                    margin: "auto",
+                },
+            };
+
+            return (
+                <div id="home">
+                    <Title />
+                    <div className="loading-spinner">
+                        <RefreshIndicator
+                            size={50}
+                            left={0}
+                            top={0}
+                            loadingColor="#005453"
+                            status="loading"
+                            style={style.container}
+                        />
+                    </div>
+                </div>
+            );
+        } else {
             var that = this;
             var characterList = Object.keys(this.props.list).map(function(key) {
                 var character = that.props.list[key];
@@ -52,18 +68,27 @@ class HomeComponent extends React.Component {
             return (
                 <div id="home">
                     <Title />
+                    <a
+                        onClick={() => {
+                            this.props.dispatch(
+                                toggleCreateCharacterDialog(true),
+                            );
+                        }}>
+                        Create
+                    </a>
                     <ul id="character-list">
                         {characterList}
                     </ul>
+                    <CreateCharacter />
                 </div>
             );
-        } else {
-            this.props.dispatch(fetchCharacterList());
-            return null;
         }
     }
 }
 
 export const Home = connect((s, p) => {
-    return {list: s.characterReducer.list};
+    return {
+        list: s.characterReducer.list,
+        isLoading: s.characterReducer.isLoading,
+    };
 })(HomeComponent);

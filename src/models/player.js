@@ -31,8 +31,8 @@ class Player {
         return result;
     }
 
-    initiative() {
-        return this.abilityBonus(this.dexScore()) + this.initiative_mod;
+    initiative(items = []) {
+        return this.abilityBonus(this.dexScore(items)) + this.initiative_mod;
     }
 
     level() {
@@ -45,11 +45,11 @@ class Player {
         return level;
     }
 
-    acWithoutBonus() {
+    acWithoutBonus(items = []) {
         var ac = 0;
         var dexMod = this.abilityBonus(this.dexScore());
 
-        var armorPieces = this.items.filter(function(item) {
+        var armorPieces = items.filter(function(item) {
             return (
                 item.type === "S" ||
                 item.type === "LA" ||
@@ -65,7 +65,7 @@ class Player {
                 return;
             }
 
-            ac += item.ac;
+            ac += parseInt(item.ac, 10);
 
             if (item.type === "MA") {
                 ac += dexMod <= 2 ? dexMod : 2;
@@ -84,8 +84,8 @@ class Player {
         return ac;
     }
 
-    ac() {
-        return this.acWithoutBonus() + this.ac_mod;
+    ac(items) {
+        return this.acWithoutBonus(items) + this.ac_mod;
     }
 
     spellDC(ability) {
@@ -98,15 +98,11 @@ class Player {
         return bonus;
     }
 
-    proficiencyBonus() {
+    proficiencyBonus(items = []) {
         var total =
             Math.ceil((this.level() - 1) / 4 + 2) + this.proficiency_mod;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -117,14 +113,10 @@ class Player {
         return total;
     }
 
-    spellAttackBonus() {
+    spellAttackBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -135,14 +127,10 @@ class Player {
         return total;
     }
 
-    spellDcBonus() {
+    spellDcBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -153,14 +141,10 @@ class Player {
         return total;
     }
 
-    acBonus() {
+    acBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -171,14 +155,10 @@ class Player {
         return total;
     }
 
-    speedBonus() {
+    speedBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -189,14 +169,10 @@ class Player {
         return total;
     }
 
-    initiativeBonus() {
+    initiativeBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -207,14 +183,10 @@ class Player {
         return total;
     }
 
-    saveBonus() {
+    saveBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -225,14 +197,10 @@ class Player {
         return total;
     }
 
-    hpBonus() {
+    hpBonus(items = []) {
         var total = 0;
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(i) {
+        items.forEach(function(i) {
             var item = new Item(i);
 
             if (item.equipped !== "Unequipped" || !item.equippable()) {
@@ -275,14 +243,10 @@ class Player {
         return base;
     }
 
-    strScore() {
+    strScore(items = []) {
         var value = this.abilityWithRaceMod("str", this.str);
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(item) {
+        items.forEach(function(item) {
             if (item.modifiers === undefined) {
                 return;
             }
@@ -297,14 +261,10 @@ class Player {
         return value;
     }
 
-    dexScore() {
+    dexScore(items = []) {
         var value = this.abilityWithRaceMod("dex", this.dex);
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(item) {
+        items.forEach(function(item) {
             if (item.modifiers === undefined) {
                 return;
             }
@@ -319,14 +279,10 @@ class Player {
         return value;
     }
 
-    conScore() {
+    conScore(items = []) {
         var value = this.abilityWithRaceMod("con", this.con);
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(item) {
+        items.forEach(function(item) {
             if (item.modifiers === undefined) {
                 return;
             }
@@ -341,14 +297,10 @@ class Player {
         return value;
     }
 
-    intScore() {
+    intScore(items = []) {
         var value = this.abilityWithRaceMod("int", this.int);
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(item) {
+        items.forEach(function(item) {
             if (item.modifiers === undefined) {
                 return;
             }
@@ -363,14 +315,10 @@ class Player {
         return value;
     }
 
-    wisScore() {
+    wisScore(items = []) {
         var value = this.abilityWithRaceMod("wis", this.wis);
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(item) {
+        items.forEach(function(item) {
             if (item.modifiers === undefined) {
                 return;
             }
@@ -385,14 +333,10 @@ class Player {
         return value;
     }
 
-    chaScore() {
+    chaScore(items = []) {
         var value = this.abilityWithRaceMod("cha", this.cha);
 
-        if (this.items === undefined) {
-            this.items = [];
-        }
-
-        this.items.forEach(function(item) {
+        items.forEach(function(item) {
             if (item.modifiers === undefined) {
                 return;
             }
@@ -440,64 +384,65 @@ class Player {
 
     formatAbilityBonus(
         ability,
+        items = [],
         withProficiency = false,
         withRacialMod = true,
         withItemMod = false,
     ) {
         var bonus = this.baseAbilityBonus(ability, withRacialMod);
 
-        bonus += this.saveBonus();
+        bonus += this.saveBonus(items);
 
         if (withItemMod) {
-            bonus += this.spellAttackBonus();
+            bonus += this.spellAttackBonus(items);
         }
 
         if (withProficiency) {
-            bonus += this.proficiencyBonus();
+            bonus += this.proficiencyBonus(items);
             return bonus > 0 ? "+" + bonus + "*" : "" + bonus;
         } else {
             return bonus > 0 ? "+" + bonus : "" + bonus;
         }
     }
 
-    skillScore(skill) {
+    skillScore(skill, items = []) {
         switch (skill) {
             case "Acrobatics":
-                return this.abilityBonus(this.dexScore());
+                return this.abilityBonus(this.dexScore(items));
             case "Animal Handling":
-                return this.abilityBonus(this.wisScore());
+                return this.abilityBonus(this.wisScore(items));
             case "Arcana":
-                return this.abilityBonus(this.intScore());
+                return this.abilityBonus(this.intScore(items));
             case "Athletics":
-                return this.abilityBonus(this.strScore());
+                return this.abilityBonus(this.strScore(items));
             case "Deception":
-                return this.abilityBonus(this.chaScore());
+                return this.abilityBonus(this.chaScore(items));
             case "History":
-                return this.abilityBonus(this.intScore());
+                return this.abilityBonus(this.intScore(items));
             case "Insight":
-                return this.abilityBonus(this.wisScore());
+                return this.abilityBonus(this.wisScore(items));
             case "Intimidation":
-                return this.abilityBonus(this.chaScore());
+                return this.abilityBonus(this.chaScore(items));
             case "Investigation":
-                return this.abilityBonus(this.intScore());
+                return this.abilityBonus(this.intScore(items));
             case "Medicine":
-                return this.abilityBonus(this.wisScore());
+                return this.abilityBonus(this.wisScore(items));
             case "Nature":
-                return this.abilityBonus(this.intScore());
+                return this.abilityBonus(this.intScore(items));
             case "Perception":
-                return this.abilityBonus(this.wisScore());
+                return this.abilityBonus(this.wisScore(items));
             case "Performance":
-                return this.abilityBonus(this.chaScore());
+                return this.abilityBonus(this.chaScore(items));
             case "Persuasion":
-                return this.abilityBonus(this.chaScore());
+                return this.abilityBonus(this.chaScore(items));
             case "Religion":
-                return this.abilityBonus(this.intScore());
+                return this.abilityBonus(this.intScore(items));
             case "Sleight of Hand":
-                return this.abilityBonus(this.dexScore());
+                return this.abilityBonus(this.dexScore(items));
             case "Stealth":
-                return this.abilityBonus(this.dexScore());
+                return this.abilityBonus(this.dexScore(items));
             case "Survival":
-                return this.abilityBonus(this.wisScore());
+                return this.abilityBonus(this.wisScore(items));
             default:
                 return;
         }

@@ -1,5 +1,14 @@
 import React from "react";
+
+import {connect} from "react-redux";
+
 import {Header} from "./common";
+
+const mapStateToProps = (state, props) => {
+    return {
+        characterItems: state.itemInfoReducer.characterItems,
+    };
+};
 
 class SkillsHeader extends React.Component {
     render() {
@@ -23,18 +32,24 @@ class SkillRow extends React.Component {
     }
 }
 
-class Skills extends React.Component {
+class SkillsComponent extends React.Component {
     render() {
         var that = this;
         var light = false;
 
-        var skillsList = this.props.character.skills.map(function(skill, index) {
+        var skillsList = this.props.character.skills.map(function(
+            skill,
+            index,
+        ) {
             var rowColor = function() {
                 light = !light;
                 return light ? "light-block" : "dark-block";
             };
 
-            var bonus = that.props.character.skillScore(skill.name);
+            var bonus = that.props.character.skillScore(
+                skill.name,
+                that.props.characterItems,
+            );
             var multiplier = skill.expertise ? 2 : 1;
 
             if (skill.proficient) {
@@ -64,5 +79,7 @@ class Skills extends React.Component {
         );
     }
 }
+
+const Skills = connect(mapStateToProps)(SkillsComponent);
 
 export default Skills;

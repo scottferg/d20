@@ -92,7 +92,10 @@ class CharacterSheetComponent extends React.Component {
                     <div className="character-sheet">
                         <div id="left-container">
                             <Portrait character={this.props.character} />
-                            <Status cls="mobile-status" />
+                            <Status
+                                cls="mobile-status"
+                                characterName={this.props.character}
+                            />
                             <Combat character={this.props.character} />
                             <Equipment character={this.props.character} />
                         </div>
@@ -122,12 +125,16 @@ class CharacterSheetComponent extends React.Component {
                         <ChildButton
                             icon="mdi mdi-sword mdi-24px icon"
                             label="Add Equipment"
-                            onClick={() => {this.props.dispatch(toggleItemList(true))}}
+                            onClick={() => {
+                                this.props.dispatch(toggleItemList(true));
+                            }}
                         />
                         <ChildButton
                             icon="mdi mdi-script mdi-24px icon"
                             label="Add Spell"
-                            onClick={() => {this.props.dispatch(toggleSpellList(true))}}
+                            onClick={() => {
+                                this.props.dispatch(toggleSpellList(true));
+                            }}
                         />
                         <ChildButton
                             icon="mdi mdi-book-open-page-variant mdi-24px icon"

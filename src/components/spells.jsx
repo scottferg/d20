@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import Divider from "material-ui/Divider";
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
+import CircularProgress from "material-ui/CircularProgress";
 
 import Modal from "boron/DropModal";
 
@@ -14,14 +15,17 @@ import {
     displaySpellDialog,
     fetchSpells,
     toggleSpellList,
+    addSpell,
+    removeSpell,
+    fetchCharacterSpells,
 } from "../actions/spells";
-import {addSpell, removeSpell} from "../actions/character";
 
 const mapStateToProps = (state, props) => {
     return {
         spell: new Spell(state.spellInfoReducer.spell),
         spellList: state.spellInfoReducer.spellList,
         displaySpellList: state.spellInfoReducer.displaySpellList,
+        characterSpells: state.spellInfoReducer.characterSpells,
     };
 };
 
@@ -61,14 +65,18 @@ class SpellRow extends React.Component {
 
 class SpellActions extends React.Component {
     onRemove() {
+        console.log(this.props);
         this.props.dispatch(
-            removeSpell(this.props.character, this.props.spell),
+            removeSpell(
+                this.props.character,
+                this.props.characterSpells,
+                this.props.spell,
+            ),
         );
         this.props.refs.modal.hide();
     }
 
     render() {
-        console.log(this.props);
         return (
             <div className="action-button-row">
                 <div className="action-button-left">
@@ -91,10 +99,13 @@ class SpellActions extends React.Component {
 class SpellsComponent extends React.Component {
     componentDidMount() {
         this.props.dispatch(fetchSpells());
+        this.props.dispatch(fetchCharacterSpells(this.props.character.name));
     }
 
     onAddSpell(spell) {
-        this.props.dispatch(addSpell(this.props.character, spell));
+        this.props.dispatch(
+            addSpell(this.props.character, this.props.characterSpells, spell),
+        );
         this.refs.spell_list_modal.hide();
     }
 
@@ -112,11 +123,7 @@ class SpellsComponent extends React.Component {
         // Group spells by level
         var levels = [...Array(9).keys()];
         levels.forEach(function(spell, index) {
-            if (that.props.character.spells === undefined) {
-                that.props.character.spells = [];
-            }
-
-            var spells = that.props.character.spells.filter(function(spell) {
+            var spells = that.props.characterSpells.filter(function(spell) {
                 return spell.level === index + 1;
             });
 
@@ -156,10 +163,9 @@ class SpellsComponent extends React.Component {
 
         var spellList = this.props.spellList.map(function(spell, index) {
             return (
-                <div>
+                <div key={index}>
                     <div
                         className="list-item"
-                        key={index}
                         onClick={() => {
                             that.onAddSpell(spell);
                         }}>
@@ -174,6 +180,14 @@ class SpellsComponent extends React.Component {
             setTimeout(function() {
                 that.refs.spell_list_modal.show();
             }, 150);
+        }
+
+        if (this.props.fetching) {
+            return (
+                <div className="loading-spinner narrow-module">
+                    <CircularProgress size={50} thickness={5} color="#005453" />
+                </div>
+            );
         }
 
         return (
@@ -234,6 +248,7 @@ class SpellsComponent extends React.Component {
                         <SpellActions
                             spell={this.props.spell}
                             character={this.props.character}
+                            characterSpells={this.props.characterSpells}
                             dispatch={this.props.dispatch}
                             refs={this.refs}
                         />

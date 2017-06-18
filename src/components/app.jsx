@@ -2,9 +2,10 @@ import {combineReducers} from "redux";
 
 import firebase from "firebase";
 
-import {spellInfoReducer} from "../reducers/spells.js";
-import {itemInfoReducer} from "../reducers/item.js";
-import {characterReducer} from "../reducers/character.js";
+import {spellInfoReducer} from "../reducers/spells";
+import {itemInfoReducer} from "../reducers/item";
+import {characterReducer} from "../reducers/character";
+import {backgroundReducer} from "../reducers/background";
 
 let config = {
     apiKey: "AIzaSyBT4qdrlbonYOk9tmO9kSOzS_sYpxgRxVU",
@@ -31,5 +32,6 @@ export const isAuthenticated = () => {
 export const d20App = combineReducers({
     spellInfoReducer: spellInfoReducer,
     itemInfoReducer: itemInfoReducer,
+    backgroundReducer: backgroundReducer,
     characterReducer: characterReducer,
 });

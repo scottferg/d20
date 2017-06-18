@@ -1,5 +1,14 @@
 import React from "react";
+
+import {connect} from "react-redux";
+
 import {Header} from "./common";
+
+const mapStateToProps = (state, props) => {
+    return {
+        characterItems: state.itemInfoReducer.characterItems,
+    };
+};
 
 class ClassSpellsHeader extends React.Component {
     render() {
@@ -27,7 +36,7 @@ class ClassSpellsRow extends React.Component {
     }
 }
 
-class ClassSpells extends React.Component {
+class ClassSpellsComponent extends React.Component {
     render() {
         var light = false;
         var that = this;
@@ -50,6 +59,7 @@ class ClassSpells extends React.Component {
                     props.ability = "WIS";
                     props.attack = that.props.character.formatAbilityBonus(
                         "wis",
+                        that.props.characterItems,
                         true,
                         true,
                         true,
@@ -60,6 +70,7 @@ class ClassSpells extends React.Component {
                     props.ability = "INT";
                     props.attack = that.props.character.formatAbilityBonus(
                         "int",
+                        that.props.characterItems,
                         true,
                         true,
                         true,
@@ -70,6 +81,7 @@ class ClassSpells extends React.Component {
                     props.ability = "CHA";
                     props.attack = that.props.character.formatAbilityBonus(
                         "cha",
+                        that.props.characterItems,
                         true,
                         true,
                         true,
@@ -95,5 +107,7 @@ class ClassSpells extends React.Component {
         );
     }
 }
+
+const ClassSpells = connect(mapStateToProps)(ClassSpellsComponent);
 
 export default ClassSpells;

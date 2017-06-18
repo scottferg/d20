@@ -6,18 +6,26 @@ import Modal from "boron/DropModal";
 
 import Divider from "material-ui/Divider";
 import FlatButton from "material-ui/FlatButton";
+import CircularProgress from "material-ui/CircularProgress";
 
 import {Header} from "./common";
 import Item from "../models/item";
-import {addItem, removeItem} from "../actions/character";
-import {displayItemDialog, fetchItems, toggleItemList} from "../actions/items";
+import {
+    addItem,
+    removeItem,
+    displayItemDialog,
+    fetchItems,
+    fetchCharacterItems,
+    toggleItemList,
+} from "../actions/items";
 
 const mapStateToProps = (state, props) => {
     return {
-        character: state.characterReducer.character,
         item: new Item(state.itemInfoReducer.item),
         itemList: state.itemInfoReducer.itemList,
+        characterItems: state.itemInfoReducer.characterItems,
         displayItemList: state.itemInfoReducer.displayItemList,
+        fetching: state.itemInfoReducer.fetching,
     };
 };
 
@@ -97,7 +105,7 @@ class ArmorRow extends React.Component {
             <tr className="gear-row" onClick={this.onItemClick}>
                 <td className={this.props.rowColor}>{this.props.item.name}</td>
                 <td className="white-block">
-                    {this.props.item.ac + this.props.item.acMod()}
+                    {parseInt(this.props.item.ac, 10) + this.props.item.acMod()}
                 </td>
             </tr>
         );
@@ -140,7 +148,13 @@ class GearRow extends React.Component {
 
 class EquipmentActions extends React.Component {
     onRemove() {
-        this.props.dispatch(removeItem(this.props.character, this.props.item));
+        this.props.dispatch(
+            removeItem(
+                this.props.character,
+                this.props.characterItems,
+                this.props.item,
+            ),
+        );
         this.props.refs.modal.hide();
     }
 
@@ -150,12 +164,13 @@ class EquipmentActions extends React.Component {
                 <div className="action-button-left">
                     <FlatButton
                         label="Remove"
-                        onTouchTap={() => {this.onRemove()}}
+                        onTouchTap={() => {
+                            this.onRemove();
+                        }}
                         labelStyle={{fontSize: "8pt"}}
                     />
                 </div>
-                <div className="action-button-right">
-                </div>
+                <div className="action-button-right" />
             </div>
         );
     }
@@ -164,14 +179,25 @@ class EquipmentActions extends React.Component {
 class EquipmentComponent extends React.Component {
     componentDidMount() {
         this.props.dispatch(fetchItems());
+        this.props.dispatch(fetchCharacterItems(this.props.character.name));
     }
 
     onAddItem(item) {
-        this.props.dispatch(addItem(this.props.character, item));
+        this.props.dispatch(
+            addItem(this.props.character, this.props.characterItems, item),
+        );
         this.refs.item_list_modal.hide();
     }
 
     render() {
+        if (this.props.fetching) {
+            return (
+                <div className="loading-spinner narrow-module">
+                    <CircularProgress size={50} thickness={5} color="#005453" />
+                </div>
+            );
+        }
+
         var that = this;
         var light = false;
 
@@ -180,7 +206,7 @@ class EquipmentComponent extends React.Component {
             return light ? "light-block" : "dark-block";
         };
 
-        var weapons = this.props.character.items.filter(function(item) {
+        var weapons = this.props.characterItems.filter(function(item) {
             return item.type === "M" || item.type === "R";
         });
 
@@ -230,7 +256,7 @@ class EquipmentComponent extends React.Component {
             );
         });
 
-        var armor = this.props.character.items.filter(function(item) {
+        var armor = this.props.characterItems.filter(function(item) {
             return (
                 item.type === "S" ||
                 item.type === "LA" ||
@@ -252,7 +278,7 @@ class EquipmentComponent extends React.Component {
             );
         });
 
-        var gear = this.props.character.items.filter(function(item) {
+        var gear = this.props.characterItems.filter(function(item) {
             switch (item.type) {
                 case "M":
                 case "R":
@@ -280,10 +306,9 @@ class EquipmentComponent extends React.Component {
 
         var itemList = this.props.itemList.map(function(item, index) {
             return (
-                <div>
+                <div key={index}>
                     <div
                         className="list-item"
-                        key={index}
                         onClick={() => {
                             that.onAddItem(item);
                         }}>
@@ -361,11 +386,11 @@ class EquipmentComponent extends React.Component {
                         <EquipmentActions
                             item={this.props.item}
                             character={this.props.character}
+                            characterItems={this.props.characterItems}
                             dispatch={this.props.dispatch}
                             refs={this.refs}
                         />
-                        <div className="dialog-footer">
-                        </div>
+                        <div className="dialog-footer" />
                     </div>
                 </Modal>
             </div>

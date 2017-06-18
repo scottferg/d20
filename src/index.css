@@ -216,6 +216,10 @@ div.status-hp {
 div.loading-indicator {
   position: relative; }
 
+div.loading-spinner {
+  text-align: center;
+  margin-top: 8px; }
+
 .icon {
   left: 0px; }
 
@@ -234,10 +238,17 @@ div.action-button-left {
 
 div.action-button-right {
   float: right;
-  margin-top: 4px; }
+  margin-top: 4px;
+  margin-right: 18px; }
 
 div.dialog-footer {
   clear: both; }
+
+div.modal-parent {
+  overflow-y: auto; }
+
+div.create-character-dialog {
+  text-align: left; }
 
 /* Smartphone */
 @media all and (max-width: 599px) {
@@ -267,7 +278,9 @@ div.dialog-footer {
   div#ability-scores {
     margin-top: 4px; }
   .modal-parent {
-    width: 85% !important; } }
+    width: 85% !important; }
+  ul#character-list {
+    margin: auto; } }
 
 /* Tablet */
 @media all and (min-width: 600px) {

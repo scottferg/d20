@@ -1,12 +1,15 @@
-[ ] Character creation
 [ ] Trim down on payloads for Firebase queries
     - Refactor Character model into groupings. Top level
       should be sufficient for the portrait only
+    - Remove actions from character
+[ ] Character creation
+[ ] Character sharing (read-only)
 [ ] Money
 [ ] Equip items
 [ ] Spell slots
 [ ] Spell preparation for Wizard and Clerics
 [ ] Empty equipment sections should ignore header
+[ ] Compendium lists shouldn't be requested until first time needed
 [ ] Remove WebPack cache busting for resources
 [ ] Responsive
     - Ability Scores, Status, and Combat should display below portrait
@@ -23,3 +26,11 @@
 [x] Add spells
 [x] Remove spell
     - Delete option in the detail modal
+[x] onClick events are binding repeatedly for modals
+    - Click a gear item, see a single SET_ITEM action
+    - Click again, see 2 SET_ITEM actions
+    - Click N times see N SET_ITEM actions
+[x] Segmenting off items in Firebase breaks item mod lookups in player.js
+    - Verify scores with d20 native since [] is used as a default value for
+      items throughout
+[x] AC is incorrect, not factoring in item scores

@@ -1,6 +1,19 @@
 import React from 'react';
 import {Header} from './common'
 
+import {connect} from "react-redux";
+
+import CircularProgress from "material-ui/CircularProgress";
+
+import {fetchCharacterClassFeatures} from "../actions/background"
+
+const mapStateToProps = (state, props) => {
+    return {
+        character: state.characterReducer.character,
+        classFeatures: state.backgroundReducer.classFeatures,
+    };
+};
+
 class NoteRow extends React.Component {
     render() {
         return (
@@ -23,14 +36,26 @@ class BackgroundRow extends React.Component {
     }
 }
 
-class Background extends React.Component {
+class BackgroundComponent extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(fetchCharacterClassFeatures(this.props.character.name));
+    }
+
     render() {
+        if (this.props.fetching) {
+            return (
+                <div className="loading-spinner narrow-module">
+                    <CircularProgress size={50} thickness={5} color="#005453" />
+                </div>
+            );
+        }
+
         if (this.props.character.notes === undefined) {
             this.props.character.notes = [];
         }
 
-        if (this.props.character.classFeatures === undefined) {
-            this.props.character.classFeatures = [];
+        if (this.props.classFeatures === undefined) {
+            this.props.classFeatures = [];
         }
 
         if (this.props.character.race.traits === undefined) {
@@ -45,7 +70,7 @@ class Background extends React.Component {
             return <NoteRow key={index} note={note} />
         })
 
-        var classFeaturesList = this.props.character.classFeatures.map(function(feature, index) {
+        var classFeaturesList = this.props.classFeatures.map(function(feature, index) {
             return <BackgroundRow key={index} trait={feature} />
         })
 
@@ -74,5 +99,7 @@ class Background extends React.Component {
         );
     }
 }
+
+const Background = connect(mapStateToProps)(BackgroundComponent);
 
 export default Background;

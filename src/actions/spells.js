@@ -1,4 +1,4 @@
-import {db} from "../components/app";
+import {auth, db} from "../components/app";
 
 export const displaySpellDialog = spell => {
     return {
@@ -35,5 +35,78 @@ export const fetchSpells = () => {
             .ref("/compendium/spells/")
             .once("value")
             .then(snapshot => dispatch(receiveSpellsList(snapshot.val())));
+    };
+};
+
+export const fetchCharacterSpells = (name) => {
+    return function(dispatch) {
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/spells/" +
+                    name.toLowerCase(),
+            )
+            .once("value")
+            .then(snapshot => dispatch(receiveCharacterSpells(snapshot.val())));
+    };
+};
+
+export const receiveCharacterSpells = (spells) => {
+    if (spells === null) {
+        spells = [];
+    }
+
+    return {
+        type: "RECEIVE_CHARACTER_SPELLS",
+        characterSpells: spells,
+    };
+};
+
+export const characterSpellsRequested = () => {
+    return {
+        type: "CHARACTER_SPELLS_REQUESTED",
+    };
+};
+
+export const addSpell = (character, spells, spell) => {
+    return function(dispatch) {
+        spells.push(spell);
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/spells/" +
+                    character.name.toLowerCase(),
+            )
+            .set(spells)
+            .then(() => dispatch(updateSpells(spells)));
+    };
+};
+
+export const removeSpell = (character, spells, spell) => {
+    return function(dispatch) {
+        spells.splice(spells.indexOf(spell), 1);
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/spells/" +
+                    character.name.toLowerCase(),
+            )
+            .set(spells)
+            .then(() => dispatch(updateSpells(spells)));
+    };
+};
+
+const updateSpells = (spells) => {
+    return {
+        type: "UPDATE_CHARACTER_SPELLS",
+        characterSpells: spells,
     };
 };
