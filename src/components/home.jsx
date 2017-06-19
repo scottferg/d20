@@ -1,7 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
 
 import {connect} from "react-redux";
+
+import {Menu, MainButton, ChildButton} from "react-mfb";
 
 import RefreshIndicator from "material-ui/RefreshIndicator";
 
@@ -18,6 +19,10 @@ class HomeComponent extends React.Component {
     onCharacterSelect(character, route) {
         this.props.dispatch(characterSelected(new Player(character)));
         this.props.history.push(route);
+    }
+
+    onNewClick() {
+        this.props.history.push("/character/new/race");
     }
 
     componentDidMount() {
@@ -68,10 +73,20 @@ class HomeComponent extends React.Component {
             return (
                 <div id="home">
                     <Title />
-                    <Link to="/character/new/race">Create</Link>
                     <ul id="character-list">
                         {characterList}
                     </ul>
+                    <Menu effect="slidein-spring" method="click" position="br">
+                        <MainButton
+                            iconResting="mdi mdi-plus mdi-24px icon"
+                            iconActive="mdi mdi-close mdi-24px icon"
+                        />
+                        <ChildButton
+                            icon="mdi mdi-pencil mdi-24px icon"
+                            label="Create Character"
+                            onClick={() => { this.onNewClick() }}
+                        />
+                    </Menu>
                 </div>
             );
         }

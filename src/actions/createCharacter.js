@@ -1,4 +1,4 @@
-import {auth, db} from "../components/app";
+import {db} from "../components/app";
 
 export const receiveRaceList = list => {
     if (list === null) {
@@ -21,7 +21,6 @@ export const fetchRaceList = () => {
     return function(dispatch) {
         dispatch(raceListRequested());
 
-        var userId = auth.currentUser.uid;
         return db
             .ref("/compendium/races")
             .once("value")
@@ -58,7 +57,6 @@ export const fetchClassList = () => {
     return function(dispatch) {
         dispatch(classListRequested());
 
-        var userId = auth.currentUser.uid;
         return db
             .ref("/compendium/classes")
             .once("value")
@@ -100,7 +98,6 @@ export const fetchBackgroundList = () => {
     return function(dispatch) {
         dispatch(backgroundListRequested());
 
-        var userId = auth.currentUser.uid;
         return db
             .ref("/compendium/backgrounds")
             .once("value")
