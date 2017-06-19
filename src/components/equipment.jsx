@@ -4,19 +4,15 @@ import {connect} from "react-redux";
 
 import Modal from "boron/DropModal";
 
-import Divider from "material-ui/Divider";
 import FlatButton from "material-ui/FlatButton";
 import CircularProgress from "material-ui/CircularProgress";
 
 import {Header} from "./common";
 import Item from "../models/item";
 import {
-    addItem,
     removeItem,
     displayItemDialog,
-    fetchItems,
     fetchCharacterItems,
-    toggleItemList,
 } from "../actions/items";
 
 const mapStateToProps = (state, props) => {
@@ -178,15 +174,7 @@ class EquipmentActions extends React.Component {
 
 class EquipmentComponent extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchItems());
         this.props.dispatch(fetchCharacterItems(this.props.character.name));
-    }
-
-    onAddItem(item) {
-        this.props.dispatch(
-            addItem(this.props.character, this.props.characterItems, item),
-        );
-        this.refs.item_list_modal.hide();
     }
 
     render() {
@@ -304,27 +292,6 @@ class EquipmentComponent extends React.Component {
             );
         });
 
-        var itemList = this.props.itemList.map(function(item, index) {
-            return (
-                <div key={index}>
-                    <div
-                        className="list-item"
-                        onClick={() => {
-                            that.onAddItem(item);
-                        }}>
-                        {item.name}
-                    </div>
-                    <Divider />
-                </div>
-            );
-        });
-
-        if (this.props.displayItemList) {
-            setTimeout(function() {
-                that.refs.item_list_modal.show();
-            }, 150);
-        }
-
         return (
             <div id="equipment" className="narrow-module">
                 <Header name="Equipment" />
@@ -346,20 +313,6 @@ class EquipmentComponent extends React.Component {
                         {gearList}
                     </tbody>
                 </table>
-                <Modal
-                    className="modal-parent"
-                    ref="item_list_modal"
-                    onHide={() => {
-                        this.props.dispatch(toggleItemList(false));
-                    }}
-                    hide={false}>
-                    <div className="modal-dialog">
-                        <Header name="Add Equipment" />
-                        <div className="modal-list">
-                            {itemList}
-                        </div>
-                    </div>
-                </Modal>
                 <Modal className="modal-parent" ref="modal" hide={false}>
                     <div className="modal-dialog">
                         <Header

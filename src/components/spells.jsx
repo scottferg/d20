@@ -3,7 +3,6 @@ import {Header} from "./common";
 
 import {connect} from "react-redux";
 
-import Divider from "material-ui/Divider";
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
 import CircularProgress from "material-ui/CircularProgress";
@@ -13,8 +12,6 @@ import Modal from "boron/DropModal";
 import Spell from "../models/spell";
 import {
     displaySpellDialog,
-    fetchSpells,
-    toggleSpellList,
     addSpell,
     removeSpell,
     fetchCharacterSpells,
@@ -23,8 +20,6 @@ import {
 const mapStateToProps = (state, props) => {
     return {
         spell: new Spell(state.spellInfoReducer.spell),
-        spellList: state.spellInfoReducer.spellList,
-        displaySpellList: state.spellInfoReducer.displaySpellList,
         characterSpells: state.spellInfoReducer.characterSpells,
     };
 };
@@ -98,7 +93,6 @@ class SpellActions extends React.Component {
 
 class SpellsComponent extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchSpells());
         this.props.dispatch(fetchCharacterSpells(this.props.character.name));
     }
 
@@ -161,27 +155,6 @@ class SpellsComponent extends React.Component {
             );
         });
 
-        var spellList = this.props.spellList.map(function(spell, index) {
-            return (
-                <div key={index}>
-                    <div
-                        className="list-item"
-                        onClick={() => {
-                            that.onAddSpell(spell);
-                        }}>
-                        {spell.name}
-                    </div>
-                    <Divider />
-                </div>
-            );
-        });
-
-        if (this.props.displaySpellList) {
-            setTimeout(function() {
-                that.refs.spell_list_modal.show();
-            }, 150);
-        }
-
         if (this.props.fetching) {
             return (
                 <div className="loading-spinner narrow-module">
@@ -193,20 +166,6 @@ class SpellsComponent extends React.Component {
         return (
             <div id="spell-list" className="full-module">
                 {spellsList}
-                <Modal
-                    className="modal-parent"
-                    ref="spell_list_modal"
-                    onHide={() => {
-                        this.props.dispatch(toggleSpellList(false));
-                    }}
-                    hide={false}>
-                    <div className="modal-dialog">
-                        <Header name="Add Spell" />
-                        <div className="modal-list">
-                            {spellList}
-                        </div>
-                    </div>
-                </Modal>
                 <Modal className="modal-parent" ref="modal" hide={false}>
                     <div className="modal-dialog">
                         <Header

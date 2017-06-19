@@ -20,4 +20,3 @@ export const backgroundReducer = function(state = { classFeatures: [], fetching:
             return state;
     }
 };
-

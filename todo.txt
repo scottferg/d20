@@ -1,8 +1,6 @@
-[ ] Trim down on payloads for Firebase queries
-    - Refactor Character model into groupings. Top level
-      should be sufficient for the portrait only
-    - Remove actions from character
 [ ] Character creation
+    - Select race, class, background, set name, portrait, base HP
+    - Use material Icon Menu to select Edit Ability Scores, Edit Skills
 [ ] Character sharing (read-only)
 [ ] Money
 [ ] Equip items
@@ -14,7 +12,7 @@
 [ ] Responsive
     - Ability Scores, Status, and Combat should display below portrait
       on phones. This will require re-laying out via JS
-[ ] Multiple characters from server
+[x] Multiple characters from server
     - Logic is currently janky. Should be cleaner updates of Redux state
       between page transitions.
 [x] FAB for adding top level
@@ -34,3 +32,12 @@
     - Verify scores with d20 native since [] is used as a default value for
       items throughout
 [x] AC is incorrect, not factoring in item scores
+[x] Trim down on payloads for Firebase queries
+    - Refactor Character model into groupings. Top level
+      should be sufficient for the portrait only
+    - Remove actions from character
+[x] Add spells screen
+    - Include filtering
+    - /character/:name/spells/add
+[x] Add items screen
+    - /character/:name/items/add

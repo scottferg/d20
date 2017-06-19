@@ -17,14 +17,6 @@ export const receiveItemsList = (itemList) => {
 export const itemsListRequested = () => {
     return {
         type: "ITEMS_LIST_REQUESTED",
-        displayItemList: false,
-    };
-};
-
-export const toggleItemList = (visible) => {
-    return {
-        type: "TOGGLE_ITEM_LIST",
-        displayItemList: visible,
     };
 };
 

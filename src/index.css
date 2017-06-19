@@ -32,6 +32,16 @@ div.lower-sheet {
   flex-flow: row wrap;
   margin: auto; }
 
+.add-dialog {
+  text-align: left;
+  background-color: #ECE9E4;
+  -webkit-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 7px 7px 25px 0px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-flow: column wrap;
+  margin: auto; }
+
 div#left-container {
   min-width: 300px;
   flex-grow: 1; }
@@ -227,6 +237,10 @@ div.modal-list {
   max-height: 400px;
   overflow-y: auto; }
 
+div.add-content-list {
+  height: 550px;
+  overflow-y: auto; }
+
 div.list-item {
   margin-top: 8px;
   margin-bottom: 8px;
@@ -250,6 +264,11 @@ div.modal-parent {
 div.create-character-dialog {
   text-align: left; }
 
+div.menu {
+  position: absolute;
+  top: 0px;
+  right: 6px; }
+
 /* Smartphone */
 @media all and (max-width: 599px) {
   body {
@@ -260,6 +279,9 @@ div.create-character-dialog {
   div.character-sheet {
     width: 100%;
     padding: 16px 0px 16px 0px; }
+  div.add-dialog {
+    width: 100%;
+    padding: 16px; }
   .mfb-component__button--main, .mfb-component__button--child {
     background-color: #415A6E; }
   .narrow-module {
@@ -280,7 +302,11 @@ div.create-character-dialog {
   .modal-parent {
     width: 85% !important; }
   ul#character-list {
-    margin: auto; } }
+    margin: auto; }
+  div.menu {
+    position: absolute;
+    top: 14px;
+    right: 26px; } }
 
 /* Tablet */
 @media all and (min-width: 600px) {
@@ -294,6 +320,9 @@ div.create-character-dialog {
   div.character-sheet {
     width: 100%;
     padding: 16px 0px 16px 0px; }
+  div.add-dialog {
+    width: 100%;
+    padding: 16px; }
   div#left-container {
     float: left;
     margin-left: 2%;
@@ -308,7 +337,11 @@ div.create-character-dialog {
     width: auto; }
   .full-module {
     margin-left: 2%;
-    width: 96%; } }
+    width: 96%; }
+  div.menu {
+    position: absolute;
+    top: 0px;
+    right: 22px; } }
 
 /* desktop */
 @media all and (min-width: 1024px) {
@@ -321,6 +354,9 @@ div.create-character-dialog {
   div.character-sheet {
     width: 75%;
     padding: 16px 0px 16px 0px; }
+  div.add-dialog {
+    width: 75%;
+    padding: 16px; }
   .narrow-module {
     width: auto; }
   .full-module {
@@ -330,4 +366,8 @@ div.create-character-dialog {
     width: 47%; }
   div#right-container {
     float: right;
-    width: 47%; } }
+    width: 47%; }
+  div.menu {
+    position: absolute;
+    top: 0px;
+    right: 8px; } }

@@ -1,5 +1,5 @@
 export const spellInfoReducer = (
-    state = {spellList: [], displaySpellList: false, characterSpells: [], fetching: false},
+    state = {spellList: [], characterSpells: [], fetching: false},
     action,
 ) => {
     switch (action.type) {
@@ -7,6 +7,7 @@ export const spellInfoReducer = (
             return {
                 ...state,
                 spellList: action.spellList,
+                fetching: false,
             };
         case "SET_SPELL":
             return {
@@ -16,12 +17,7 @@ export const spellInfoReducer = (
         case "SPELLS_LIST_REQUESTED":
             return {
                 ...state,
-                displaySpellList: action.displaySpellList,
-            };
-        case "TOGGLE_SPELL_LIST":
-            return {
-                ...state,
-                displaySpellList: action.displaySpellList,
+                fetching: true,
             };
         case "CHARACTER_SPELLS_REQUESTED":
             return {

@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 import {connect} from "react-redux";
 
@@ -6,17 +7,16 @@ import RefreshIndicator from "material-ui/RefreshIndicator";
 
 import {Title} from "./common";
 import Portrait from "./portrait";
-import CreateCharacter from "./createCharacter";
+import Player from "../models/player";
 
 import {
     characterSelected,
-    toggleCreateCharacterDialog,
     fetchCharacterList,
 } from "../actions/character";
 
 class HomeComponent extends React.Component {
-    onCharacterSelect(route) {
-        this.props.dispatch(characterSelected());
+    onCharacterSelect(character, route) {
+        this.props.dispatch(characterSelected(new Player(character)));
         this.props.history.push(route);
     }
 
@@ -59,7 +59,7 @@ class HomeComponent extends React.Component {
                     <li
                         key={key}
                         className="loader-container"
-                        onClick={() => that.onCharacterSelect(route)}>
+                        onClick={() => that.onCharacterSelect(character, route)}>
                         <Portrait character={character} />
                     </li>
                 );
@@ -68,18 +68,10 @@ class HomeComponent extends React.Component {
             return (
                 <div id="home">
                     <Title />
-                    <a
-                        onClick={() => {
-                            this.props.dispatch(
-                                toggleCreateCharacterDialog(true),
-                            );
-                        }}>
-                        Create
-                    </a>
+                    <Link to="/character/new/race">Create</Link>
                     <ul id="character-list">
                         {characterList}
                     </ul>
-                    <CreateCharacter />
                 </div>
             );
         }

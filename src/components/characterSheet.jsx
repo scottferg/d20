@@ -5,6 +5,11 @@ import RefreshIndicator from "material-ui/RefreshIndicator";
 
 import {Menu, MainButton, ChildButton} from "react-mfb";
 
+import IconMenu from "material-ui/IconMenu";
+import MenuItem from "material-ui/MenuItem";
+import IconButton from "material-ui/IconButton";
+import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
+
 import "react-mfb/mfb.css";
 import "mdi/css/materialdesignicons.min.css";
 
@@ -19,42 +24,17 @@ import Portrait from "./portrait";
 import Skills from "./skills";
 import Spells from "./spells";
 import Status from "./status";
-import {fetchCharacter} from "../actions/character";
-import {toggleItemList} from "../actions/items";
-import {toggleSpellList} from "../actions/spells";
 
 const mapStateToProps = (state, props) => {
     return {
         character: state.characterReducer.character,
         isLoading: state.characterReducer.isLoading,
-        selected: state.characterReducer.selected,
     };
 };
 
 class CharacterSheetComponent extends React.Component {
     // TODO: This is janky as shit
     shouldLoad() {
-        // If the loader should be shown or if a character needs to be loaded
-        // this traps direct linking to a character and initial load when using
-        // the app
-        if (
-            this.props.selected ||
-            this.props.isLoading ||
-            this.props.character === undefined
-        ) {
-            return true;
-        }
-
-        // If a character has been selected before this will do a compare of
-        // the route name and character name. Super fucking janky.
-        if (
-            this.props.character !== undefined &&
-            this.props.character.name.toLowerCase() !==
-                this.props.match.params.name
-        ) {
-            return true;
-        }
-
         return false;
     }
 
@@ -66,13 +46,6 @@ class CharacterSheetComponent extends React.Component {
                     margin: "auto",
                 },
             };
-
-            // If we're not currently requesting the character, request it
-            if (!this.props.isLoading) {
-                this.props.dispatch(
-                    fetchCharacter(this.props.match.params.name),
-                );
-            }
 
             return (
                 <div id="loading-indicator">
@@ -89,6 +62,28 @@ class CharacterSheetComponent extends React.Component {
         } else {
             return (
                 <div className="character-sheet-container">
+                    <div className="menu">
+                        <IconMenu
+                            iconButtonElement={
+                                <IconButton><MoreVertIcon /></IconButton>
+                            }
+                            iconStyle={{
+                                color: "white",
+                            }}
+                            anchorOrigin={{
+                                horizontal: "right",
+                                vertical: "top",
+                            }}
+                            targetOrigin={{
+                                horizontal: "right",
+                                vertical: "top",
+                            }}>
+                            <MenuItem primaryText="Edit Character Details" />
+                            <MenuItem primaryText="Edit Ability Scores" />
+                            <MenuItem primaryText="Edit Skills" />
+                            <MenuItem primaryText="Sign out" />
+                        </IconMenu>
+                    </div>
                     <div className="character-sheet">
                         <div id="left-container">
                             <Portrait character={this.props.character} />
@@ -126,14 +121,22 @@ class CharacterSheetComponent extends React.Component {
                             icon="mdi mdi-sword mdi-24px icon"
                             label="Add Equipment"
                             onClick={() => {
-                                this.props.dispatch(toggleItemList(true));
+                                var route =
+                                    "/character/" +
+                                    this.props.character.name.toLowerCase() +
+                                    "/items/add";
+                                this.props.history.push(route);
                             }}
                         />
                         <ChildButton
                             icon="mdi mdi-script mdi-24px icon"
                             label="Add Spell"
                             onClick={() => {
-                                this.props.dispatch(toggleSpellList(true));
+                                var route =
+                                    "/character/" +
+                                    this.props.character.name.toLowerCase() +
+                                    "/spells/add";
+                                this.props.history.push(route);
                             }}
                         />
                         <ChildButton

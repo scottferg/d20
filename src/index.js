@@ -13,7 +13,13 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import injectTapEventPlugin from "react-tap-event-plugin";
 
 import registerServiceWorker from "./registerServiceWorker";
+import AddItem from "./components/addItem";
+import AddSpell from "./components/addSpell";
 import CharacterSheet from "./components/characterSheet";
+import CreateCharacter from "./components/createCharacter";
+import SelectClass from "./components/selectClass";
+import SelectBackground from "./components/selectBackground";
+import SelectAbilityScores from "./components/selectAbilityScores";
 import {Home} from "./components/home";
 import {Login} from "./components/login";
 import {d20App, auth, isAuthenticated} from "./components/app"
@@ -107,6 +113,43 @@ class App extends React.Component {
                             />
                             <PrivateRoute
                                 authed={this.state.authed}
+                                exact
+                                path="/character/:name/items/add"
+                                component={AddItem}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/:name/spells/add"
+                                component={AddSpell}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/new/race"
+                                component={CreateCharacter}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/new/class"
+                                component={SelectClass}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/new/background"
+                                component={SelectBackground}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/new/abilities"
+                                component={SelectAbilityScores}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
                                 path="/character/:name"
                                 component={CharacterSheet}
                             />

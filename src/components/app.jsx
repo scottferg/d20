@@ -5,6 +5,7 @@ import firebase from "firebase";
 import {spellInfoReducer} from "../reducers/spells";
 import {itemInfoReducer} from "../reducers/item";
 import {characterReducer} from "../reducers/character";
+import {createCharacterReducer} from "../reducers/createCharacter";
 import {backgroundReducer} from "../reducers/background";
 
 let config = {
@@ -34,4 +35,5 @@ export const d20App = combineReducers({
     itemInfoReducer: itemInfoReducer,
     backgroundReducer: backgroundReducer,
     characterReducer: characterReducer,
+    createCharacterReducer: createCharacterReducer,
 });

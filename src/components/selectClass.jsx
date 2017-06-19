@@ -7,24 +7,24 @@ import Divider from "material-ui/Divider";
 import CircularProgress from "material-ui/CircularProgress";
 
 import {Header} from "./common";
-import {fetchRaceList, selectRace} from "../actions/createCharacter";
+import {fetchClassList, selectClass} from "../actions/createCharacter";
 
 const mapStateToProps = (state, props) => {
     return {
         character: state.createCharacterReducer.character,
-        raceList: state.createCharacterReducer.raceList,
+        classList: state.createCharacterReducer.classList,
         fetching: state.createCharacterReducer.fetching,
     };
 };
 
-class CreateCharacterComponent extends React.Component {
+class SelectClassComponent extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchRaceList());
+        this.props.dispatch(fetchClassList());
     }
 
-    onSelect(race) {
-        this.props.dispatch(selectRace(this.props.character, race));
-        this.props.history.push("/character/new/class");
+    onSelect(cls) {
+        this.props.dispatch(selectClass(this.props.character, cls));
+        this.props.history.push("/character/new/background");
     }
 
     render() {
@@ -37,15 +37,15 @@ class CreateCharacterComponent extends React.Component {
         }
 
         var that = this;
-        var raceList = this.props.raceList.map(function(race, index) {
+        var classList = this.props.classList.map(function(cls, index) {
             return (
                 <div key={index}>
                     <div
                         className="list-item"
                         onClick={() => {
-                            that.onSelect(race);
+                            that.onSelect(cls);
                         }}>
-                        {race.name}
+                        {cls.name}
                     </div>
                     <Divider />
                 </div>
@@ -55,9 +55,9 @@ class CreateCharacterComponent extends React.Component {
         return (
             <div className="character-sheet-container">
                 <div className="add-dialog">
-                    <Header name="Select Race" />
+                    <Header name="Select Class" />
                     <div className="add-content-list">
-                        {raceList}
+                        {classList}
                     </div>
                 </div>
                 <ReactResizeDetector
@@ -74,6 +74,6 @@ class CreateCharacterComponent extends React.Component {
     }
 }
 
-const CreateCharacter = connect(mapStateToProps)(CreateCharacterComponent);
+const SelectClass = connect(mapStateToProps)(SelectClassComponent);
 
-export default CreateCharacter;
+export default SelectClass;

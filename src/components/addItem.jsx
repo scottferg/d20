@@ -7,24 +7,33 @@ import Divider from "material-ui/Divider";
 import CircularProgress from "material-ui/CircularProgress";
 
 import {Header} from "./common";
-import {fetchRaceList, selectRace} from "../actions/createCharacter";
+import Item from "../models/item";
+import {
+    addItem,
+    fetchItems,
+} from "../actions/items";
 
 const mapStateToProps = (state, props) => {
     return {
-        character: state.createCharacterReducer.character,
-        raceList: state.createCharacterReducer.raceList,
-        fetching: state.createCharacterReducer.fetching,
+        character: state.characterReducer.character,
+        item: new Item(state.itemInfoReducer.item),
+        itemList: state.itemInfoReducer.itemList,
+        characterItems: state.itemInfoReducer.characterItems,
+        displayItemList: state.itemInfoReducer.displayItemList,
+        fetching: state.itemInfoReducer.fetching,
     };
 };
 
-class CreateCharacterComponent extends React.Component {
+class AddItemComponent extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchRaceList());
+        this.props.dispatch(fetchItems());
     }
 
-    onSelect(race) {
-        this.props.dispatch(selectRace(this.props.character, race));
-        this.props.history.push("/character/new/class");
+    onAddItem(item) {
+        this.props.dispatch(
+            addItem(this.props.character, this.props.characterItems, item),
+        );
+        this.props.history.push("/character/" + this.props.character.name);
     }
 
     render() {
@@ -37,15 +46,15 @@ class CreateCharacterComponent extends React.Component {
         }
 
         var that = this;
-        var raceList = this.props.raceList.map(function(race, index) {
+        var itemList = this.props.itemList.map(function(item, index) {
             return (
                 <div key={index}>
                     <div
                         className="list-item"
                         onClick={() => {
-                            that.onSelect(race);
+                            that.onAddItem(item);
                         }}>
-                        {race.name}
+                        {item.name}
                     </div>
                     <Divider />
                 </div>
@@ -55,9 +64,9 @@ class CreateCharacterComponent extends React.Component {
         return (
             <div className="character-sheet-container">
                 <div className="add-dialog">
-                    <Header name="Select Race" />
+                    <Header name="Add Equipment" />
                     <div className="add-content-list">
-                        {raceList}
+                        {itemList}
                     </div>
                 </div>
                 <ReactResizeDetector
@@ -74,6 +83,6 @@ class CreateCharacterComponent extends React.Component {
     }
 }
 
-const CreateCharacter = connect(mapStateToProps)(CreateCharacterComponent);
+const AddItem = connect(mapStateToProps)(AddItemComponent);
 
-export default CreateCharacter;
+export default AddItem;

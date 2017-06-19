@@ -7,24 +7,24 @@ import Divider from "material-ui/Divider";
 import CircularProgress from "material-ui/CircularProgress";
 
 import {Header} from "./common";
-import {fetchRaceList, selectRace} from "../actions/createCharacter";
+import {fetchBackgroundList, selectBackground} from "../actions/createCharacter";
 
 const mapStateToProps = (state, props) => {
     return {
         character: state.createCharacterReducer.character,
-        raceList: state.createCharacterReducer.raceList,
+        backgroundList: state.createCharacterReducer.backgroundList,
         fetching: state.createCharacterReducer.fetching,
     };
 };
 
-class CreateCharacterComponent extends React.Component {
+class SelectBackgroundComponent extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchRaceList());
+        this.props.dispatch(fetchBackgroundList());
     }
 
-    onSelect(race) {
-        this.props.dispatch(selectRace(this.props.character, race));
-        this.props.history.push("/character/new/class");
+    onSelect(background) {
+        this.props.dispatch(selectBackground(this.props.character, background));
+        this.props.history.push("/character/new/abilities");
     }
 
     render() {
@@ -37,15 +37,15 @@ class CreateCharacterComponent extends React.Component {
         }
 
         var that = this;
-        var raceList = this.props.raceList.map(function(race, index) {
+        var backgroundList = this.props.backgroundList.map(function(background, index) {
             return (
                 <div key={index}>
                     <div
                         className="list-item"
                         onClick={() => {
-                            that.onSelect(race);
+                            that.onSelect(background);
                         }}>
-                        {race.name}
+                        {background.name}
                     </div>
                     <Divider />
                 </div>
@@ -55,9 +55,9 @@ class CreateCharacterComponent extends React.Component {
         return (
             <div className="character-sheet-container">
                 <div className="add-dialog">
-                    <Header name="Select Race" />
+                    <Header name="Select Background" />
                     <div className="add-content-list">
-                        {raceList}
+                        {backgroundList}
                     </div>
                 </div>
                 <ReactResizeDetector
@@ -74,6 +74,6 @@ class CreateCharacterComponent extends React.Component {
     }
 }
 
-const CreateCharacter = connect(mapStateToProps)(CreateCharacterComponent);
+const SelectBackground = connect(mapStateToProps)(SelectBackgroundComponent);
 
-export default CreateCharacter;
+export default SelectBackground;

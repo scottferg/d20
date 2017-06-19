@@ -17,14 +17,6 @@ export const receiveSpellsList = (spellList) => {
 export const spellsListRequested = () => {
     return {
         type: "SPELLS_LIST_REQUESTED",
-        displaySpellList: false,
-    };
-};
-
-export const toggleSpellList = (visible) => {
-    return {
-        type: "TOGGLE_SPELL_LIST",
-        displaySpellList: visible,
     };
 };
 

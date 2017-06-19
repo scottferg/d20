@@ -41,10 +41,10 @@ export const characterListRequested = () => {
     };
 };
 
-export const characterSelected = () => {
+export const characterSelected = (character) => {
     return {
         type: "CHARACTER_SELECTED",
-        selected: true,
+        character: character,
     };
 };
 
@@ -121,12 +121,5 @@ const updateHP = (characterStatus) => {
     return {
         type: "UPDATE_CHARACTER_HP",
         characterStatus: characterStatus,
-    };
-};
-
-export const toggleCreateCharacterDialog = (visible) => {
-    return {
-        type: "TOGGLE_CREATE_CHARACTER_DIALOG",
-        displayCreateDialog: visible,
     };
 };

@@ -10,6 +10,34 @@ class SpellSlot {
 class Player {
     constructor(player) {
         if (player === undefined) {
+            this.str = 12;
+            this.dex = 12;
+            this.cha = 12;
+            this.wis = 12;
+            this.int = 12;
+            this.con = 12;
+
+            this.skills = [
+                {name: "Acrobatics", proficient: false, expertise: false},
+                {name: "Animal Handling", proficient: false, expertise: false},
+                {name: "Arcana", proficient: false, expertise: false},
+                {name: "Athletics", proficient: false, expertise: false},
+                {name: "Deception", proficient: false, expertise: false},
+                {name: "History", proficient: false, expertise: false},
+                {name: "Insight", proficient: false, expertise: false},
+                {name: "Intimidation", proficient: false, expertise: false},
+                {name: "Investigation", proficient: false, expertise: false},
+                {name: "Medicine", proficient: false, expertise: false},
+                {name: "Nature", proficient: false, expertise: false},
+                {name: "Perception", proficient: false, expertise: false},
+                {name: "Performance", proficient: false, expertise: false},
+                {name: "Persuasion", proficient: false, expertise: false},
+                {name: "Religion", proficient: false, expertise: false},
+                {name: "Sleight of Hand", proficient: false, expertise: false},
+                {name: "Stealth", proficient: false, expertise: false},
+                {name: "Survival", proficient: false, expertise: false},
+            ];
+
             return;
         }
 

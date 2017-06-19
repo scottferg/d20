@@ -1,30 +1,40 @@
 import React from "react";
 import ReactResizeDetector from "react-resize-detector";
 
+import {Header} from "./common";
+
 import {connect} from "react-redux";
 
 import Divider from "material-ui/Divider";
 import CircularProgress from "material-ui/CircularProgress";
 
-import {Header} from "./common";
-import {fetchRaceList, selectRace} from "../actions/createCharacter";
+import Spell from "../models/spell";
+import {
+    fetchSpells,
+    addSpell,
+} from "../actions/spells";
 
 const mapStateToProps = (state, props) => {
     return {
-        character: state.createCharacterReducer.character,
-        raceList: state.createCharacterReducer.raceList,
-        fetching: state.createCharacterReducer.fetching,
+        character: state.characterReducer.character,
+        spell: new Spell(state.spellInfoReducer.spell),
+        spellList: state.spellInfoReducer.spellList,
+        displaySpellList: state.spellInfoReducer.displaySpellList,
+        characterSpells: state.spellInfoReducer.characterSpells,
+        fetching: state.itemInfoReducer.fetching,
     };
 };
 
-class CreateCharacterComponent extends React.Component {
+class AddSpellComponent extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchRaceList());
+        this.props.dispatch(fetchSpells());
     }
 
-    onSelect(race) {
-        this.props.dispatch(selectRace(this.props.character, race));
-        this.props.history.push("/character/new/class");
+    onAddSpell(spell) {
+        this.props.dispatch(
+            addSpell(this.props.character, this.props.characterSpells, spell),
+        );
+        this.props.history.push("/character/" + this.props.character.name);
     }
 
     render() {
@@ -37,15 +47,15 @@ class CreateCharacterComponent extends React.Component {
         }
 
         var that = this;
-        var raceList = this.props.raceList.map(function(race, index) {
+        var spellList = this.props.spellList.map(function(spell, index) {
             return (
                 <div key={index}>
                     <div
                         className="list-item"
                         onClick={() => {
-                            that.onSelect(race);
+                            that.onAddSpell(spell);
                         }}>
-                        {race.name}
+                        {spell.name}
                     </div>
                     <Divider />
                 </div>
@@ -55,9 +65,9 @@ class CreateCharacterComponent extends React.Component {
         return (
             <div className="character-sheet-container">
                 <div className="add-dialog">
-                    <Header name="Select Race" />
+                    <Header name="Add Spell" />
                     <div className="add-content-list">
-                        {raceList}
+                        {spellList}
                     </div>
                 </div>
                 <ReactResizeDetector
@@ -74,6 +84,6 @@ class CreateCharacterComponent extends React.Component {
     }
 }
 
-const CreateCharacter = connect(mapStateToProps)(CreateCharacterComponent);
+const AddSpell = connect(mapStateToProps)(AddSpellComponent);
 
-export default CreateCharacter;
+export default AddSpell;

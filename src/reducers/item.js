@@ -1,4 +1,4 @@
-export const itemInfoReducer = function(state = { characterItems: [], itemList: [], displayItemList: false, fetching: false, }, action) {
+export const itemInfoReducer = function(state = { characterItems: [], itemList: [], fetching: false, }, action) {
     switch (action.type) {
         case "RECEIVE_CHARACTER_EQUIPMENT":
             return {
@@ -10,6 +10,7 @@ export const itemInfoReducer = function(state = { characterItems: [], itemList: 
             return {
                 ...state,
                 itemList: action.itemList,
+                fetching: false,
             };
         case "UPDATE_CHARACTER_EQUIPMENT":
             return {
@@ -30,12 +31,7 @@ export const itemInfoReducer = function(state = { characterItems: [], itemList: 
         case "ITEMS_LIST_REQUESTED":
             return {
                 ...state,
-                displayItemList: action.displayItemList,
-            };
-        case "TOGGLE_ITEM_LIST":
-            return {
-                ...state,
-                displayItemList: action.displayItemList,
+                fetching: true,
             };
         default:
             return state;

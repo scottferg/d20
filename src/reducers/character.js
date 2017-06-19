@@ -38,7 +38,6 @@ export const characterReducer = function(
         case "CHARACTER_REQUESTED":
             return {
                 ...state,
-                isLoading: action.isLoading,
             };
         case "GET_CHARACTER_REQUEST":
             return {
@@ -52,9 +51,13 @@ export const characterReducer = function(
         case "GET_CHARACTER_SUCCESS":
             return {
                 ...state,
-                isLoading: action.isLoading,
                 character: action.character,
                 selected: false,
+            };
+        case "CHARACTER_SELECTED":
+            return {
+                ...state,
+                character: action.character,
             };
         case "CHARACTER_LIST_REQUESTED":
             return {
@@ -66,11 +69,6 @@ export const characterReducer = function(
                 ...state,
                 isLoading: false,
                 list: action.list,
-            };
-        case "TOGGLE_CREATE_CHARACTER_DIALOG":
-            return {
-                ...state,
-                displayCreateDialog: action.displayCreateDialog,
             };
         default:
             return state;
