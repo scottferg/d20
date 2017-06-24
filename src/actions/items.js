@@ -64,10 +64,55 @@ export const fetchCharacterItems = (name) => {
     };
 };
 
+export const equipItem = (character, items, item, equipped) => {
+    return function(dispatch) {
+
+        items.forEach(function(i, index) {
+            if (i.key === item.key) {
+                items[index].equipped = equipped;
+            }
+        });
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/items/" +
+                    character.name.toLowerCase(),
+            )
+            .set(items)
+            .then(() => dispatch(updateEquipment(items)));
+    };
+};
+
+export const updateItemQuantity = (character, items, item, qty) => {
+    return function(dispatch) {
+
+        items.forEach(function(i, index) {
+            if (i.key === item.key) {
+                items[index].quantity = qty;
+            }
+        });
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/items/" +
+                    character.name.toLowerCase(),
+            )
+            .set(items)
+            .then(() => dispatch(updateEquipment(items)));
+    };
+};
+
 export const addItem = (character, items, item) => {
     return function(dispatch) {
         item.quantity = 1;
         item.owned = true;
+        item.key = Date.now() + ":" + item.name;
         items.push(item);
 
         var userId = auth.currentUser.uid;
@@ -85,7 +130,11 @@ export const addItem = (character, items, item) => {
 
 export const removeItem = (character, items, item) => {
     return function(dispatch) {
-        items.splice(items.indexOf(item), 1);
+        items.forEach(function(i, index) {
+            if (i.key === item.key) {
+                items.splice(index, 1);
+            }
+        });
 
         var userId = auth.currentUser.uid;
         return db

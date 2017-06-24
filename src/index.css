@@ -191,6 +191,25 @@ td.white-block {
   background-color: white;
   text-align: center; }
 
+div.white-block {
+  display: inline;
+  background-color: white;
+  text-align: center;
+  font-size: 10pt;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 8px;
+  padding-bottom: 8px; }
+
+div.quantity-label {
+  font-weight: bold;
+  display: inline;
+  font-size: 10pt; }
+
+button.quantity-button {
+  width: 40px;
+  min-width: 40px !important; }
+
 .light-block {
   background-color: #E3E0D9;
   font-family: accentFont;
@@ -252,7 +271,6 @@ div.action-button-left {
 
 div.action-button-right {
   float: right;
-  margin-top: 4px;
   margin-right: 18px; }
 
 div.dialog-footer {
@@ -304,9 +322,15 @@ div.menu {
   ul#character-list {
     margin: auto; }
   div.menu {
-    position: absolute;
-    top: 14px;
-    right: 26px; } }
+    display: none; }
+  div.app-bar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 50; }
+  div.top-sheet {
+    margin-top: 64px; } }
 
 /* Tablet */
 @media all and (min-width: 600px) {
@@ -339,9 +363,15 @@ div.menu {
     margin-left: 2%;
     width: 96%; }
   div.menu {
-    position: absolute;
-    top: 0px;
-    right: 22px; } }
+    display: none; }
+  div.app-bar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 50; }
+  div.top-sheet {
+    margin-top: 64px; } }
 
 /* desktop */
 @media all and (min-width: 1024px) {
@@ -368,6 +398,11 @@ div.menu {
     float: right;
     width: 47%; }
   div.menu {
+    display: block;
     position: absolute;
     top: 0px;
-    right: 8px; } }
+    right: 8px; }
+  div.app-bar {
+    display: none; }
+  div.top-sheet {
+    margin: auto; } }

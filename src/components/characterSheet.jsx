@@ -9,6 +9,7 @@ import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
+import AppBar from "material-ui/AppBar";
 
 import "react-mfb/mfb.css";
 import "mdi/css/materialdesignicons.min.css";
@@ -31,6 +32,28 @@ const mapStateToProps = (state, props) => {
         isLoading: state.characterReducer.isLoading,
     };
 };
+
+const AppMenu = props =>
+    <IconMenu
+        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        iconStyle={{
+            color: "white",
+        }}
+        anchorOrigin={{
+            horizontal: "right",
+            vertical: "top",
+        }}
+        targetOrigin={{
+            horizontal: "right",
+            vertical: "top",
+        }}>
+        <MenuItem primaryText="Edit Character Details" />
+        <MenuItem primaryText="Edit Ability Scores" />
+        <MenuItem primaryText="Edit Skills" />
+        <MenuItem primaryText="Sign out" />
+    </IconMenu>;
+
+AppMenu.muiName = "IconMenu";
 
 class CharacterSheetComponent extends React.Component {
     // TODO: This is janky as shit
@@ -62,29 +85,22 @@ class CharacterSheetComponent extends React.Component {
         } else {
             return (
                 <div className="character-sheet-container">
-                    <div className="menu">
-                        <IconMenu
-                            iconButtonElement={
-                                <IconButton><MoreVertIcon /></IconButton>
-                            }
-                            iconStyle={{
-                                color: "white",
+                    <div className="app-bar">
+                        <AppBar
+                            title="d20"
+                            titleStyle={{
+                                fontFamily: "accentFont",
+                                fontSize: "40px",
+                                textAlign: "left",
                             }}
-                            anchorOrigin={{
-                                horizontal: "right",
-                                vertical: "top",
-                            }}
-                            targetOrigin={{
-                                horizontal: "right",
-                                vertical: "top",
-                            }}>
-                            <MenuItem primaryText="Edit Character Details" />
-                            <MenuItem primaryText="Edit Ability Scores" />
-                            <MenuItem primaryText="Edit Skills" />
-                            <MenuItem primaryText="Sign out" />
-                        </IconMenu>
+                            iconElementRight={<AppMenu />}
+                            style={{backgroundColor: "#415A6E"}}
+                        />
                     </div>
-                    <div className="character-sheet">
+                    <div className="menu">
+                        <AppMenu />
+                    </div>
+                    <div className="top-sheet character-sheet">
                         <div id="left-container">
                             <Portrait character={this.props.character} />
                             <Status

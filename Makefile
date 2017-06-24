@@ -1,25 +1,18 @@
-# Makefile for drzaius.io
-#
-# target: prerequisites
-# 	command
-#
 default: build
-
-build: d20.drzaius.io
 
 .PHONY: clean
 
 bootstrap:
 	yarn install
 
-yarn:
+build:
 	yarn build
 
-d20.drzaius.io: yarn
+deploy: build
 	firebase deploy
 
-desktop:
-	pwaify https://d20.drzaius.io/ --platforms=darwin --icon public/images/ic_launcher-6x.icns
+start:
+	yarn start
 
 clean:
 	-rm -rf build

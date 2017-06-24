@@ -7,7 +7,7 @@ export const displaySpellDialog = spell => {
     };
 };
 
-export const receiveSpellsList = (spellList) => {
+export const receiveSpellsList = spellList => {
     return {
         type: "RECEIVE_SPELLS_LIST",
         spellList: spellList,
@@ -30,22 +30,17 @@ export const fetchSpells = () => {
     };
 };
 
-export const fetchCharacterSpells = (name) => {
+export const fetchCharacterSpells = name => {
     return function(dispatch) {
         var userId = auth.currentUser.uid;
         return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/spells/" +
-                    name.toLowerCase(),
-            )
+            .ref("/users/" + userId + "/spells/" + name.toLowerCase())
             .once("value")
             .then(snapshot => dispatch(receiveCharacterSpells(snapshot.val())));
     };
 };
 
-export const receiveCharacterSpells = (spells) => {
+export const receiveCharacterSpells = spells => {
     if (spells === null) {
         spells = [];
     }
@@ -68,12 +63,7 @@ export const addSpell = (character, spells, spell) => {
 
         var userId = auth.currentUser.uid;
         return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/spells/" +
-                    character.name.toLowerCase(),
-            )
+            .ref("/users/" + userId + "/spells/" + character.name.toLowerCase())
             .set(spells)
             .then(() => dispatch(updateSpells(spells)));
     };
@@ -81,22 +71,21 @@ export const addSpell = (character, spells, spell) => {
 
 export const removeSpell = (character, spells, spell) => {
     return function(dispatch) {
-        spells.splice(spells.indexOf(spell), 1);
+        spells.forEach(function(s, index) {
+            if (s.name === spell.name) {
+                spells.splice(index, 1);
+            }
+        });
 
         var userId = auth.currentUser.uid;
         return db
-            .ref(
-                "/users/" +
-                    userId +
-                    "/spells/" +
-                    character.name.toLowerCase(),
-            )
+            .ref("/users/" + userId + "/spells/" + character.name.toLowerCase())
             .set(spells)
             .then(() => dispatch(updateSpells(spells)));
     };
 };
 
-const updateSpells = (spells) => {
+const updateSpells = spells => {
     return {
         type: "UPDATE_CHARACTER_SPELLS",
         characterSpells: spells,

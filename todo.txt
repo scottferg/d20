@@ -3,11 +3,9 @@
     - Use material Icon Menu to select Edit Ability Scores, Edit Skills
 [ ] Character sharing (read-only)
 [ ] Money
-[ ] Equip items
 [ ] Spell slots
 [ ] Spell preparation for Wizard and Clerics
 [ ] Empty equipment sections should ignore header
-[ ] Compendium lists shouldn't be requested until first time needed
 [ ] Remove WebPack cache busting for resources
 [ ] Responsive
     - Ability Scores, Status, and Combat should display below portrait
@@ -41,3 +39,7 @@
     - /character/:name/spells/add
 [x] Add items screen
     - /character/:name/items/add
+[x] Set key when adding items/spells for deletion
+    - Key is set and is used to delete/update
+[x] Equip items
+[x] Compendium lists shouldn't be requested until first time needed

@@ -7,10 +7,12 @@ import Modal from "boron/DropModal";
 import FlatButton from "material-ui/FlatButton";
 import CircularProgress from "material-ui/CircularProgress";
 
-import {Header} from "./common";
+import {Header, NumberPicker} from "./common";
 import Item from "../models/item";
 import {
     removeItem,
+    equipItem,
+    updateItemQuantity,
     displayItemDialog,
     fetchCharacterItems,
 } from "../actions/items";
@@ -51,20 +53,31 @@ class WeaponRow extends React.Component {
     };
 
     render() {
-        // TODO: Fix equipped dmg1 vs dmg2
         var bonus =
             "+" +
             (this.props.bonus +
                 this.props.proficiency +
                 this.props.item.attackMod());
-        var dmg =
-            this.props.item.dmg1 +
-            " + " +
-            (this.props.bonus + this.props.item.damageMod());
+
+        var dmg = this.props.item.dmg1;
+
+        if (this.props.item.equipped === "2 Handed" && this.props.item.dmg2) {
+            dmg = this.props.item.dmg2;
+        }
+
+        dmg = dmg + " + " + (this.props.bonus + this.props.item.damageMod());
+
+        var name = this.props.item.name;
+        if (
+            this.props.item.equipped !== "Unequipped" &&
+            this.props.item.equipped !== undefined
+        ) {
+            name = name + "*";
+        }
 
         return (
             <tr className="gear-row" onClick={this.onItemClick}>
-                <td className={this.props.rowColor}>{this.props.item.name}</td>
+                <td className={this.props.rowColor}>{name}</td>
                 <td className="white-block">{bonus}</td>
                 <td className="white-block narrow-fat">{dmg}</td>
             </tr>
@@ -143,15 +156,165 @@ class GearRow extends React.Component {
 }
 
 class EquipmentActions extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = props;
+    }
+
+    primary = {
+        fontSize: "8pt",
+        color: "#005453",
+    };
+
+    button = {
+        fontSize: "8pt",
+    };
+
     onRemove() {
         this.props.dispatch(
             removeItem(
                 this.props.character,
                 this.props.characterItems,
-                this.props.item,
+                this.state.item,
             ),
         );
         this.props.refs.modal.hide();
+    }
+
+    onEquip(equipped) {
+        this.state.item.equipped = equipped;
+
+        this.props.dispatch(
+            equipItem(
+                this.props.character,
+                this.props.characterItems,
+                this.state.item,
+                equipped,
+            ),
+        );
+    }
+
+    twoHandedEquip() {
+        return (
+            <div className="action-button-right">
+                <FlatButton
+                    label="2 Handed"
+                    primary={this.state.item.equipped === "2 Handed"}
+                    onTouchTap={() => {
+                        this.onEquip("2 Handed");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "2 Handed"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+                <FlatButton
+                    label="Unequipped"
+                    primary={this.state.item.equipped === "Unequipped"}
+                    onTouchTap={() => {
+                        this.onEquip("Unequipped");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "Unequipped"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+            </div>
+        );
+    }
+
+    oneHandedEquip() {
+        return (
+            <div className="action-button-right">
+                <FlatButton
+                    label="1 Handed"
+                    primary={this.state.item.equipped === "1 Handed"}
+                    onTouchTap={() => {
+                        this.onEquip("1 Handed");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "1 Handed"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+                <FlatButton
+                    label="Unequipped"
+                    primary={this.state.item.equipped === "Unequipped"}
+                    onTouchTap={() => {
+                        this.onEquip("Unequipped");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "Unequipped"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+            </div>
+        );
+    }
+
+    versatile() {
+        return (
+            <div className="action-button-right">
+                <FlatButton
+                    label="2 Handed"
+                    primary={this.state.item.equipped === "2 Handed"}
+                    onTouchTap={() => {
+                        this.onEquip("2 Handed");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "2 Handed"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+                <FlatButton
+                    label="1 Handed"
+                    primary={this.state.item.equipped === "1 Handed"}
+                    onTouchTap={() => {
+                        this.onEquip("1 Handed");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "1 Handed"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+                <FlatButton
+                    label="Unequipped"
+                    primary={this.state.item.equipped === "Unequipped"}
+                    onTouchTap={() => {
+                        this.onEquip("Unequipped");
+                    }}
+                    labelStyle={
+                        this.state.item.equipped === "Unequipped"
+                            ? this.primary
+                            : this.button
+                    }
+                />
+            </div>
+        );
+    }
+
+    equipped() {
+        if (this.state.item.property.includes("V")) {
+            return this.versatile();
+        }
+
+        if (
+            !this.state.item.property.includes("2H") &&
+            !this.state.item.property.includes("V")
+        ) {
+            return this.oneHandedEquip();
+        }
+
+        if (this.state.item.property.includes("2H")) {
+            return this.twoHandedEquip();
+        }
     }
 
     render() {
@@ -166,13 +329,26 @@ class EquipmentActions extends React.Component {
                         labelStyle={{fontSize: "8pt"}}
                     />
                 </div>
-                <div className="action-button-right" />
+                {this.state.item.owned && this.state.item.isWeapon()
+                    ? this.equipped()
+                    : null}
             </div>
         );
     }
 }
 
 class EquipmentComponent extends React.Component {
+    onUpdateQuantity(amount) {
+        this.props.dispatch(
+            updateItemQuantity(
+                this.props.character,
+                this.props.characterItems,
+                this.props.item,
+                amount,
+            ),
+        );
+    }
+
     componentDidMount() {
         this.props.dispatch(fetchCharacterItems(this.props.character.name));
     }
@@ -335,6 +511,16 @@ class EquipmentComponent extends React.Component {
                             : null}
                         {this.props.item
                             ? this.props.item.descriptionDisplay()
+                            : null}
+                        {this.props.item && this.props.item.isGear()
+                            ? <NumberPicker
+                                  label="Quantity:"
+                                  value={this.props.item.quantity}
+                                  min={1}
+                                  callback={amount => {
+                                      this.onUpdateQuantity(amount);
+                                  }}
+                              />
                             : null}
                         <EquipmentActions
                             item={this.props.item}

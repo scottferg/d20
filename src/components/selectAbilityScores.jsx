@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 
 import TextField from "material-ui/TextField";
 
-import {Header} from "./common";
+import {Header, NumberPicker} from "./common";
 import {setAbilityScore} from "../actions/createCharacter"
 
 const mapStateToProps = (state, props) => {
@@ -18,7 +18,7 @@ class AbilityScoreHeader extends React.Component {
     render() {
         return (
             <tr className="ability-score-row">
-                <td className="table-header narrow">Score</td>
+                <td className="table-header">Score</td>
                 <td className="table-header">Ability</td>
                 <td className="table-header narrow">Mod</td>
                 <td className="table-header narrow">Save</td>
@@ -35,13 +35,13 @@ class AbilityScoreRow extends React.Component {
     render() {
         return (
             <tr className="ability-score-row">
-                <td className="white-block">
-                    <TextField
+                <td>
+                    <NumberPicker
                         id={this.props.ability.name}
-                        defaultValue={this.props.ability.score}
-                        type="number"
-                        style={{width: "30px", fontSize: "10pt"}}
-                        onChange={(e, val) => {this.onScoreChange(parseInt(val, 10))}}
+                        value={this.props.ability.score}
+                        min={0}
+                        max={20}
+                        callback={(val) => {this.onScoreChange(val)}}
                     />
                 </td>
                 <td className={this.props.rowColor}>
