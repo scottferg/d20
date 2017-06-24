@@ -668,6 +668,21 @@ class Player {
                 parseInt(available, 10);
         }
     }
+
+    needsSpellPrep() {
+        var result = false;
+        this.classes.forEach(function(cls) {
+            if (
+                cls.cls.name.includes("Wizard") ||
+                cls.cls.name.includes("Cleric")
+            ) {
+                result = true;
+                return;
+            }
+        });
+
+        return result;
+    }
 }
 
 export default Player;

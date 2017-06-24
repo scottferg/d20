@@ -1,10 +1,11 @@
 [ ] Character creation
     - Select race, class, background, set name, portrait, base HP
     - Use material Icon Menu to select Edit Ability Scores, Edit Skills
-[ ] Character sharing (read-only)
-[ ] Money
+[ ] Class Features
 [ ] Spell slots
-[ ] Spell preparation for Wizard and Clerics
+[ ] Ammunition
+[ ] Money
+[ ] Character sharing (read-only)
 [ ] Empty equipment sections should ignore header
 [ ] Remove WebPack cache busting for resources
 [ ] Responsive
@@ -43,3 +44,4 @@
     - Key is set and is used to delete/update
 [x] Equip items
 [x] Compendium lists shouldn't be requested until first time needed
+[x] Spell preparation for Wizard and Clerics

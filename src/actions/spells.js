@@ -57,8 +57,25 @@ export const characterSpellsRequested = () => {
     };
 };
 
+export const prepareSpell = (character, spells, spell, prepared) => {
+    return function(dispatch) {
+        spells.forEach(function(s, index) {
+            if (s.name === spell.name) {
+                spells[index].prepared = prepared;
+            }
+        });
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref("/users/" + userId + "/spells/" + character.name.toLowerCase())
+            .set(spells)
+            .then(() => dispatch(updateSpells(spells)));
+    };
+};
+
 export const addSpell = (character, spells, spell) => {
     return function(dispatch) {
+        spell.prepared = true;
         spells.push(spell);
 
         var userId = auth.currentUser.uid;

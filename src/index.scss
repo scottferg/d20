@@ -220,6 +220,10 @@ tr.spell-row, tr.gear-row {
     cursor: pointer;
 }
 
+tr.disabled {
+    text-decoration: line-through;
+}
+
 td {
     padding: 4px;
 }
@@ -347,6 +351,10 @@ div.action-button-left {
 div.action-button-right {
     float: right;
     margin-right: 18px;
+}
+
+div.spell-actions-right {
+    margin-top: 7px;
 }
 
 div.dialog-footer {

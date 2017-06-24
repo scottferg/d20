@@ -3,7 +3,7 @@ import {Header} from "./common";
 
 import {connect} from "react-redux";
 
-import Checkbox from "material-ui/Checkbox";
+import Toggle from "material-ui/Toggle";
 import FlatButton from "material-ui/FlatButton";
 import CircularProgress from "material-ui/CircularProgress";
 
@@ -13,6 +13,7 @@ import Spell from "../models/spell";
 import {
     displaySpellDialog,
     addSpell,
+    prepareSpell,
     removeSpell,
     fetchCharacterSpells,
 } from "../actions/spells";
@@ -48,8 +49,10 @@ class SpellRow extends React.Component {
     };
 
     render() {
+        var cls = "spell-row" + (this.props.spell.prepared ? "" : " disabled");
+
         return (
-            <tr className="spell-row">
+            <tr className={cls}>
                 <td className={this.props.rowColor} onClick={this.onSpellClick}>
                     {this.props.spell.name}
                 </td>
@@ -60,7 +63,6 @@ class SpellRow extends React.Component {
 
 class SpellActions extends React.Component {
     onRemove() {
-        console.log(this.props);
         this.props.dispatch(
             removeSpell(
                 this.props.character,
@@ -69,6 +71,17 @@ class SpellActions extends React.Component {
             ),
         );
         this.props.refs.modal.hide();
+    }
+
+    onPrepareToggle(checked) {
+        this.props.dispatch(
+            prepareSpell(
+                this.props.character,
+                this.props.characterSpells,
+                this.props.spell,
+                checked,
+            ),
+        );
     }
 
     render() {
@@ -83,8 +96,19 @@ class SpellActions extends React.Component {
                         labelStyle={{fontSize: "8pt"}}
                     />
                 </div>
-                <div className="action-button-right">
-                    <Checkbox labelStyle={{fontSize: "8pt"}} label="Prepared" />
+                <div className="action-button-right spell-actions-right">
+                    {this.props.character.needsSpellPrep()
+                        ? <Toggle
+                              labelStyle={{fontSize: "8pt"}}
+                              label="PREPARED"
+                              defaultToggled={this.props.spell.prepared}
+                              onToggle={(e, checked) => {
+                                  this.onPrepareToggle(checked);
+                              }}
+                              thumbSwitchedStyle={{backgroundColor: "#005453"}}
+                              trackSwitchedStyle={{backgroundColor: "#007775"}}
+                          />
+                        : null}
                 </div>
             </div>
         );
