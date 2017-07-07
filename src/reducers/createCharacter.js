@@ -1,4 +1,4 @@
-import Player from "../models/player"
+import Player from "../models/player";
 
 export const createCharacterReducer = function(
     state = {
@@ -8,9 +8,12 @@ export const createCharacterReducer = function(
         classList: [],
         backgroundList: [],
         fetching: false,
+        progress: 0,
     },
     action,
 ) {
+    var character = state.character;
+
     switch (action.type) {
         case "RACE_LIST_REQUESTED":
             return {
@@ -61,12 +64,38 @@ export const createCharacterReducer = function(
                 character: action.character,
             };
         case "SET_ABILITY_SCORE":
-            var character = state.character;
             character[action.ability] = action.score;
 
             return {
                 ...state,
                 character: character,
+            };
+        case "SET_SKILL":
+            var charSkill = state.character;
+            charSkill.setSkill(action.skill, action.proficient, action.expertise);
+
+            return {
+                ...state,
+                character: charSkill,
+            };
+        case "SET_PORTRAIT_URL":
+            character.playerImage = action.url;
+
+            return {
+                ...state,
+                character: character,
+            };
+        case "CHARACTER_SAVED":
+            var clearPlayer = new Player();
+
+            return {
+                ...state,
+                character: clearPlayer,
+            };
+        case "SET_UPLOAD_PROGRESS":
+            return {
+                ...state,
+                progress: action.progress,
             };
         default:
             return state;

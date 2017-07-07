@@ -33,25 +33,40 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const AppMenu = props =>
-    <IconMenu
-        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-        iconStyle={{
-            color: "white",
-        }}
-        anchorOrigin={{
-            horizontal: "right",
-            vertical: "top",
-        }}
-        targetOrigin={{
-            horizontal: "right",
-            vertical: "top",
-        }}>
-        <MenuItem primaryText="Edit Character Details" />
-        <MenuItem primaryText="Edit Ability Scores" />
-        <MenuItem primaryText="Edit Skills" />
-        <MenuItem primaryText="Sign out" />
-    </IconMenu>;
+class AppMenu extends React.Component {
+    render() {
+        var that = this;
+
+        return (
+            <IconMenu
+                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                iconStyle={{
+                    color: "white",
+                }}
+                anchorOrigin={{
+                    horizontal: "right",
+                    vertical: "top",
+                }}
+                targetOrigin={{
+                    horizontal: "right",
+                    vertical: "top",
+                }}>
+                <MenuItem primaryText="Edit Combat Modifiers" />
+                <MenuItem
+                    primaryText="Edit Character Details"
+                    onTouchTap={() => {
+                        that.props.history.push(
+                            "/character/" + that.props.name + "/details/edit",
+                        );
+                    }}
+                />
+                <MenuItem primaryText="Edit Ability Scores" />
+                <MenuItem primaryText="Edit Skills" />
+                <MenuItem primaryText="Sign out" />
+            </IconMenu>
+        );
+    }
+}
 
 AppMenu.muiName = "IconMenu";
 
@@ -93,12 +108,20 @@ class CharacterSheetComponent extends React.Component {
                                 fontSize: "40px",
                                 textAlign: "left",
                             }}
-                            iconElementRight={<AppMenu />}
+                            iconElementRight={
+                                <AppMenu
+                                    name={this.props.character.name}
+                                    history={this.props.history}
+                                />
+                            }
                             style={{backgroundColor: "#415A6E"}}
                         />
                     </div>
                     <div className="menu">
-                        <AppMenu />
+                        <AppMenu
+                            name={this.props.character.name}
+                            history={this.props.history}
+                        />
                     </div>
                     <div className="top-sheet character-sheet">
                         <div id="left-container">

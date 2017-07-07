@@ -1,4 +1,5 @@
-import {auth, db} from "../components/app";
+import {auth, db, storage} from "../components/app";
+import {uploadPortrait} from "./common"
 
 import Player from "../models/player";
 
@@ -121,5 +122,89 @@ const updateHP = (characterStatus) => {
     return {
         type: "UPDATE_CHARACTER_HP",
         characterStatus: characterStatus,
+    };
+};
+
+export const setPortraitUrl = url => {
+    return {
+        type: "SET_PORTRAIT_URL",
+        url: url,
+    };
+};
+
+export const setUploadProgress = progress => {
+    return {
+        type: "SET_UPLOAD_PROGRESS",
+        progress: progress,
+    };
+};
+
+export const setCharacterPortrait = file => {
+    return function(dispatch) {
+        dispatch(setPortraitUrl(undefined));
+        dispatch(setUploadProgress(0));
+
+        var userId = auth.currentUser.uid;
+        var imageRef = storage.child(userId + "portraits/" + Date.now());
+
+        var uploadTask = imageRef.put(file);
+
+        return uploadPortrait(uploadTask, 
+            (url) => { dispatch(setPortraitUrl(url)) },
+            (progress) => { dispatch(setUploadProgress(progress)) });
+    };
+};
+
+export const saveCharacterWithDetails = (
+    name,
+    hp,
+    inspiration,
+    character,
+) => {
+    character.name = name;
+    character.inspiration = inspiration;
+    character.rolled_hp = hp;
+    character.max_hp =
+        hp + character.abilityBonus(character.conScore()) * character.level();
+    character.hp = character.max_hp;
+
+    return function(dispatch) {
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/characters/" +
+                    character.name.toLowerCase(),
+            )
+            .set(character)
+            .then(() => dispatch(saveCharacterStatus(character)));
+    };
+};
+
+export const saveCharacterStatus = character => {
+    return function(dispatch) {
+        var characterStatus = {
+            max_hp: character.max_hp,
+            hp: character.max_hp,
+            temp_hp: 0,
+        };
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/statuses/" +
+                    character.name.toLowerCase(),
+            )
+            .set(characterStatus)
+            .then(() => dispatch(characterSaved()));
+    };
+};
+
+export const characterSaved = () => {
+    return {
+        type: "CHARACTER_SAVED",
     };
 };

@@ -15,7 +15,7 @@ export class NumberPicker extends React.Component {
     }
 
     render() {
-        const buttonStyle = {
+        var buttonStyle = {
             width: "40px",
             minWidth: "40px",
             display: "inline",

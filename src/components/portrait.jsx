@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 class PortraitText extends React.Component {
     render() {
         var classLevels = "";
 
         this.props.character.classes.forEach(function(cls) {
-            classLevels = classLevels + " / " + cls.cls.name + " " + cls.level
-        })
+            classLevels = classLevels + " / " + cls.cls.name + " " + cls.level;
+        });
 
-        const raceLevel = this.props.character.race.name + classLevels
+        const raceLevel = this.props.character.race.name + classLevels;
 
         return (
             <div id="portrait-text">
@@ -21,10 +21,13 @@ class PortraitText extends React.Component {
 
 class Portrait extends React.Component {
     render() {
-        const imageUrl = "data:image/png;base64," + this.props.character.playerImage
         return (
             <div className="narrow-module" id="portrait-container">
-                <img className="portrait" alt="Portrait" src={imageUrl} />
+                <img
+                    className="portrait"
+                    alt="Portrait"
+                    src={this.props.character.playerImage}
+                />
                 <PortraitText character={this.props.character} />
             </div>
         );

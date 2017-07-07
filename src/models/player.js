@@ -17,6 +17,21 @@ class Player {
             this.int = 12;
             this.con = 12;
 
+            this.ac_mod = 0;
+            this.initiative_mod = 0;
+            this.proficiency_mod = 0;
+            this.speed_mod = 0;
+
+            this.xp = 0;
+
+            this.money = {
+                cp: 0,
+                ep: 0,
+                gp: 0,
+                pp: 0,
+                sp: 0,
+            };
+
             this.skills = [
                 {name: "Acrobatics", proficient: false, expertise: false},
                 {name: "Animal Handling", proficient: false, expertise: false},
@@ -431,6 +446,17 @@ class Player {
         } else {
             return bonus > 0 ? "+" + bonus : "" + bonus;
         }
+    }
+
+    setSkill(skill, proficient, expertise) {
+        var that = this;
+
+        this.skills.forEach(function(s, index) {
+            if (s.name === skill) {
+                that.skills[index].proficient = proficient;
+                that.skills[index].expertise = expertise;
+            }
+        });
     }
 
     skillScore(skill, items = []) {

@@ -3,10 +3,10 @@ import ReactResizeDetector from "react-resize-detector";
 
 import {connect} from "react-redux";
 
-import TextField from "material-ui/TextField";
+import FlatButton from "material-ui/FlatButton";
 
 import {Header, NumberPicker} from "./common";
-import {setAbilityScore} from "../actions/createCharacter"
+import {setAbilityScore} from "../actions/createCharacter";
 
 const mapStateToProps = (state, props) => {
     return {
@@ -18,7 +18,7 @@ class AbilityScoreHeader extends React.Component {
     render() {
         return (
             <tr className="ability-score-row">
-                <td className="table-header">Score</td>
+                <td className="picker-table-header">Score</td>
                 <td className="table-header">Ability</td>
                 <td className="table-header narrow">Mod</td>
                 <td className="table-header narrow">Save</td>
@@ -35,13 +35,15 @@ class AbilityScoreRow extends React.Component {
     render() {
         return (
             <tr className="ability-score-row">
-                <td>
+                <td className="picker-cell">
                     <NumberPicker
                         id={this.props.ability.name}
                         value={this.props.ability.score}
                         min={0}
                         max={20}
-                        callback={(val) => {this.onScoreChange(val)}}
+                        callback={val => {
+                            this.onScoreChange(val);
+                        }}
                     />
                 </td>
                 <td className={this.props.rowColor}>
@@ -55,6 +57,10 @@ class AbilityScoreRow extends React.Component {
 }
 
 class SelectAbilityScoresComponent extends React.Component {
+    onNext() {
+        this.props.history.push("/character/new/skills");
+    }
+
     render() {
         const abilities = {
             str: "Strength",
@@ -111,6 +117,15 @@ class SelectAbilityScoresComponent extends React.Component {
                                 {abilitiesList}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="action-button-right">
+                        <FlatButton
+                            label="NEXT"
+                            onTouchTap={() => {
+                                this.onNext();
+                            }}
+                            labelStyle={{fontSize: "8pt"}}
+                        />
                     </div>
                 </div>
                 <ReactResizeDetector

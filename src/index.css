@@ -194,6 +194,15 @@ td.white-block {
   background-color: white;
   text-align: center; }
 
+td.picker-table-header {
+  font-family: accentFont;
+  font-size: 14pt;
+  width: 17%;
+  text-align: center; }
+
+td.picker-cell {
+  width: 17%; }
+
 div.white-block {
   display: inline;
   background-color: white;
@@ -212,6 +221,21 @@ div.quantity-label {
 button.quantity-button {
   width: 40px;
   min-width: 40px !important; }
+
+div.spell-slots {
+  float: right;
+  position: relative;
+  top: -36px; }
+
+div.spell-slot-label {
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  display: inline;
+  font-size: 10pt; }
+
+button.spell-slot-button {
+  width: 34px;
+  min-width: 34px !important; }
 
 .light-block {
   background-color: #E3E0D9;
@@ -292,6 +316,26 @@ div.menu {
   position: absolute;
   top: 0px;
   right: 6px; }
+
+.details-dropzone {
+  width: 250px;
+  float: right;
+  height: 250px;
+  border-width: 1px;
+  border-style: dashed;
+  border-radius: 5px;
+  margin-top: 15px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+  font-size: 14px; }
+
+.details-dropzone-active {
+  background-color: #f9f8f7; }
+
+.details-portrait {
+  max-width: 250px;
+  float: right; }
 
 /* Smartphone */
 @media all and (max-width: 599px) {

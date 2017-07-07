@@ -8,7 +8,7 @@ bootstrap:
 build:
 	yarn build
 
-deploy: build
+deploy: clean bootstrap build
 	firebase deploy
 
 start:

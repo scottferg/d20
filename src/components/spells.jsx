@@ -25,6 +25,77 @@ const mapStateToProps = (state, props) => {
     };
 };
 
+export class SpellSlotHeader extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = props;
+    }
+
+    onTapDown() {
+        var newValue = this.state.value - 1;
+        if (this.props.min !== undefined) {
+            if (newValue <= this.props.min) {
+                newValue = this.props.min;
+            }
+        }
+
+        this.setState({value: newValue});
+        this.props.callback(newValue);
+    }
+
+    onTapUp() {
+        var newValue = this.state.value + 1;
+        if (this.props.max !== undefined) {
+            if (newValue >= this.props.max) {
+                newValue = this.props.max;
+            }
+        }
+
+        this.setState({value: newValue});
+        this.props.callback(newValue);
+    }
+
+    render() {
+        var value = this.state.character.slotsForLevel(this.props.level);
+
+        return (
+            <div className="header">
+                <div>{this.props.name}</div>
+                <div className="spell-slots">
+                    <span className="spell-slot-picker">
+                        <div className="spell-slot-label">
+                            {this.props.label}
+                        </div>
+                        <FlatButton
+                            className="spell-slot-button"
+                            label="-"
+                            onTouchTap={() => {
+                                this.onTapDown();
+                            }}
+                            labelStyle={{fontSize: "8pt"}}
+                            style={this.buttonStyle}
+                        />
+                        <div className="spell-slot-label">
+                            {value}
+                        </div>
+                        <FlatButton
+                            className="spell-slot-button"
+                            label="+"
+                            onTouchTap={() => {
+                                this.onTapUp();
+                            }}
+                            labelStyle={{fontSize: "8pt"}}
+                            style={this.buttonStyle}
+                        />
+                    </span>
+                </div>
+                <div className="hr" />
+            </div>
+        );
+    }
+}
+
 class SpellsHeader extends React.Component {
     render() {
         return (
@@ -152,7 +223,8 @@ class SpellsComponent extends React.Component {
 
         // Render each group of spells
         var spellsList = spellLevels.map(function(spells, index) {
-            const section = "Level " + (index + 1);
+            const level = index + 1;
+            const section = "Level " + level;
 
             var spellGroup = spells.map(function(spell, idx) {
                 return (

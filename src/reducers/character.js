@@ -5,6 +5,7 @@ export const characterReducer = function(
         selected: false,
         isLoading: false,
         list: [],
+        progress: 0,
     },
     action,
 ) {
@@ -69,6 +70,20 @@ export const characterReducer = function(
                 ...state,
                 isLoading: false,
                 list: action.list,
+            };
+        case "SET_PORTRAIT_URL":
+            var character = state.character;
+
+            character.playerImage = action.url;
+
+            return {
+                ...state,
+                character: character,
+            };
+        case "SET_UPLOAD_PROGRESS":
+            return {
+                ...state,
+                progress: action.progress,
             };
         default:
             return state;

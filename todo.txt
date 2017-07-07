@@ -1,6 +1,5 @@
-[ ] Character creation
-    - Select race, class, background, set name, portrait, base HP
-    - Use material Icon Menu to select Edit Ability Scores, Edit Skills
+[ ] Add hit dice to new characters
+[ ] Add spell slots to new characters
 [ ] Class Features
 [ ] Spell slots
 [ ] Ammunition
@@ -45,3 +44,14 @@
 [x] Equip items
 [x] Compendium lists shouldn't be requested until first time needed
 [x] Spell preparation for Wizard and Clerics
+[x] Add inspiration to new characters
+[x] Character creation
+    - Select race, class, background, set name, portrait, base HP
+    - Use material Icon Menu to select Edit Ability Scores, Edit Skills
+[x] Add ac_mod to new characters
+[x] Add HP and max_hp to new characters
+[x] Add initiative mod to new characters
+[x] Add proficiency mod to new characters
+[x] Add rolled_hp to new characters
+[x] Add XP to new characters
+[x] Add money to new characters

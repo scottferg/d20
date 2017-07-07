@@ -58,7 +58,7 @@ class AbilityScoresComponent extends React.Component {
             };
 
             var props = {
-                score: that.props.character[abbrev],
+                score: that.props.character.abilityWithRaceMod(abbrev, that.props.character[abbrev]),
                 name: abilities[abbrev],
                 mod: that.props.character.formatAbilityBonus(
                     abbrev,

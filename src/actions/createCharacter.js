@@ -1,4 +1,5 @@
-import {db} from "../components/app";
+import {auth, db, storage} from "../components/app";
+import {uploadPortrait} from "./common"
 
 export const receiveRaceList = list => {
     if (list === null) {
@@ -33,7 +34,7 @@ export const selectRace = (character, race) => {
     return {
         type: "SELECT_RACE",
         character: character,
-    }
+    };
 };
 
 export const receiveClassList = list => {
@@ -74,7 +75,7 @@ export const selectClass = (character, cls) => {
     return {
         type: "SELECT_CLASS",
         character: character,
-    }
+    };
 };
 
 export const receiveBackgroundList = list => {
@@ -111,7 +112,7 @@ export const selectBackground = (character, background) => {
     return {
         type: "SELECT_BACKGROUND",
         character: character,
-    }
+    };
 };
 
 export const setAbilityScore = (ability, val) => {
@@ -119,5 +120,98 @@ export const setAbilityScore = (ability, val) => {
         type: "SET_ABILITY_SCORE",
         ability: ability,
         score: val,
-    }
+    };
+};
+
+export const setSkills = (skill, proficient, expertise) => {
+    return {
+        type: "SET_SKILL",
+        skill: skill,
+        proficient: proficient,
+        expertise: expertise,
+    };
+};
+
+export const setPortraitUrl = url => {
+    return {
+        type: "SET_PORTRAIT_URL",
+        url: url,
+    };
+};
+
+export const setUploadProgress = progress => {
+    return {
+        type: "SET_UPLOAD_PROGRESS",
+        progress: progress,
+    };
+};
+
+export const setNewCharacterPortrait = file => {
+    return function(dispatch) {
+        dispatch(setPortraitUrl(undefined));
+        dispatch(setUploadProgress(0));
+
+        var userId = auth.currentUser.uid;
+        var imageRef = storage.child(userId + "portraits/" + Date.now());
+
+        var uploadTask = imageRef.put(file);
+
+        return uploadPortrait(uploadTask, 
+            (url) => { dispatch(setPortraitUrl(url)) },
+            (progress) => { dispatch(setUploadProgress(progress)) });
+    };
+};
+
+export const saveNewCharacterWithDetails = (
+    name,
+    hp,
+    inspiration,
+    character,
+) => {
+    character.name = name;
+    character.inspiration = inspiration;
+    character.rolled_hp = hp;
+    character.max_hp =
+        hp + character.abilityBonus(character.conScore()) * character.level();
+    character.hp = character.max_hp;
+
+    return function(dispatch) {
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/characters/" +
+                    character.name.toLowerCase(),
+            )
+            .set(character)
+            .then(() => dispatch(saveNewCharacterStatus(character)));
+    };
+};
+
+export const saveNewCharacterStatus = character => {
+    return function(dispatch) {
+        var characterStatus = {
+            max_hp: character.max_hp,
+            hp: character.max_hp,
+            temp_hp: 0,
+        };
+
+        var userId = auth.currentUser.uid;
+        return db
+            .ref(
+                "/users/" +
+                    userId +
+                    "/statuses/" +
+                    character.name.toLowerCase(),
+            )
+            .set(characterStatus)
+            .then(() => dispatch(characterSaved()));
+    };
+};
+
+export const characterSaved = () => {
+    return {
+        type: "CHARACTER_SAVED",
+    };
 };

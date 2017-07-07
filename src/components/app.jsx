@@ -22,6 +22,7 @@ export const firebaseApp = firebase.initializeApp(config);
 
 export const db = firebaseApp.database(); //the real-time database
 export const auth = firebaseApp.auth(); //the firebase auth namespace
+export const storage = firebase.storage().ref();
 export const provider = new firebase.auth.GoogleAuthProvider();
 
 export const storageKey = "D20_STORE_KEY";
