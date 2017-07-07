@@ -10,6 +10,7 @@
     "node-sass-chokidar": "0.0.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-dropzone": "^3.13.3",
     "react-google-button": "^0.3.0",
     "react-mfb": "^0.5.0",
     "react-redux": "^5.0.5",
