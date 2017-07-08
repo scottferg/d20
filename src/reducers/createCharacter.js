@@ -64,11 +64,12 @@ export const createCharacterReducer = function(
                 character: action.character,
             };
         case "SET_ABILITY_SCORE":
-            character[action.ability] = action.score;
+            var charAbility = new Player(Object.assign({}, state.character));
+            charAbility[action.ability] = action.score;
 
             return {
                 ...state,
-                character: character,
+                character: charAbility,
             };
         case "SET_SKILL":
             var charSkill = new Player(Object.assign({}, state.character));
