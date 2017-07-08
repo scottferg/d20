@@ -87,9 +87,15 @@ export const characterReducer = function(
                 ...state,
                 progress: action.progress,
             };
+        case "CHARACTER_SAVED":
+            var newChar = new Player(Object.assign({}, action.character));
+
+            return {
+                ...state,
+                character: newChar,
+            };
         case "SET_SKILL":
-            var charSkill = new Player(Object.assign({}, state.character));
-            charSkill.setSkill(action.skill, action.proficient, action.expertise);
+            var charSkill = new Player(Object.assign({}, action.character));
 
             return {
                 ...state,

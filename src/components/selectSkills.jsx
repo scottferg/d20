@@ -13,7 +13,6 @@ import {setSkill} from "../actions/character";
 const mapStateToProps = (state, props) => {
     return {
         character: state.createCharacterReducer.character,
-        skills: state.createCharacterReducer.character.skills,
         editing: false,
     };
 };
@@ -29,15 +28,14 @@ const mapDispatchToProps = dispatch => {
 const mapEditStateToProps = (state, props) => {
     return {
         character: state.characterReducer.character,
-        skills: state.characterReducer.character.skills,
         editing: true,
     };
 };
 
 const mapEditDispatchToProps = dispatch => {
     return {
-        setSkill: skill => {
-            dispatch(setSkill(skill));
+        setSkill: (skill, character) => {
+            dispatch(setSkill(skill, character));
         },
     };
 };
@@ -60,20 +58,18 @@ class SkillRow extends React.Component {
         this.props.setSkill({
             ...this.props.skill,
             proficient: checked,
-        });
+        }, this.props.character);
     }
 
     onExpertChecked(checked) {
         this.props.setSkill({
             ...this.props.skill,
             expertise: checked,
-        });
+        }, this.props.character);
     }
 
     render() {
-        console.log("render!");
         var that = this;
-        console.log(this.props.skill.proficient);
         return (
             <tr className="skill-row">
                 <td>
@@ -117,7 +113,7 @@ class SelectSkillsComponent extends React.Component {
         var that = this;
         var light = false;
 
-        var skillsList = this.props.skills.map(function(skill, index) {
+        var skillsList = this.props.character.skills.map(function(skill, index) {
             var rowColor = function() {
                 light = !light;
                 return light ? "light-block" : "dark-block";
@@ -139,6 +135,7 @@ class SelectSkillsComponent extends React.Component {
                     key={index}
                     skill={skill}
                     bonus={bonus}
+                    character={that.props.character}
                     setSkill={that.props.setSkill}
                     rowColor={rowColor()}
                 />

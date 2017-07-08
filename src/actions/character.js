@@ -168,6 +168,10 @@ export const saveCharacterWithDetails = (
         hp + character.abilityBonus(character.conScore()) * character.level();
     character.hp = character.max_hp;
 
+    return saveCharacter(character);
+};
+
+export const saveCharacter = (character) => {
     return function(dispatch) {
         var userId = auth.currentUser.uid;
         return db
@@ -199,21 +203,24 @@ export const saveCharacterStatus = character => {
                     character.name.toLowerCase(),
             )
             .set(characterStatus)
-            .then(() => dispatch(characterSaved()));
+            .then(() => dispatch(characterSaved(character)));
     };
 };
 
-export const characterSaved = () => {
+export const characterSaved = (character) => {
     return {
         type: "CHARACTER_SAVED",
+        character: character
     };
 };
 
-export const setSkill = (skill) => {
+export const setSkill = (skill, character) => {
+    character.setSkill(skill.name, skill.proficient, skill.expertise);
+
+    saveCharacter(character);
+
     return {
-        type: "SET_NEW_SKILL",
-        skill: skill.name,
-        proficient: skill.proficient,
-        expertise: skill.expertise,
-    };
+        type: "SET_SKILL",
+        character: character,
+    }
 };
