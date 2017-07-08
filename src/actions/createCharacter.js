@@ -123,18 +123,18 @@ export const setAbilityScore = (ability, val) => {
     };
 };
 
-export const setSkills = (skill, proficient, expertise) => {
+export const setSkill = (skill) => {
     return {
         type: "SET_SKILL",
-        skill: skill,
-        proficient: proficient,
-        expertise: expertise,
+        skill: skill.name,
+        proficient: skill.proficient,
+        expertise: skill.expertise,
     };
 };
 
 export const setPortraitUrl = url => {
     return {
-        type: "SET_PORTRAIT_URL",
+        type: "SET_NEW_PORTRAIT_URL",
         url: url,
     };
 };

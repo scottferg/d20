@@ -7,9 +7,12 @@ import {connect} from "react-redux";
 
 import {Header} from "./common";
 
+import {setSkill} from "../actions/createCharacter";
+
 const mapStateToProps = (state, props) => {
     return {
         character: state.createCharacterReducer.character,
+        skills: state.createCharacterReducer.character.skills,
     };
 };
 
@@ -27,22 +30,53 @@ class SkillsHeader extends React.Component {
 }
 
 class SkillRow extends React.Component {
+    onProfChecked(checked) {
+        this.props.dispatch(
+            setSkill({
+                ...this.props.skill,
+                proficient: checked,
+            }),
+        );
+    }
+
+    onExpertChecked(checked) {
+        this.props.dispatch(
+            setSkill({
+                ...this.props.skill,
+                expertise: checked,
+            }),
+        );
+
+        return checked;
+    }
+
     render() {
+        console.log("render!");
+        var that = this;
+        console.log(this.props.skill.proficient);
         return (
             <tr className="skill-row">
                 <td>
                     <Checkbox
                         style={{"margin-left": "32px"}}
                         labelStyle={{display: "none"}}
+                        onCheck={(e, checked) => {
+                            that.onProfChecked(checked);
+                        }}
+                        checked={this.props.skill.proficient}
                     />
                 </td>
                 <td>
                     <Checkbox
                         style={{"margin-left": "32px"}}
                         labelStyle={{display: "none"}}
+                        onCheck={(e, checked) => {
+                            that.onExpertChecked(checked);
+                        }}
+                        checked={this.props.skill.expertise}
                     />
                 </td>
-                <td className="white-block">{this.props.skill.bonus}</td>
+                <td className="white-block">{this.props.bonus}</td>
                 <td className={this.props.rowColor}>{this.props.skill.name}</td>
             </tr>
         );
@@ -58,7 +92,7 @@ class SelectSkillsComponent extends React.Component {
         var that = this;
         var light = false;
 
-        var skillsList = this.props.character.skills.map(function(
+        var skillsList = this.props.skills.map(function(
             skill,
             index,
         ) {
@@ -76,12 +110,17 @@ class SelectSkillsComponent extends React.Component {
                     that.props.character.proficiencyBonus() * multiplier;
             }
 
-            var props = {
-                bonus: bonus + (skill.proficient ? "*" : ""),
-                name: skill.name,
-            };
+            bonus = bonus + (skill.proficient ? "*" : "");
 
-            return <SkillRow key={index} skill={props} rowColor={rowColor()} />;
+            return (
+                <SkillRow
+                    key={index}
+                    skill={skill}
+                    bonus={bonus}
+                    dispatch={that.props.dispatch}
+                    rowColor={rowColor()}
+                />
+            );
         });
 
         return (

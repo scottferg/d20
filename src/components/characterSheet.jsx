@@ -56,7 +56,7 @@ class AppMenu extends React.Component {
                     primaryText="Edit Character Details"
                     onTouchTap={() => {
                         that.props.history.push(
-                            "/character/" + that.props.name + "/details/edit",
+                            "/character/" + that.props.name.toLowerCase() + "/details/edit",
                         );
                     }}
                 />

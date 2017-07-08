@@ -75,7 +75,12 @@ class SelectDetailsComponent extends React.Component {
             parseInt(this.state.inspiration, 10),
             this.props.character,
         );
-        this.props.history.push("/");
+
+        if (this.props.editing) {
+            this.props.history.goBack();
+        } else {
+            this.props.history.push("/");
+        }
     }
 
     onDrop(files) {
