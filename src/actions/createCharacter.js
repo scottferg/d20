@@ -123,9 +123,9 @@ export const setAbilityScore = (ability, val) => {
     };
 };
 
-export const setSkill = (skill) => {
+export const setNewSkill = (skill) => {
     return {
-        type: "SET_SKILL",
+        type: "SET_NEW_SKILL",
         skill: skill.name,
         proficient: skill.proficient,
         expertise: skill.expertise,

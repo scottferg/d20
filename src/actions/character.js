@@ -208,3 +208,12 @@ export const characterSaved = () => {
         type: "CHARACTER_SAVED",
     };
 };
+
+export const setSkill = (skill) => {
+    return {
+        type: "SET_NEW_SKILL",
+        skill: skill.name,
+        proficient: skill.proficient,
+        expertise: skill.expertise,
+    };
+};

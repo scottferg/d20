@@ -1,6 +1,15 @@
 {
-  "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
-  }
+    "rules": {
+        "compendium": {
+            ".read": "auth != null",
+            ".write": false,
+        },
+        "users": {
+            "$uid": {
+                ".read": "auth != null",
+                ".write": "auth != null && auth.uid == $uid"
+            },
+            ".read": false,
+        }
+    }
 }

@@ -20,7 +20,7 @@ import CreateCharacter from "./components/createCharacter";
 import SelectClass from "./components/selectClass";
 import SelectBackground from "./components/selectBackground";
 import SelectAbilityScores from "./components/selectAbilityScores";
-import SelectSkills from "./components/selectSkills";
+import {SelectSkills, EditSkills} from "./components/selectSkills";
 import {SelectDetails, EditDetails} from "./components/selectDetails";
 import {Home} from "./components/home";
 import {Login} from "./components/login";
@@ -130,6 +130,12 @@ class App extends React.Component {
                                 exact
                                 path="/character/:name/details/edit"
                                 component={EditDetails}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/:name/skills/edit"
+                                component={EditSkills}
                             />
                             <PrivateRoute
                                 authed={this.state.authed}

@@ -61,7 +61,14 @@ class AppMenu extends React.Component {
                     }}
                 />
                 <MenuItem primaryText="Edit Ability Scores" />
-                <MenuItem primaryText="Edit Skills" />
+                <MenuItem 
+                    primaryText="Edit Skills" 
+                    onTouchTap={() => {
+                        that.props.history.push(
+                            "/character/" + that.props.name.toLowerCase() + "/skills/edit",
+                        );
+                    }}
+                />
                 <MenuItem primaryText="Sign out" />
             </IconMenu>
         );

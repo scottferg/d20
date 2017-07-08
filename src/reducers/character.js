@@ -1,3 +1,5 @@
+import Player from "../models/player";
+
 export const characterReducer = function(
     state = {
         items: [],
@@ -84,6 +86,14 @@ export const characterReducer = function(
             return {
                 ...state,
                 progress: action.progress,
+            };
+        case "SET_SKILL":
+            var charSkill = new Player(Object.assign({}, state.character));
+            charSkill.setSkill(action.skill, action.proficient, action.expertise);
+
+            return {
+                ...state,
+                character: charSkill,
             };
         default:
             return state;

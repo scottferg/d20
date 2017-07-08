@@ -71,14 +71,13 @@ export const createCharacterReducer = function(
                 ...state,
                 character: charAbility,
             };
-        case "SET_SKILL":
+        case "SET_NEW_SKILL":
             var charSkill = new Player(Object.assign({}, state.character));
             charSkill.setSkill(action.skill, action.proficient, action.expertise);
 
             return {
                 ...state,
                 character: charSkill,
-                skills: character.skills
             };
         case "SET_NEW_PORTRAIT_URL":
             character.playerImage = action.url;

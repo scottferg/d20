@@ -7,12 +7,38 @@ import {connect} from "react-redux";
 
 import {Header} from "./common";
 
-import {setSkill} from "../actions/createCharacter";
+import {setNewSkill} from "../actions/createCharacter";
+import {setSkill} from "../actions/character";
 
 const mapStateToProps = (state, props) => {
     return {
         character: state.createCharacterReducer.character,
         skills: state.createCharacterReducer.character.skills,
+        editing: false,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setSkill: skill => {
+            dispatch(setNewSkill(skill));
+        },
+    };
+};
+
+const mapEditStateToProps = (state, props) => {
+    return {
+        character: state.characterReducer.character,
+        skills: state.characterReducer.character.skills,
+        editing: true,
+    };
+};
+
+const mapEditDispatchToProps = dispatch => {
+    return {
+        setSkill: skill => {
+            dispatch(setSkill(skill));
+        },
     };
 };
 
@@ -31,23 +57,17 @@ class SkillsHeader extends React.Component {
 
 class SkillRow extends React.Component {
     onProfChecked(checked) {
-        this.props.dispatch(
-            setSkill({
-                ...this.props.skill,
-                proficient: checked,
-            }),
-        );
+        this.props.setSkill({
+            ...this.props.skill,
+            proficient: checked,
+        });
     }
 
     onExpertChecked(checked) {
-        this.props.dispatch(
-            setSkill({
-                ...this.props.skill,
-                expertise: checked,
-            }),
-        );
-
-        return checked;
+        this.props.setSkill({
+            ...this.props.skill,
+            expertise: checked,
+        });
     }
 
     render() {
@@ -85,6 +105,11 @@ class SkillRow extends React.Component {
 
 class SelectSkillsComponent extends React.Component {
     onNext() {
+        if (this.props.editing) {
+            this.props.history.goBack();
+            return;
+        }
+
         this.props.history.push("/character/new/details");
     }
 
@@ -92,10 +117,7 @@ class SelectSkillsComponent extends React.Component {
         var that = this;
         var light = false;
 
-        var skillsList = this.props.skills.map(function(
-            skill,
-            index,
-        ) {
+        var skillsList = this.props.skills.map(function(skill, index) {
             var rowColor = function() {
                 light = !light;
                 return light ? "light-block" : "dark-block";
@@ -117,11 +139,13 @@ class SelectSkillsComponent extends React.Component {
                     key={index}
                     skill={skill}
                     bonus={bonus}
-                    dispatch={that.props.dispatch}
+                    setSkill={that.props.setSkill}
                     rowColor={rowColor()}
                 />
             );
         });
+
+        var buttonLabel = (this.props.editing ? "FINISH" : "NEXT");
 
         return (
             <div className="character-sheet-container">
@@ -137,7 +161,7 @@ class SelectSkillsComponent extends React.Component {
                     </div>
                     <div className="action-button-right">
                         <FlatButton
-                            label="NEXT"
+                            label={buttonLabel}
                             onTouchTap={() => {
                                 this.onNext();
                             }}
@@ -150,6 +174,10 @@ class SelectSkillsComponent extends React.Component {
     }
 }
 
-const SelectSkills = connect(mapStateToProps)(SelectSkillsComponent);
+export const SelectSkills = connect(mapStateToProps, mapDispatchToProps)(
+    SelectSkillsComponent,
+);
 
-export default SelectSkills;
+export const EditSkills = connect(mapEditStateToProps, mapEditDispatchToProps)(
+    SelectSkillsComponent,
+);
