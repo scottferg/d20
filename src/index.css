@@ -297,8 +297,10 @@ div.action-button-left {
   float: left; }
 
 div.action-button-right {
+  text-align: right;
   float: right;
-  margin-right: 18px; }
+  margin-right: 18px;
+  margin-top: 8px; }
 
 div.spell-actions-right {
   margin-top: 7px; }

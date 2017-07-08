@@ -60,7 +60,14 @@ class AppMenu extends React.Component {
                         );
                     }}
                 />
-                <MenuItem primaryText="Edit Ability Scores" />
+                <MenuItem 
+                    primaryText="Edit Ability Scores"
+                    onTouchTap={() => {
+                        that.props.history.push(
+                            "/character/" + that.props.name.toLowerCase() + "/abilities/edit",
+                        );
+                    }}
+                />
                 <MenuItem 
                     primaryText="Edit Skills" 
                     onTouchTap={() => {

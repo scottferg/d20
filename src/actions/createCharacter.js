@@ -115,9 +115,9 @@ export const selectBackground = (character, background) => {
     };
 };
 
-export const setAbilityScore = (ability, val) => {
+export const setNewAbilityScore = (ability, val) => {
     return {
-        type: "SET_ABILITY_SCORE",
+        type: "SET_NEW_ABILITY_SCORE",
         ability: ability,
         score: val,
     };

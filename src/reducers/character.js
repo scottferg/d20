@@ -101,6 +101,14 @@ export const characterReducer = function(
                 ...state,
                 character: charSkill,
             };
+        case "SET_ABILITY_SCORE":
+            var charAbility = new Player(Object.assign({}, state.character));
+            charAbility[action.ability] = action.score;
+
+            return {
+                ...state,
+                character: charAbility,
+            };
         default:
             return state;
     }

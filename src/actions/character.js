@@ -215,12 +215,27 @@ export const characterSaved = (character) => {
 };
 
 export const setSkill = (skill, character) => {
-    character.setSkill(skill.name, skill.proficient, skill.expertise);
+    return function(dispatch) {
+        character.setSkill(skill.name, skill.proficient, skill.expertise);
 
-    saveCharacter(character);
+        dispatch(saveCharacter(character));
 
-    return {
-        type: "SET_SKILL",
-        character: character,
-    }
+        return {
+            type: "SET_SKILL",
+            character: character,
+        }
+    };
+};
+
+export const setAbilityScore = (ability, val, character) => {
+    return function(dispatch) {
+        character[ability] = val;
+
+        dispatch(saveCharacter(character));
+
+        return {
+            type: "SET_ABILITY_SCORE",
+            character: character,
+        };
+    };
 };

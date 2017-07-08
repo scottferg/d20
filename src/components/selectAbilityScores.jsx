@@ -6,11 +6,36 @@ import {connect} from "react-redux";
 import FlatButton from "material-ui/FlatButton";
 
 import {Header, NumberPicker} from "./common";
-import {setAbilityScore} from "../actions/createCharacter";
+import {setNewAbilityScore} from "../actions/createCharacter";
+import {setAbilityScore} from "../actions/character";
 
 const mapStateToProps = (state, props) => {
     return {
         character: state.createCharacterReducer.character,
+        editing: false,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setAbilityScore: (abbrev, val) => {
+            dispatch(setNewAbilityScore(abbrev, val));
+        },
+    };
+};
+
+const mapEditStateToProps = (state, props) => {
+    return {
+        character: state.characterReducer.character,
+        editing: true,
+    };
+};
+
+const mapEditDispatchToProps = dispatch => {
+    return {
+        setAbilityScore: (abbrev, val, character) => {
+            dispatch(setAbilityScore(abbrev, val, character));
+        },
     };
 };
 
@@ -29,7 +54,7 @@ class AbilityScoreHeader extends React.Component {
 
 class AbilityScoreRow extends React.Component {
     onScoreChange(val) {
-        this.props.dispatch(setAbilityScore(this.props.abbrev, val));
+        this.props.setAbilityScore(this.props.abbrev, val, this.props.character);
     }
 
     render() {
@@ -58,6 +83,11 @@ class AbilityScoreRow extends React.Component {
 
 class SelectAbilityScoresComponent extends React.Component {
     onNext() {
+        if (this.props.editing) {
+            this.props.history.goBack();
+            return;
+        }
+
         this.props.history.push("/character/new/skills");
     }
 
@@ -100,11 +130,14 @@ class SelectAbilityScoresComponent extends React.Component {
                     key={abbrev}
                     ability={props}
                     abbrev={abbrev}
-                    dispatch={that.props.dispatch}
+                    setAbilityScore={that.props.setAbilityScore}
+                    character={that.props.character}
                     rowColor={rowColor()}
                 />
             );
         });
+
+        var buttonLabel = (this.props.editing ? "FINISH" : "NEXT");
 
         return (
             <div className="character-sheet-container">
@@ -120,7 +153,7 @@ class SelectAbilityScoresComponent extends React.Component {
                     </div>
                     <div className="action-button-right">
                         <FlatButton
-                            label="NEXT"
+                            label={buttonLabel}
                             onTouchTap={() => {
                                 this.onNext();
                             }}
@@ -142,8 +175,11 @@ class SelectAbilityScoresComponent extends React.Component {
     }
 }
 
-const SelectAbilityScores = connect(mapStateToProps)(
+export const SelectAbilityScores = connect(mapStateToProps, mapDispatchToProps)(
     SelectAbilityScoresComponent,
 );
 
-export default SelectAbilityScores;
+export const EditAbilityScores = connect(
+    mapEditStateToProps,
+    mapEditDispatchToProps,
+)(SelectAbilityScoresComponent);
