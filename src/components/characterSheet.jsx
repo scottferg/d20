@@ -195,7 +195,13 @@ class CharacterSheetComponent extends React.Component {
                         <ChildButton
                             icon="mdi mdi-book-open-page-variant mdi-24px icon"
                             label="Add Trait"
-                            //onClick={function(e){ console.log(e); e.preventDefault(); }}
+                            onClick={() => {
+                                var route =
+                                    "/character/" +
+                                    this.props.character.name.toLowerCase() +
+                                    "/traits/add";
+                                this.props.history.push(route);
+                            }}
                         />
                     </Menu>
                 </div>

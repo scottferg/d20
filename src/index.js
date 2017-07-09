@@ -15,6 +15,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import registerServiceWorker from "./registerServiceWorker";
 import AddItem from "./components/addItem";
 import AddSpell from "./components/addSpell";
+import AddClassFeature from "./components/addClassFeature";
 import CharacterSheet from "./components/characterSheet";
 import CreateCharacter from "./components/createCharacter";
 import SelectClass from "./components/selectClass";
@@ -124,6 +125,12 @@ class App extends React.Component {
                                 exact
                                 path="/character/:name/spells/add"
                                 component={AddSpell}
+                            />
+                            <PrivateRoute
+                                authed={this.state.authed}
+                                exact
+                                path="/character/:name/traits/add"
+                                component={AddClassFeature}
                             />
                             <PrivateRoute
                                 authed={this.state.authed}

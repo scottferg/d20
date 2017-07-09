@@ -1,6 +1,5 @@
 [ ] Add hit dice to new characters
 [ ] Add spell slots to new characters
-[ ] Class Features
 [ ] Spell slots
 [ ] Ammunition
 [ ] Money
@@ -55,3 +54,4 @@
 [x] Add rolled_hp to new characters
 [x] Add XP to new characters
 [x] Add money to new characters
+[x] Class Features
