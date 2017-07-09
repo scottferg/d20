@@ -288,8 +288,8 @@ button.quantity-button {
 
 div.spell-slots {
     float: right;
-    position: relative;
-    top: -36px;
+    margin-top: -28px;
+    clear: both;
 }
 
 div.spell-slot-label {
@@ -297,11 +297,8 @@ div.spell-slot-label {
     font-weight: bold;
     display: inline;
     font-size: 10pt;
-}
-
-button.spell-slot-button {
-    width: 34px;
-    min-width: 34px !important;
+    position: relative;
+    top: -3px;
 }
 
 .light-block {
@@ -320,7 +317,7 @@ div.modal-dialog {
     padding: 16px;
     background-color: $background-color;
     overflow-y: auto;
-    max-height: 500px;
+    max-height: 600px;
 }
 
 p.item-description {
@@ -507,6 +504,10 @@ div.menu {
 
     div.top-sheet {
         margin-top: 64px;
+    }
+
+    div.modal-dialog {
+        max-height: 500px;
     }
 }
 

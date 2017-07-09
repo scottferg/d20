@@ -647,9 +647,19 @@ class Player {
         return playerSlots.available;
     }
 
-    slotsForLevel(level) {
-        var that = this;
+    setSlotsForLevel(amount, level) {
+        var playerSlots = this.classes.size > 1
+            ? this.multiClassSpellSlots[level]
+            : this.spellSlots[level];
 
+        if (amount < 0) {
+            return;
+        }
+
+        playerSlots.available = amount;
+    }
+
+    slotsForLevel(level) {
         if (this.classes.size > 1) {
             if (level === 0) {
                 return 0;
@@ -681,9 +691,9 @@ class Player {
         var available = levels[level];
         switch (available) {
             case "":
-                return -1;
+                return 0;
             case undefined:
-                return -1;
+                return 0;
             default:
                 return parseInt(available.trim(), 10);
         }

@@ -108,6 +108,13 @@ export const characterReducer = function(
                 ...state,
                 character: charAbility,
             };
+        case "SET_SPELL_SLOTS":
+            var charSlots = new Player(Object.assign({}, action.character));
+
+            return {
+                ...state,
+                character: charSlots,
+            };
         default:
             return state;
     }

@@ -18,6 +18,8 @@ import {
     fetchCharacterSpells,
 } from "../actions/spells";
 
+import {setSlotsForLevel} from "../actions/character"
+
 const mapStateToProps = (state, props) => {
     return {
         spell: new Spell(state.spellInfoReducer.spell),
@@ -56,8 +58,16 @@ export class SpellSlotHeader extends React.Component {
         this.props.callback(newValue);
     }
 
+    buttonStyle = {
+        "height": "25px",
+        "line-height": "25px",
+        "width": "34px",
+        "min-width": "34px",
+    }
+
     render() {
-        var value = 0;
+        var displayValue = this.props.value + "/" + this.props.total;
+
         return (
             <div className="header">
                 <div>{this.props.name}</div>
@@ -76,7 +86,7 @@ export class SpellSlotHeader extends React.Component {
                             style={this.buttonStyle}
                         />
                         <div className="spell-slot-label">
-                            {value}
+                            {displayValue}
                         </div>
                         <FlatButton
                             className="spell-slot-button"
@@ -197,6 +207,10 @@ class SpellsComponent extends React.Component {
         this.refs.spell_list_modal.hide();
     }
 
+    onUseSlot(val, level) {
+        this.props.dispatch(setSlotsForLevel(val, level, this.props.character));
+    }
+
     render() {
         var that = this;
         var light = false;
@@ -226,9 +240,7 @@ class SpellsComponent extends React.Component {
             const section = (level > 0) ? "Level " + level : "Cantrips";
 
             var value = that.props.character.slotsForLevel(level);
-
-            console.log("Slots for level: " + value);
-            console.log(that.props.character.spellSlots[level]);
+            var available = that.props.character.spellSlots[level].available;
 
             var spellGroup = spells.map(function(spell, idx) {
                 return (
@@ -244,7 +256,17 @@ class SpellsComponent extends React.Component {
 
             return (
                 <div key={index} className="section-header">
-                    <Header name={section} />
+                    {(level > 0 ? 
+                        <SpellSlotHeader 
+                            name={section} 
+                            value={available}
+                            total={value}
+                            max={value}
+                            min={0}
+                            callback={(val) => that.onUseSlot(val, level)}
+                        />
+                        : <Header name={section} />)}
+                    <div style={{"clear": "both"}} />
                     <table className="spells-table">
                         <tbody>
                             <SpellsHeader />

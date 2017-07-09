@@ -239,3 +239,16 @@ export const setAbilityScore = (ability, val, character) => {
         };
     };
 };
+
+export const setSlotsForLevel = (amount, level, character) => {
+    return function(dispatch) {
+        character.setSlotsForLevel(amount, level);
+
+        dispatch(saveCharacter(character));
+
+        return {
+            type: "SET_SPELL_SLOTS",
+            character: character,
+        };
+    };
+};

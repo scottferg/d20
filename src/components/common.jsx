@@ -14,13 +14,13 @@ export class NumberPicker extends React.Component {
         this.state = props;
     }
 
-    render() {
-        var buttonStyle = {
-            width: "40px",
-            minWidth: "40px",
-            display: "inline",
-        };
+    buttonStyle = {
+        width: "40px",
+        minWidth: "40px",
+        display: "inline",
+    };
 
+    render() {
         return (
             <span className="quantity-picker">
                 <div className="quantity-label">

@@ -1,4 +1,3 @@
-[ ] Spell slots
 [ ] Add hit dice to new characters
 [ ] Ammunition
 [ ] Money
@@ -56,3 +55,4 @@
 [x] Class Features
 [x] Add spell slots to new characters
 [x] Cantrips aren't displayed
+[x] Spell slots
