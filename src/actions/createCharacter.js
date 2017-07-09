@@ -175,13 +175,6 @@ export const saveNewCharacterWithDetails = (
         hp + character.abilityBonus(character.conScore()) * character.level();
     character.hp = character.max_hp;
 
-    // Cleanup legacy trait names
-    character.race.traits = character.race.trait;
-    character.background.traits = character.background.trait;
-
-    delete character.race.trait;
-    delete character.background.trait;
-
     return function(dispatch) {
         var userId = auth.currentUser.uid;
         return db

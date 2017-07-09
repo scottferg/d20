@@ -58,12 +58,12 @@ class BackgroundComponent extends React.Component {
             this.props.classFeatures = [];
         }
 
-        if (this.props.character.race.traits === undefined) {
-            this.props.character.race.traits = [];
+        if (this.props.character.race.trait === undefined) {
+            this.props.character.race.trait = [];
         }
 
-        if (this.props.character.background.traits === undefined) {
-            this.props.character.background.traits = [];
+        if (this.props.character.background.trait === undefined) {
+            this.props.character.background.trait = [];
         }
 
         var notesList = this.props.character.notes.map(function(note, index) {
@@ -74,11 +74,11 @@ class BackgroundComponent extends React.Component {
             return <BackgroundRow key={index} trait={feature} />
         })
 
-        var raceFeaturesList = this.props.character.race.traits.map(function(feature, index) {
+        var raceFeaturesList = this.props.character.race.trait.map(function(feature, index) {
             return <BackgroundRow key={index} trait={feature} />
         })
 
-        var backgroundList = this.props.character.background.traits.map(function(trait, index) {
+        var backgroundList = this.props.character.background.trait.map(function(trait, index) {
             return <BackgroundRow key={index} trait={trait} />
         })
 
