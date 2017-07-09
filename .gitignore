@@ -1,0 +1,9 @@
+index.css
+*.swp
+*.swo
+*.DS_Store
+.firebaserc
+build/
+node_modules/
+yarn.lock
+package-lock.json
