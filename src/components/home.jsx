@@ -55,7 +55,7 @@ class HomeComponent extends React.Component {
             );
         } else {
             var that = this;
-            var characterList = Object.keys(this.props.list).map(function(key) {
+            var characterList = Object.keys({...this.props.list}).map(function(key) {
                 var character = that.props.list[key];
 
                 var route = "/character/" + key.toLowerCase();
