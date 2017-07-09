@@ -9,7 +9,10 @@ import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
+import SocialShare from "material-ui/svg-icons/social/share";
+import Input from "material-ui/svg-icons/action/input";
 import AppBar from "material-ui/AppBar";
+import Drawer from "material-ui/Drawer";
 
 import "react-mfb/mfb.css";
 import "mdi/css/materialdesignicons.min.css";
@@ -56,26 +59,33 @@ class AppMenu extends React.Component {
                     primaryText="Edit Character Details"
                     onTouchTap={() => {
                         that.props.history.push(
-                            "/character/" + that.props.name.toLowerCase() + "/details/edit",
+                            "/character/" +
+                                that.props.name.toLowerCase() +
+                                "/details/edit",
                         );
                     }}
                 />
-                <MenuItem 
+                <MenuItem
                     primaryText="Edit Ability Scores"
                     onTouchTap={() => {
                         that.props.history.push(
-                            "/character/" + that.props.name.toLowerCase() + "/abilities/edit",
+                            "/character/" +
+                                that.props.name.toLowerCase() +
+                                "/abilities/edit",
                         );
                     }}
                 />
-                <MenuItem 
-                    primaryText="Edit Skills" 
+                <MenuItem
+                    primaryText="Edit Skills"
                     onTouchTap={() => {
                         that.props.history.push(
-                            "/character/" + that.props.name.toLowerCase() + "/skills/edit",
+                            "/character/" +
+                                that.props.name.toLowerCase() +
+                                "/skills/edit",
                         );
                     }}
                 />
+                <MenuItem primaryText="Share" />
                 <MenuItem primaryText="Sign out" />
             </IconMenu>
         );
@@ -85,6 +95,14 @@ class AppMenu extends React.Component {
 AppMenu.muiName = "IconMenu";
 
 class CharacterSheetComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {open: false};
+    }
+
+    handleToggle = () => this.setState({open: !this.state.open});
+    handleClose = () => this.setState({open: false});
+
     // TODO: This is janky as shit
     shouldLoad() {
         return false;
@@ -115,6 +133,25 @@ class CharacterSheetComponent extends React.Component {
             return (
                 <div className="character-sheet-container">
                     <div className="app-bar">
+                        <Drawer
+                            docked={false}
+                            open={this.state.open}
+                            containerStyle={{zIndex: 25, marginTop: "64px"}}
+                            overlayStyle={{zIndex: 24}}
+                            onRequestChange={open => this.setState({open})}>
+                            <MenuItem
+                                style={{"textAlign": "left"}}
+                                onTouchTap={this.handleClose}
+                                leftIcon={<SocialShare />}>
+                                Share
+                            </MenuItem>
+                            <MenuItem
+                                style={{"textAlign": "left"}}
+                                onTouchTap={this.handleClose}
+                                leftIcon={<Input />}>
+                                Sign Out
+                            </MenuItem>
+                        </Drawer>
                         <AppBar
                             title="d20"
                             titleStyle={{
@@ -129,6 +166,7 @@ class CharacterSheetComponent extends React.Component {
                                 />
                             }
                             style={{backgroundColor: "#415A6E"}}
+                            onLeftIconButtonTouchTap={this.handleToggle}
                         />
                     </div>
                     <div className="menu">

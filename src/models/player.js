@@ -32,6 +32,12 @@ class Player {
                 sp: 0,
             };
 
+            // 10 slots, 0 is for Cantrips
+            this.spellSlots = Array(10);
+            this.spellSlots.fill(new SpellSlot(0));
+            this.multiClassSpellSlots = Array(10);
+            this.multiClassSpellSlots.fill(new SpellSlot(0));
+
             this.skills = [
                 {name: "Acrobatics", proficient: false, expertise: false},
                 {name: "Animal Handling", proficient: false, expertise: false},
@@ -615,18 +621,6 @@ class Player {
     }
 
     gainSlotForLevel(level) {
-        if (this.spellSlots.size < 10) {
-            while (this.spellSlots.size < 10) {
-                this.spellSlots.add(SpellSlot(0));
-            }
-        }
-
-        if (this.multiClassSpellSlots.size < 10) {
-            while (this.multiClassSpellSlots.size < 10) {
-                this.multiClassSpellSlots.add(SpellSlot(0));
-            }
-        }
-
         var limit = this.classes.size > 1
             ? this.getMulticlassSlots(level)
             : this.slotsForLevel(level);
@@ -642,12 +636,6 @@ class Player {
     }
 
     spendSlotForLevel(level) {
-        if (this.spellSlots.size < 10) {
-            while (this.spellSlots.size < 10) {
-                this.spellSlots.add(SpellSlot(0));
-            }
-        }
-
         var playerSlots = this.classes.size > 1
             ? this.multiClassSpellSlots[level]
             : this.spellSlots[level];
@@ -660,6 +648,8 @@ class Player {
     }
 
     slotsForLevel(level) {
+        var that = this;
+
         if (this.classes.size > 1) {
             if (level === 0) {
                 return 0;
@@ -671,9 +661,10 @@ class Player {
         var charLevel = Math.min(this.level(), 20);
 
         var slots = "";
-        this.classes.forEach(function(c) {
-            if (parseInt(c.cls.level, 10) === charLevel && c.cls.slots) {
-                slots = c.cls.slots;
+        this.classes[0].cls.autolevel.forEach(function(autoLevel) {
+            if (parseInt(autoLevel.level, 10) === charLevel && autoLevel.slots) {
+                slots = autoLevel.slots;
+                return;
             }
         });
 
@@ -686,12 +677,15 @@ class Player {
             return 0;
         }
 
+        console.log(levels);
         var available = levels[level];
         switch (available) {
             case "":
                 return -1;
+            case undefined:
+                return -1;
             default:
-                parseInt(available, 10);
+                return parseInt(available.trim(), 10);
         }
     }
 

@@ -1,6 +1,5 @@
-[ ] Add hit dice to new characters
-[ ] Add spell slots to new characters
 [ ] Spell slots
+[ ] Add hit dice to new characters
 [ ] Ammunition
 [ ] Money
 [ ] Character sharing (read-only)
@@ -55,3 +54,5 @@
 [x] Add XP to new characters
 [x] Add money to new characters
 [x] Class Features
+[x] Add spell slots to new characters
+[x] Cantrips aren't displayed

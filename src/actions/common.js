@@ -19,6 +19,8 @@ export const uploadPortrait = (task, onSuccess, onProgress) => {
                 case firebase.storage.TaskState.RUNNING: // or 'running'
                     console.log("Upload is running");
                     break;
+                default:
+                    break;
             }
         },
         function(error) {

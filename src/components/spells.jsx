@@ -57,8 +57,7 @@ export class SpellSlotHeader extends React.Component {
     }
 
     render() {
-        var value = this.state.character.slotsForLevel(this.props.level);
-
+        var value = 0;
         return (
             <div className="header">
                 <div>{this.props.name}</div>
@@ -213,7 +212,7 @@ class SpellsComponent extends React.Component {
         var levels = [...Array(9).keys()];
         levels.forEach(function(spell, index) {
             var spells = that.props.characterSpells.filter(function(spell) {
-                return spell.level === index + 1;
+                return spell.level === index;
             });
 
             if (spells.length > 0) {
@@ -223,8 +222,13 @@ class SpellsComponent extends React.Component {
 
         // Render each group of spells
         var spellsList = spellLevels.map(function(spells, index) {
-            const level = index + 1;
-            const section = "Level " + level;
+            const level = spells[0].level;
+            const section = (level > 0) ? "Level " + level : "Cantrips";
+
+            var value = that.props.character.slotsForLevel(level);
+
+            console.log("Slots for level: " + value);
+            console.log(that.props.character.spellSlots[level]);
 
             var spellGroup = spells.map(function(spell, idx) {
                 return (
