@@ -319,6 +319,8 @@ button.spell-slot-button {
 div.modal-dialog {
     padding: 16px;
     background-color: $background-color;
+    overflow-y: auto;
+    max-height: 500px;
 }
 
 p.item-description {
@@ -382,6 +384,9 @@ div.action-button-right {
     text-align: right;
     float: right;
     margin-right: 18px;
+}
+
+div.create-action-right {
     margin-top: 8px;
 }
 

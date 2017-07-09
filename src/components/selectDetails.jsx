@@ -168,7 +168,7 @@ class SelectDetailsComponent extends React.Component {
                             />
                         </div>
                     </div>
-                    <div className="action-button-right">
+                    <div className="action-button-right create-action-right">
                         <FlatButton
                             label="FINISH"
                             onTouchTap={() => {

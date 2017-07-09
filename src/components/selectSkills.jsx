@@ -156,7 +156,7 @@ class SelectSkillsComponent extends React.Component {
                             </tbody>
                         </table>
                     </div>
-                    <div className="action-button-right">
+                    <div className="action-button-right create-action-right">
                         <FlatButton
                             label={buttonLabel}
                             onTouchTap={() => {
